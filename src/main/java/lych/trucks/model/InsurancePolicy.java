@@ -28,6 +28,9 @@ public class InsurancePolicy implements Persistable<Integer> {
     @Column(name = "cost_of_payment")
     private double cost;
 
+    @OneToOne(mappedBy = "insurancePolicy")
+    private Driver driver;
+
     @Override
     public boolean isNew() {
         return Objects.nonNull(id);

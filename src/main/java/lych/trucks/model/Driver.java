@@ -6,6 +6,7 @@ import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,19 +22,15 @@ public class Driver implements Persistable<Integer> {
     private Integer id;
 
     @Column(name = "last_name")
-    @NonNull
     private String lastName;
 
     @Column(name = "first_name")
-    @NonNull
     private String firstName;
 
     @Column(name = "year_of_issue")
-    @NonNull
     private Date yearOfIssue;
 
     @Column(name = "address")
-    @NonNull
     private String address;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -47,6 +44,13 @@ public class Driver implements Persistable<Integer> {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "truck_id")
     private Truck truck;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "insurance_policy_id")
+    InsurancePolicy insurancePolicy;
+
+    @ManyToMany(mappedBy = "drivers")
+    private List<Company> company;
 
     @Override
     public boolean isNew() {
