@@ -21,7 +21,7 @@ public class DriverLicense implements Persistable<Integer> {
     private Integer id;
 
     @Column(name = "categories")
-    private List<String> category;
+    private String category;
 
     @Column(name = "validate")
     private Date validate;

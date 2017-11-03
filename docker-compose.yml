@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: trucks
+    restart: on-failure
+    environment:
+      POSTGRES_USER: dmitry
+      POSTGRES_PASSWORD: dmitry
+      POSTGRES_DB: Trucks
+    ports:
+      - "5432:5432"
