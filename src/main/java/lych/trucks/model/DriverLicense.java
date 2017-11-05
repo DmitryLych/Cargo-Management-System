@@ -24,6 +24,7 @@ public class DriverLicense implements Persistable<Integer> {
     private String category;
 
     @Column(name = "validate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date validate;
 
     @Column(name = "special_notes")

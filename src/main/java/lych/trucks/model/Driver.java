@@ -28,6 +28,7 @@ public class Driver implements Persistable<Integer> {
     private String firstName;
 
     @Column(name = "year_of_issue")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date yearOfIssue;
 
     @Column(name = "address")

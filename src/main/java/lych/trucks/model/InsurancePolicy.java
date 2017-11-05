@@ -20,6 +20,7 @@ public class InsurancePolicy implements Persistable<Integer> {
     private Integer id;
 
     @Column(name = "validate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date validate;
 
     @Column(name = "type_insurance_policy")

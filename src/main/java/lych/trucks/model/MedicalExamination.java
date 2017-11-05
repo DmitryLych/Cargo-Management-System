@@ -20,6 +20,7 @@ public class MedicalExamination implements Persistable<Integer>{
     private Integer id;
 
     @Column(name = "validate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date validate;
 
     @OneToOne(mappedBy = "medicalExamination")

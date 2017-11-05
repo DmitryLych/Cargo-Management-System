@@ -39,6 +39,7 @@ public class Truck implements Persistable<Integer> {
     private String color;
 
     @Column(name = "year_of_issue")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date yearOfIssue;
 
     @OneToOne(mappedBy = "truck")

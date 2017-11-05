@@ -32,6 +32,7 @@ public class Trailer implements Persistable<Integer>{
     private float height;
 
     @Column(name = "year_of_issue")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date yearOfIssue;
 
     @OneToOne(mappedBy = "trailer")
