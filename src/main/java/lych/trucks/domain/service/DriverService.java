@@ -8,7 +8,7 @@ public interface DriverService {
 
     List<Driver> fetchAll();
 
-    Driver create(Driver driver);
+    Driver create(Integer companyId, Driver driver);
 
     Driver fetch(Integer id);
 
