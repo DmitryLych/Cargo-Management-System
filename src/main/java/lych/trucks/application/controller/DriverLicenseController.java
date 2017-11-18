@@ -11,6 +11,6 @@ public class DriverLicenseController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity hello() {
 
-        return ResponseEntity.ok().body("HelloWorld");
+        return ResponseEntity.ok().body("spring");
     }
 }
