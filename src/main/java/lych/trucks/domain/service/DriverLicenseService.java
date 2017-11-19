@@ -10,18 +10,19 @@ public interface DriverLicenseService {
     /**
      * Method for create Driver license.
      *
+     * @param driverId      Driver driverId.
      * @param driverLicense DriverLicense driverLicense.
      * @return created DriverLicense driverLicense.
      */
-    DriverLicense create(DriverLicense driverLicense);
+    DriverLicense create(Integer driverId, DriverLicense driverLicense);
 
     /**
      * Method for fetch Driver license by id.
      *
-     * @param id DriverLicense id.
+     * @param driverId Driver driverId.
      * @return found DriverLicense response.
      */
-    DriverLicense fetch(Integer id);
+    DriverLicense fetch(Integer driverId);
 
     /**
      * Method for delete Driver license by id.

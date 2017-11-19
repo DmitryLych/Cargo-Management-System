@@ -9,25 +9,22 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@JsonTypeName(value = "driver")
+@JsonTypeName(value = "driverLicense")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DriverResponse implements Serializable {
+public class DriverLicenseResponse implements Serializable {
 
-    private static final long serialVersionUID = -97860262938426129L;
+    private static final long serialVersionUID = -5303965589053079379L;
 
     @JsonProperty
     private Integer id;
 
     @JsonProperty
-    private String lastName;
+    private String category;
 
     @JsonProperty
-    private String firstName;
+    private long validate;
 
     @JsonProperty
-    private long yearOfIssue;
-
-    @JsonProperty
-    private String address;
+    private String specialNotes;
 }

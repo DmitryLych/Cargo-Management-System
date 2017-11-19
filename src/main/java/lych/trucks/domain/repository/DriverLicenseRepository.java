@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Interface for work with database.
  */
 public interface DriverLicenseRepository extends JpaRepository<DriverLicense, Integer> {
+
+    DriverLicense findByOwnerIdForDriverLicense(Integer driverId);
 }
