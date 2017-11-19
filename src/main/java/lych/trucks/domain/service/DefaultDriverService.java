@@ -44,6 +44,19 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public Driver update(Driver driver) {
+
+        final Driver saved = driverRepository.findOne(driver.getId());
+
+        driver.setOwnerId(driver.getOwnerId() == null ? saved.getOwnerId() : driver.getOwnerId());
+        driver.setAddress(driver.getAddress() == null ? saved.getAddress() : driver.getAddress());
+        driver.setDriverLicense(driver.getDriverLicense() == null ? saved.getDriverLicense() : driver.getDriverLicense());
+        driver.setFirstName(driver.getFirstName() == null ? saved.getFirstName() : driver.getFirstName());
+        driver.setInsurancePolicy(driver.getInsurancePolicy() == null ? saved.getInsurancePolicy() : driver.getInsurancePolicy());
+        driver.setLastName(driver.getLastName() == null ? saved.getLastName() : driver.getLastName());
+        driver.setMedicalExamination(driver.getMedicalExamination() == null ? saved.getMedicalExamination() : driver.getMedicalExamination());
+        driver.setTruck(driver.getTruck() == null ? saved.getTruck() : driver.getTruck());
+        driver.setYearOfIssue(driver.getYearOfIssue() == null ? saved.getYearOfIssue() : driver.getYearOfIssue());
+
         return driverRepository.save(driver);
     }
 }
