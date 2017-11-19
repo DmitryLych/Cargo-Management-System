@@ -35,7 +35,7 @@ public class DriverController {
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(driverToResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.GET)
@@ -43,9 +43,9 @@ public class DriverController {
 
         final Driver driverToResponse = driverService.fetch(driverId);
 
-        final DriverRequest response = dozerBeanMapper.map(driverToResponse, DriverRequest.class);
+        final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
-        return ResponseEntity.ok().body(driverToResponse);
+        return ResponseEntity.ok().body(response);
     }
 
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.DELETE)
@@ -55,7 +55,7 @@ public class DriverController {
 
         driverService.delete(driverId);
 
-        final DriverRequest response = dozerBeanMapper.map(driverToResponse, DriverRequest.class);
+        final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
         return ResponseEntity.ok().body(response);
     }
@@ -67,18 +67,18 @@ public class DriverController {
 
         final Driver driverToResponse = driverService.update(driverToUpdate);
 
-        final DriverRequest response = dozerBeanMapper.map(driverToResponse, DriverRequest.class);
+        final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
-        return ResponseEntity.ok().body(driverToResponse);
+        return ResponseEntity.ok().body(response);
     }
 
     @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.GET)
-    public ResponseEntity fetchAll() {
+    public ResponseEntity fetchAll(@PathVariable final Integer companyId) {
 
-        final List<DriverRequest> response = new ArrayList<>();
+        final List<DriverResponse> response = new ArrayList<>();
 
-        driverService.fetchAll().forEach(driver -> response.add(dozerBeanMapper.map(driver, DriverRequest.class)));
+        driverService.fetchAll(companyId).forEach(driver -> response.add(dozerBeanMapper.map(driver, DriverResponse.class)));
 
-        return ResponseEntity.ok().body(driverService.fetchAll());
+        return ResponseEntity.ok().body(response);
     }
 }

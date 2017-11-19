@@ -47,7 +47,4 @@ public class DriverResponse implements Serializable{
 
     @JsonProperty
     private InsurancePolicyRequest insurancePolicy;
-
-    @JsonProperty
-    private CompanyResponse company;
 }

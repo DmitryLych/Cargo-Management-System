@@ -1,41 +1,33 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import lych.trucks.domain.model.Company;
+import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultDriverService implements DriverService {
 
     private final DriverRepository driverRepository;
 
-    private final CompanyService companyService;
 
     @Override
-    public List<Driver> fetchAll() {
-
-        return driverRepository.findAll();
+    public List<Driver> fetchAll(Integer ownerId) {
+        return driverRepository.findAllByOwnerId(ownerId);
     }
 
     @Override
     public Driver create(Integer companyId, Driver driver) {
 
-        final Company companyToUpdate = companyService.fetch(companyId);
+        log.info("Driver was added.");
 
-        final List<Driver> driversToUpdate = companyToUpdate.getDrivers();
-
-        driversToUpdate.add(driver);
-
-        companyToUpdate.setDrivers(driversToUpdate);
-
-        companyService.update(companyToUpdate);
+        driver.setOwnerId(companyId);
 
         return driverRepository.save(driver);
     }

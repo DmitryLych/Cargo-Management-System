@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DriverService {
 
-    List<Driver> fetchAll();
+    List<Driver> fetchAll(Integer ownerId);
 
     Driver create(Integer companyId, Driver driver);
 

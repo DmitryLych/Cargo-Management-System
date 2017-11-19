@@ -35,7 +35,7 @@ public class CompanyController {
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(companyToResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @RequestMapping(value = "/companies/{companyId}", method = RequestMethod.GET)
@@ -45,7 +45,7 @@ public class CompanyController {
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
-        return ResponseEntity.ok().body(companyToResponse);
+        return ResponseEntity.ok().body(response);
     }
 
     @RequestMapping(value = "/companies", method = RequestMethod.PUT)
@@ -79,6 +79,6 @@ public class CompanyController {
 
         companyService.fetchAll().forEach(company -> response.add(dozerBeanMapper.map(company, CompanyResponse.class)));
 
-        return ResponseEntity.ok().body(companyService.fetchAll());
+        return ResponseEntity.ok().body(response);
     }
 }
