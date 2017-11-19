@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface InsurancePolicyService {
 
-    List<InsurancePolicy> fetchAll();
+    List<InsurancePolicy> fetchAll(Integer driverId);
 
-    InsurancePolicy create(InsurancePolicy insurancePolicy);
+    InsurancePolicy create(Integer driverId, InsurancePolicy insurancePolicy);
 
     InsurancePolicy fetch(Integer id);
 

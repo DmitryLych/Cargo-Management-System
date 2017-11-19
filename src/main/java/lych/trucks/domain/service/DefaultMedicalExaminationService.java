@@ -13,22 +13,32 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
     private final MedicalExaminationRepository medicalExaminationRepository;
 
     @Override
-    public MedicalExamination create(MedicalExamination medicalExamination) {
+    public MedicalExamination create(final Integer driverId, final MedicalExamination medicalExamination) {
+
+        medicalExamination.setOwnerIdForMedicalExamination(driverId);
+
         return medicalExaminationRepository.save(medicalExamination);
     }
 
     @Override
-    public MedicalExamination fetch(Integer id) {
-        return medicalExaminationRepository.findOne(id);
+    public MedicalExamination fetch(final Integer driverId) {
+
+        return medicalExaminationRepository.findByOwnerIdForMedicalExamination(driverId);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(final Integer id) {
         medicalExaminationRepository.delete(id);
     }
 
     @Override
-    public MedicalExamination update(MedicalExamination medicalExamination) {
+    public MedicalExamination update(final MedicalExamination medicalExamination) {
+
+        final MedicalExamination saved = medicalExaminationRepository.findOne(medicalExamination.getId());
+
+        medicalExamination.setOwnerIdForMedicalExamination(saved.getOwnerIdForMedicalExamination());
+        medicalExamination.setValidate(medicalExamination.getValidate() == null ? saved.getValidate() : medicalExamination.getValidate());
+
         return medicalExaminationRepository.save(medicalExamination);
     }
 }

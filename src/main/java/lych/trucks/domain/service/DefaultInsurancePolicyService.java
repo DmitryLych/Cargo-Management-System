@@ -15,28 +15,40 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     private final InsurancePolicyRepository insurancePolicyRepository;
 
     @Override
-    public List<InsurancePolicy> fetchAll() {
-        return insurancePolicyRepository.findAll();
+    public List<InsurancePolicy> fetchAll(final Integer driverId) {
+
+        return insurancePolicyRepository.findAllByOwnerIdForInsurancePolicy(driverId);
     }
 
     @Override
-    public InsurancePolicy create(InsurancePolicy insurancePolicy) {
+    public InsurancePolicy create(final Integer driverId, final InsurancePolicy insurancePolicy) {
+
+        insurancePolicy.setOwnerIdForInsurancePolicy(driverId);
+
         return insurancePolicyRepository.save(insurancePolicy);
     }
 
     @Override
-    public InsurancePolicy fetch(Integer id) {
+    public InsurancePolicy fetch(final Integer id) {
         return insurancePolicyRepository.findOne(id);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(final Integer id) {
 
         insurancePolicyRepository.delete(id);
     }
 
     @Override
-    public InsurancePolicy update(InsurancePolicy insurancePolicy) {
+    public InsurancePolicy update(final InsurancePolicy insurancePolicy) {
+
+        final InsurancePolicy saved = insurancePolicyRepository.findOne(insurancePolicy.getId());
+
+        insurancePolicy.setOwnerIdForInsurancePolicy(insurancePolicy.getOwnerIdForInsurancePolicy() == null ? saved.getOwnerIdForInsurancePolicy() : insurancePolicy.getOwnerIdForInsurancePolicy());
+        insurancePolicy.setCost(insurancePolicy.getCost() == 0 ? saved.getCost() : insurancePolicy.getCost());
+        insurancePolicy.setType(insurancePolicy.getType() == null ? saved.getType() : insurancePolicy.getType());
+        insurancePolicy.setValidate(insurancePolicy.getValidate() == null ? saved.getValidate() : insurancePolicy.getValidate());
+
         return insurancePolicyRepository.save(insurancePolicy);
     }
 }

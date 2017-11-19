@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lych.trucks.application.dto.response.DriverLicenseResponse;
+import lych.trucks.application.dto.response.InsurancePolicyResponse;
+import lych.trucks.application.dto.response.MedicalExaminationResponse;
+import lych.trucks.application.dto.response.TruckResponse;
 
 import java.io.Serializable;
 
@@ -32,16 +36,16 @@ public class DriverRequest implements Serializable {
     private String address;
 
     @JsonProperty
-    private MedicalExaminationRequest medicalExamination;
+    private MedicalExaminationResponse medicalExamination;
 
     @JsonProperty
-    private DriverLicenseRequest driverLicense;
+    private DriverLicenseResponse driverLicense;
 
     @JsonProperty
-    private TruckRequest truck;
+    private TruckResponse truck;
 
     @JsonProperty
-    private InsurancePolicyRequest insurancePolicy;
+    private InsurancePolicyResponse insurancePolicy;
 
     @JsonProperty
     private Integer ownerId;
