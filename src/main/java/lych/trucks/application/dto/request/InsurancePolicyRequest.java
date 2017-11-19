@@ -1,4 +1,4 @@
-package lych.trucks.application.dto;
+package lych.trucks.application.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @JsonTypeName(value = "insurancePolicy")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class InsurancePolicyDto implements Serializable {
+public class InsurancePolicyRequest implements Serializable {
 
     private static final long serialVersionUID = 807516511206616097L;
 

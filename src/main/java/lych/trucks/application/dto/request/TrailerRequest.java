@@ -1,4 +1,4 @@
-package lych.trucks.application.dto;
+package lych.trucks.application.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,19 +9,31 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@JsonTypeName(value = "medicalExamination")
+@JsonTypeName(value = "trailer")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MedicalExaminationDto implements Serializable {
+public class TrailerRequest implements Serializable {
 
-    private static final long serialVersionUID = -8517019221360490484L;
+    private static final long serialVersionUID = 5654559859909333441L;
 
     @JsonProperty
     private Integer id;
 
     @JsonProperty
-    private long validate;
+    private String registerSign;
 
     @JsonProperty
-    private Integer ownerIdForMedicalExamination;
+    private float weight;
+
+    @JsonProperty
+    private float length;
+
+    @JsonProperty
+    private float height;
+
+    @JsonProperty
+    private long yearOfIssue;
+
+    @JsonProperty
+    private Integer ownerIdForTrailer;
 }

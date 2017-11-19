@@ -1,7 +1,8 @@
 package lych.trucks.application.controller;
 
 import lombok.RequiredArgsConstructor;
-import lych.trucks.application.dto.CompanyDto;
+import lych.trucks.application.dto.request.CompanyRequest;
+import lych.trucks.application.dto.response.CompanyResponse;
 import lych.trucks.domain.model.Company;
 import lych.trucks.domain.service.CompanyService;
 import org.dozer.DozerBeanMapper;
@@ -26,13 +27,13 @@ public class CompanyController {
     private final DozerBeanMapper dozerBeanMapper;
 
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody final CompanyDto companyDto) {
+    public ResponseEntity create(@RequestBody final CompanyRequest companyRequest) {
 
-        final Company companyToSave = dozerBeanMapper.map(companyDto, Company.class);
+        final Company companyToSave = dozerBeanMapper.map(companyRequest, Company.class);
 
         final Company companyToResponse = companyService.create(companyToSave);
 
-        final CompanyDto response = dozerBeanMapper.map(companyToResponse, CompanyDto.class);
+        final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -42,19 +43,19 @@ public class CompanyController {
 
         final Company companyToResponse = companyService.fetch(companyId);
 
-        final CompanyDto response = dozerBeanMapper.map(companyToResponse, CompanyDto.class);
+        final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
         return ResponseEntity.ok().body(response);
     }
 
     @RequestMapping(value = "/companies", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final CompanyDto companyDto) {
+    public ResponseEntity update(@RequestBody final CompanyRequest companyRequest) {
 
-        final Company companyToUpdate = dozerBeanMapper.map(companyDto, Company.class);
+        final Company companyToUpdate = dozerBeanMapper.map(companyRequest, Company.class);
 
         final Company companyToResponse = companyService.update(companyToUpdate);
 
-        final CompanyDto response = dozerBeanMapper.map(companyToResponse, CompanyDto.class);
+        final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
         return ResponseEntity.ok().body(response);
     }
@@ -66,7 +67,7 @@ public class CompanyController {
 
         companyService.delete(companyId);
 
-        final CompanyDto response = dozerBeanMapper.map(companyToResponse, CompanyDto.class);
+        final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
         return ResponseEntity.ok().body(response);
     }
@@ -74,9 +75,9 @@ public class CompanyController {
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
     public ResponseEntity fetchAll() {
 
-        final List<CompanyDto> response = new ArrayList<>();
+        final List<CompanyResponse> response = new ArrayList<>();
 
-        companyService.fetchAll().forEach(company -> response.add(dozerBeanMapper.map(company, CompanyDto.class)));
+        companyService.fetchAll().forEach(company -> response.add(dozerBeanMapper.map(company, CompanyResponse.class)));
 
         return ResponseEntity.ok().body(response);
     }

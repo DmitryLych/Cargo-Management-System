@@ -37,6 +37,15 @@ public class DefaultCompanyService implements CompanyService {
 
     @Override
     public Company update(Company company) {
+
+        final Company saved = companyRepository.findOne(company.getId());
+
+        company.setAddress(company.getAddress() == null ? saved.getAddress() : company.getAddress());
+        company.setCompanyName(company.getCompanyName() == null ? saved.getCompanyName() : company.getCompanyName());
+        company.setDrivers(company.getDrivers() == null ? saved.getDrivers() : company.getDrivers());
+        company.setEmail(company.getEmail() == null ? saved.getEmail() : company.getEmail());
+        company.setTelephoneNumber(company.getTelephoneNumber() == null ? saved.getTelephoneNumber() : company.getTelephoneNumber());
+
         return companyRepository.save(company);
     }
 }

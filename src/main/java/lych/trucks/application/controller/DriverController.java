@@ -1,7 +1,8 @@
 package lych.trucks.application.controller;
 
 import lombok.RequiredArgsConstructor;
-import lych.trucks.application.dto.DriverDto;
+import lych.trucks.application.dto.request.DriverRequest;
+import lych.trucks.application.dto.response.DriverResponse;
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.service.DriverService;
 import org.dozer.DozerBeanMapper;
@@ -26,13 +27,13 @@ public class DriverController {
     private final DozerBeanMapper dozerBeanMapper;
 
     @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody final DriverDto driverDto, @PathVariable final Integer companyId) {
+    public ResponseEntity create(@RequestBody final DriverRequest driverRequest, @PathVariable final Integer companyId) {
 
-        final Driver driverToSave = dozerBeanMapper.map(driverDto, Driver.class);
+        final Driver driverToSave = dozerBeanMapper.map(driverRequest, Driver.class);
 
         final Driver driverToResponse = driverService.create(companyId, driverToSave);
 
-        final DriverDto response = dozerBeanMapper.map(driverToResponse, DriverDto.class);
+        final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -42,7 +43,7 @@ public class DriverController {
 
         final Driver driverToResponse = driverService.fetch(driverId);
 
-        final DriverDto response = dozerBeanMapper.map(driverToResponse, DriverDto.class);
+        final DriverRequest response = dozerBeanMapper.map(driverToResponse, DriverRequest.class);
 
         return ResponseEntity.ok().body(response);
     }
@@ -54,19 +55,19 @@ public class DriverController {
 
         driverService.delete(driverId);
 
-        final DriverDto response = dozerBeanMapper.map(driverToResponse, DriverDto.class);
+        final DriverRequest response = dozerBeanMapper.map(driverToResponse, DriverRequest.class);
 
         return ResponseEntity.ok().body(response);
     }
 
     @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final DriverDto driverDto) {
+    public ResponseEntity update(@RequestBody final DriverRequest driverRequest) {
 
-        final Driver driverToUpdate = dozerBeanMapper.map(driverDto, Driver.class);
+        final Driver driverToUpdate = dozerBeanMapper.map(driverRequest, Driver.class);
 
         final Driver driverToResponse = driverService.update(driverToUpdate);
 
-        final DriverDto response = dozerBeanMapper.map(driverToResponse, DriverDto.class);
+        final DriverRequest response = dozerBeanMapper.map(driverToResponse, DriverRequest.class);
 
         return ResponseEntity.ok().body(response);
     }
@@ -74,9 +75,9 @@ public class DriverController {
     @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.GET)
     public ResponseEntity fetchAll() {
 
-        final List<DriverDto> response = new ArrayList<>();
+        final List<DriverRequest> response = new ArrayList<>();
 
-        driverService.fetchAll().forEach(driver -> response.add(dozerBeanMapper.map(driver, DriverDto.class)));
+        driverService.fetchAll().forEach(driver -> response.add(dozerBeanMapper.map(driver, DriverRequest.class)));
 
         return ResponseEntity.ok().body(response);
     }

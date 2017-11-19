@@ -1,5 +1,4 @@
-package lych.trucks.application.dto;
-
+package lych.trucks.application.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,25 +9,28 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@JsonTypeName(value = "driverLicense")
+@JsonTypeName(value = "company")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DriverLicenseDto implements Serializable {
+public class CompanyRequest implements Serializable {
 
-    private static final long serialVersionUID = 2416200654875155130L;
+    private static final long serialVersionUID = 9077411237371197620L;
 
     @JsonProperty
     private Integer id;
 
     @JsonProperty
-    private String category;
+    private String companyName;
 
     @JsonProperty
-    private long validate;
+    private String address;
 
     @JsonProperty
-    private String specialNotes;
+    private String email;
 
     @JsonProperty
-    private Integer ownerIdForDriverLicense;
+    private String telephoneNumber;
+
+    @JsonProperty
+    private DriverRequest drivers;
 }

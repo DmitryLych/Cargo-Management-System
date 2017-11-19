@@ -1,6 +1,8 @@
 package lych.trucks.domain.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,6 +40,9 @@ public class Company implements Serializable {
     @Column(name = "telephone_number")
     private String telephoneNumber;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(
+            mappedBy = "company",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private List<Driver> drivers;
 }

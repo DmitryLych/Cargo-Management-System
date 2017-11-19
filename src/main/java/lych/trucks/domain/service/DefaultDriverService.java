@@ -34,9 +34,11 @@ public class DefaultDriverService implements DriverService {
 
         companyToUpdate.setDrivers(driversToUpdate);
 
+        driver.setCompany(companyToUpdate);
+
         companyService.update(companyToUpdate);
 
-        driver.setCompany(companyToUpdate);
+
 
         return driverRepository.save(driver);
     }

@@ -1,10 +1,15 @@
-package lych.trucks.application.dto;
+package lych.trucks.application.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lych.trucks.application.dto.request.CompanyRequest;
+import lych.trucks.application.dto.request.DriverLicenseRequest;
+import lych.trucks.application.dto.request.InsurancePolicyRequest;
+import lych.trucks.application.dto.request.MedicalExaminationRequest;
+import lych.trucks.application.dto.request.TruckRequest;
 
 import java.io.Serializable;
 
@@ -12,9 +17,9 @@ import java.io.Serializable;
 @JsonTypeName(value = "driver")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DriverDto implements Serializable {
+public class DriverResponse implements Serializable{
 
-    private static final long serialVersionUID = -5936038318132432576L;
+    private static final long serialVersionUID = -97860262938426129L;
 
     @JsonProperty
     private Integer id;
@@ -32,17 +37,17 @@ public class DriverDto implements Serializable {
     private String address;
 
     @JsonProperty
-    private MedicalExaminationDto medicalExamination;
+    private MedicalExaminationRequest medicalExamination;
 
     @JsonProperty
-    private DriverLicenseDto driverLicense;
+    private DriverLicenseRequest driverLicense;
 
     @JsonProperty
-    private TruckDto truck;
+    private TruckRequest truck;
 
     @JsonProperty
-    private InsurancePolicyDto insurancePolicy;
+    private InsurancePolicyRequest insurancePolicy;
 
     @JsonProperty
-    private CompanyDto company;
+    private CompanyResponse company;
 }
