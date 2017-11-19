@@ -16,6 +16,9 @@ import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Entity that describes Truck.
+ */
 @Entity
 @Data
 @Table(name = "trucks")

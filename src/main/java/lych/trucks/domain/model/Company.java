@@ -17,6 +17,9 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Entity that describes Company.
+ */
 @Entity
 @Data
 @Table(name = "companies")

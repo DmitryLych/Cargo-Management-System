@@ -13,6 +13,9 @@ import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Entity that describes Insurance policies.
+ */
 @Entity
 @Data
 @Table(name = "insurance_policies")

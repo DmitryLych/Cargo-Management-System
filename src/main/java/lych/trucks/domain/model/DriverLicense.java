@@ -13,6 +13,9 @@ import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Entity that describes Driver license.
+ */
 @Data
 @Entity
 @Table(name = "driver_licenses")

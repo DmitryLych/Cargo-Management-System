@@ -13,6 +13,9 @@ import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Entity that describes Medical examinations.
+ */
 @Data
 @Entity
 @Table(name = "medical_examinations")
