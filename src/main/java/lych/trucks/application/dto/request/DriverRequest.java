@@ -44,5 +44,5 @@ public class DriverRequest implements Serializable {
     private InsurancePolicyRequest insurancePolicy;
 
     @JsonProperty
-    private CompanyRequest company;
+    private Integer ownerId;
 }

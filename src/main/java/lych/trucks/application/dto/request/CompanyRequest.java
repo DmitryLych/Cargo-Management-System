@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @JsonTypeName(value = "company")
@@ -32,5 +33,5 @@ public class CompanyRequest implements Serializable {
     private String telephoneNumber;
 
     @JsonProperty
-    private DriverRequest drivers;
+    private List<DriverRequest> drivers;
 }

@@ -58,7 +58,6 @@ public class Driver implements Serializable {
     @JoinColumn(name = "owner_id_for_insurance_policy", referencedColumnName = "insurance_policy_id")
     private InsurancePolicy insurancePolicy;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "company_id")
-    private Company company;
+    @Column(name = "owner_id")
+    private Integer ownerId;
 }

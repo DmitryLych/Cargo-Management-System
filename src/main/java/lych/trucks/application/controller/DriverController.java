@@ -35,7 +35,7 @@ public class DriverController {
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(driverToResponse);
     }
 
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.GET)
@@ -45,7 +45,7 @@ public class DriverController {
 
         final DriverRequest response = dozerBeanMapper.map(driverToResponse, DriverRequest.class);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(driverToResponse);
     }
 
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.DELETE)
@@ -69,7 +69,7 @@ public class DriverController {
 
         final DriverRequest response = dozerBeanMapper.map(driverToResponse, DriverRequest.class);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(driverToResponse);
     }
 
     @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.GET)
@@ -79,6 +79,6 @@ public class DriverController {
 
         driverService.fetchAll().forEach(driver -> response.add(dozerBeanMapper.map(driver, DriverRequest.class)));
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(driverService.fetchAll());
     }
 }

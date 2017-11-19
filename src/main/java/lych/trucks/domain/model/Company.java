@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -40,9 +41,7 @@ public class Company implements Serializable {
     @Column(name = "telephone_number")
     private String telephoneNumber;
 
-    @OneToMany(
-            mappedBy = "company",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id", referencedColumnName = "company_id")
     private List<Driver> drivers;
 }
