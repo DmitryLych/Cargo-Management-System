@@ -7,6 +7,7 @@ import lych.trucks.domain.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -34,11 +35,7 @@ public class DefaultDriverService implements DriverService {
 
         companyToUpdate.setDrivers(driversToUpdate);
 
-        driver.setCompany(companyToUpdate);
-
         companyService.update(companyToUpdate);
-
-
 
         return driverRepository.save(driver);
     }
