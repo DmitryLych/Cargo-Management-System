@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @JsonTypeName(value = "trailer")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class TrailerResponse implements Serializable {
 
     private static final long serialVersionUID = -1104848201726940177L;

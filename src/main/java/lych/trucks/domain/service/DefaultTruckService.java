@@ -21,17 +21,31 @@ public class DefaultTruckService implements TruckService {
     }
 
     @Override
-    public Truck fetch(Integer id) {
-        return truckRepository.findOne(id);
+    public Truck fetch(final Integer driverId) {
+
+        return truckRepository.findByOwnerIdForTruck(driverId);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(final Integer id) {
         truckRepository.delete(id);
     }
 
     @Override
-    public Truck update(Truck truck) {
+    public Truck update(final Truck truck) {
+
+        final Truck saved = truckRepository.findOne(truck.getId());
+
+        truck.setBodyNumber(saved.getBodyNumber());
+        truck.setOwnerIdForTruck(truck.getOwnerIdForTruck() == null ? saved.getOwnerIdForTruck() : truck.getOwnerIdForTruck());
+        truck.setColor(truck.getColor() == null ? saved.getColor() : truck.getColor());
+        truck.setHeight(saved.getHeight());
+        truck.setLength(saved.getLength());
+        truck.setRegisterSign(truck.getRegisterSign() == null ? saved.getRegisterSign() : truck.getRegisterSign());
+        truck.setTrailer(truck.getTrailer() == null ? saved.getTrailer() : truck.getTrailer());
+        truck.setWeight(saved.getWeight());
+        truck.setYearOfIssue(saved.getYearOfIssue());
+
         return truckRepository.save(truck);
     }
 }

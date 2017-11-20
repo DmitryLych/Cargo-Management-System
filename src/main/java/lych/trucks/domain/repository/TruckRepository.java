@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Interface for work with database.
  */
 public interface TruckRepository extends JpaRepository<Truck, Integer> {
+
+    Truck findByOwnerIdForTruck(Integer driverId);
 }

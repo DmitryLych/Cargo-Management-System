@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @JsonTypeName(value = "medicalExamination")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class MedicalExaminationResponse implements Serializable {
 
     private static final long serialVersionUID = 2186651219474385589L;

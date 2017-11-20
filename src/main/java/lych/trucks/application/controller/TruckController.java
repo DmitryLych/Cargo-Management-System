@@ -23,7 +23,7 @@ public class TruckController {
 
     private final TruckService truckService;
 
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks", method = RequestMethod.POST)
     public ResponseEntity create(@PathVariable final Integer driverId, @RequestBody final TruckRequest request) {
 
         final Truck truckToCreate = dozerBeanMapper.map(request, Truck.class);
@@ -35,5 +35,37 @@ public class TruckController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks", method = RequestMethod.PUT)
+    public ResponseEntity update(@RequestBody final TruckRequest request) {
 
+        final Truck truckToUpdate = dozerBeanMapper.map(request, Truck.class);
+
+        final Truck truckToResponse = truckService.update(truckToUpdate);
+
+        final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks", method = RequestMethod.GET)
+    public ResponseEntity fetch(@PathVariable final Integer driverId) {
+
+        final Truck truckToResponse = truckService.fetch(driverId);
+
+        final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable final Integer truckId, @PathVariable final Integer driverId) {
+
+        final Truck truckToResponse = truckService.fetch(driverId);
+
+        truckService.delete(truckId);
+
+        final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
 }

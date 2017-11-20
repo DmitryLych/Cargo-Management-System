@@ -2,15 +2,11 @@ package lych.trucks.domain.service;
 
 import lych.trucks.domain.model.Trailer;
 
-import java.util.List;
-
 public interface TrailerService {
 
-    List<Trailer> fetchAll();
+    Trailer create(Integer truckId, Trailer trailer);
 
-    Trailer create(Trailer trailer);
-
-    Trailer fetch(Integer id);
+    Trailer fetch(Integer truckId);
 
     void delete(Integer id);
 

@@ -6,8 +6,6 @@ import lych.trucks.domain.repository.TrailerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultTrailerService implements TrailerService {
@@ -15,18 +13,17 @@ public class DefaultTrailerService implements TrailerService {
     private final TrailerRepository trailerRepository;
 
     @Override
-    public List<Trailer> fetchAll() {
-        return trailerRepository.findAll();
-    }
+    public Trailer create(final Integer truckId, final Trailer trailer) {
 
-    @Override
-    public Trailer create(Trailer trailer) {
+        trailer.setOwnerIdForTrailer(truckId);
+
         return trailerRepository.save(trailer);
     }
 
     @Override
-    public Trailer fetch(Integer id) {
-        return trailerRepository.findOne(id);
+    public Trailer fetch(final Integer truckId) {
+
+        return trailerRepository.findByOwnerIdForTrailer(truckId);
     }
 
     @Override
@@ -36,6 +33,18 @@ public class DefaultTrailerService implements TrailerService {
 
     @Override
     public Trailer update(Trailer trailer) {
+
+        final Trailer saved = trailerRepository.findOne(trailer.getId());
+
+        trailer.setOwnerIdForTrailer(trailer.getOwnerIdForTrailer() == null ? saved.getOwnerIdForTrailer() :
+                trailer.getOwnerIdForTrailer());
+        trailer.setHeight(saved.getHeight());
+        trailer.setLength(saved.getLength());
+        trailer.setRegisterSign(trailer.getRegisterSign() == null ? saved.getRegisterSign() :
+                trailer.getRegisterSign());
+        trailer.setWeight(saved.getWeight());
+        trailer.setYearOfIssue(saved.getYearOfIssue());
+
         return trailerRepository.save(trailer);
     }
 }
