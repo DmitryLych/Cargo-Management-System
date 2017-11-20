@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Rest controller for {@link Driver}
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DriverController {
@@ -26,10 +29,17 @@ public class DriverController {
 
     private final DozerBeanMapper dozerBeanMapper;
 
+    /**
+     * Method for create some driver and add his to the company.
+     *
+     * @param request   DriverRequest request.
+     * @param companyId Company companyId.
+     * @return DriverResponse response mapped from created driver.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody final DriverRequest driverRequest, @PathVariable final Integer companyId) {
+    public ResponseEntity create(@RequestBody final DriverRequest request, @PathVariable final Integer companyId) {
 
-        final Driver driverToSave = dozerBeanMapper.map(driverRequest, Driver.class);
+        final Driver driverToSave = dozerBeanMapper.map(request, Driver.class);
 
         final Driver driverToResponse = driverService.create(companyId, driverToSave);
 
@@ -38,6 +48,12 @@ public class DriverController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    /**
+     * Method for display some driver.
+     *
+     * @param driverId Driver driverId.
+     * @return DriverResponse response mapped from found driver.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.GET)
     public ResponseEntity fetch(@PathVariable final Integer driverId) {
 
@@ -48,6 +64,12 @@ public class DriverController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for delete some driver.
+     *
+     * @param driverId Driver driverId.
+     * @return DriverResponse response mapped from deleted driver.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable final Integer driverId) {
 
@@ -60,10 +82,16 @@ public class DriverController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for update driver.
+     *
+     * @param request DriverRequest request.
+     * @return DriverResponse response mapped from updated driver.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final DriverRequest driverRequest) {
+    public ResponseEntity update(@RequestBody final DriverRequest request) {
 
-        final Driver driverToUpdate = dozerBeanMapper.map(driverRequest, Driver.class);
+        final Driver driverToUpdate = dozerBeanMapper.map(request, Driver.class);
 
         final Driver driverToResponse = driverService.update(driverToUpdate);
 
@@ -72,6 +100,12 @@ public class DriverController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for display all drivers of the some company.
+     *
+     * @param companyId Company companyId
+     * @return List of DriverResponse response mapped from found drivers.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.GET)
     public ResponseEntity fetchAll(@PathVariable final Integer companyId) {
 

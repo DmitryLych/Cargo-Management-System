@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Rest controller for {@link Company}
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CompanyController {
@@ -26,10 +29,16 @@ public class CompanyController {
 
     private final DozerBeanMapper dozerBeanMapper;
 
+    /**
+     * Method for create company.
+     *
+     * @param request CompanyRequest request.
+     * @return CompanyResponse response mapped from created company.
+     */
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody final CompanyRequest companyRequest) {
+    public ResponseEntity create(@RequestBody final CompanyRequest request) {
 
-        final Company companyToSave = dozerBeanMapper.map(companyRequest, Company.class);
+        final Company companyToSave = dozerBeanMapper.map(request, Company.class);
 
         final Company companyToResponse = companyService.create(companyToSave);
 
@@ -38,6 +47,12 @@ public class CompanyController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    /**
+     * Method for display some company.
+     *
+     * @param companyId Company companyId.
+     * @return CompanyResponse response mapped from found company.
+     */
     @RequestMapping(value = "/companies/{companyId}", method = RequestMethod.GET)
     public ResponseEntity fetch(@PathVariable final Integer companyId) {
 
@@ -48,10 +63,16 @@ public class CompanyController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for update some company.
+     *
+     * @param request CompanyRequest request.
+     * @return CompanyResponse response mapped from updated company.
+     */
     @RequestMapping(value = "/companies", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final CompanyRequest companyRequest) {
+    public ResponseEntity update(@RequestBody final CompanyRequest request) {
 
-        final Company companyToUpdate = dozerBeanMapper.map(companyRequest, Company.class);
+        final Company companyToUpdate = dozerBeanMapper.map(request, Company.class);
 
         final Company companyToResponse = companyService.update(companyToUpdate);
 
@@ -60,6 +81,12 @@ public class CompanyController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for delete some company.
+     *
+     * @param companyId Company companyId.
+     * @return CompanyResponse response mapped from deleted company.
+     */
     @RequestMapping(value = "/companies/{companyId}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable final Integer companyId) {
 
@@ -72,6 +99,11 @@ public class CompanyController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for find all companies.
+     *
+     * @return List of found companies.
+     */
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
     public ResponseEntity fetchAll() {
 
