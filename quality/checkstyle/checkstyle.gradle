@@ -1,0 +1,71 @@
+import java.beans.Introspector
+
+import static java.awt.Desktop.getDesktop;
+
+apply plugin: 'checkstyle'
+
+// More configuration options are described here: https://docs.gradle.org/current/dsl/org.gradle.api.plugins.quality.CheckstyleExtension.html
+checkstyle {
+    // Define the latest Checkstyle version
+    toolVersion = checkstyleVersion
+    // break the build on failure
+    ignoreFailures = false
+}
+
+checkstyleMain {
+    // Enable production config for production code
+    configFile = file('quality/checkstyle/checkstyle-production.xml')
+}
+
+checkstyleTest {
+    // Enable test config for test code
+    configFile = file('quality/checkstyle/checkstyle-test.xml')
+}
+
+// Enable HTML reports
+
+// Define checkType property
+ext.checkType = 'none'
+// Task to produce a HTML file from a given XML and a XSL
+task checkstyleHtml {
+    doLast {
+        def xmlReport = file("$buildDir/reports/checkstyle/${checkType}.xml")
+        if (xmlReport.exists()) {
+            ant.xslt(
+                    in: xmlReport,
+                    style: file('quality/checkstyle/checkstyle-noframes-sorted.xsl'),
+                    out: "$buildDir/reports/checkstyle/${checkType}.html")
+        }
+    }
+}
+
+// Setting the checkType variable after Checkstyle tasks
+gradle.taskGraph.afterTask { Task task, TaskState state ->
+    if (task.name.startsWith('checkstyle')) {
+        checkType = Introspector.decapitalize(task.name.replace('checkstyle', ''))
+    }
+}
+
+// Declaring HTML production as finalizer for Checkstyle tasks
+tasks.withType(Checkstyle) {
+    finalizedBy checkstyleHtml
+}
+
+// Generate report
+// open it in browser if checkstyle fails
+gradle.taskGraph.afterTask { Task task, TaskState state ->
+    if (task.name.startsWith('checkstyle') && state.failure && task.hasProperty('reports')) {
+        checkType = Introspector.decapitalize(task.name.replace('checkstyle', ''))
+        checkstyleHtml.execute()
+
+        def reportPath = task.reports.find { it.getName() == 'xml' }
+                .getDestination()
+                .getPath()
+                .replace('xml', 'html')
+
+        desktop?.browse file(reportPath).toURI()
+    }
+}
+
+test.dependsOn checkstyleMain
+test.dependsOn checkstyleTest

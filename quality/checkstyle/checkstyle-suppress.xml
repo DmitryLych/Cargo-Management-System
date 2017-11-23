@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <!--Generated classes are ignored-->
+    <suppress files="/src/main/generated[\\/]" checks="[a-zA-Z0-9]*"/>
+    <!--Javadocs are ignored-->
+    <suppress files="/src/main/java/lych/trucks/TrucksApplication" checks="javadoc"/>
+    <!--SpringBootApplication class is ignored-->
+    <suppress files="/src/main/java/lych/trucks/TrucksApplication" checks="HideUtilityClassConstructor"/>
+</suppressions>

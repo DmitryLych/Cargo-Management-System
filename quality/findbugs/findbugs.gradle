@@ -1,0 +1,33 @@
+import static java.awt.Desktop.getDesktop
+
+apply plugin: 'findbugs'
+
+findbugs {
+    toolVersion = findbugsVersion
+    reportsDir = file("$reporting.baseDir/findbugs")
+}
+
+findbugsMain {
+    excludeFilter = file('quality/findbugs/exclude-filter.xml')
+}
+
+findbugsTest {
+    excludeFilter = file('quality/findbugs/exclude-filter-test.xml')
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+gradle.taskGraph.afterTask { task, taskState ->
+    if (task.name.startsWith("findbugs") && taskState.failure && task.hasProperty('reports')) {
+        def reportPath = task.reports.find { it.getName() == 'html' }
+                .getDestination()
+                .getPath()
+
+        desktop?.browse file(reportPath).toURI()
+    }
+}

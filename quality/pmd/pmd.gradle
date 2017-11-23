@@ -1,0 +1,28 @@
+import static java.awt.Desktop.getDesktop
+
+apply plugin: 'pmd'
+
+pmd {
+    toolVersion = pmdVersion
+}
+
+pmdMain {
+    ruleSetFiles = files('quality/pmd/pmd-ruleset-production.xml')
+}
+
+pmdTest {
+    ruleSetFiles = files('quality/pmd/pmd-ruleset-test.xml')
+}
+
+gradle.taskGraph.afterTask { task, taskState ->
+    if (task.name.startsWith("pmd") && taskState.failure && task.hasProperty('reports')) {
+        def reportPath = task.reports.find { it.getName() == 'html' }
+                .getDestination()
+                .getPath()
+
+        desktop?.browse file(reportPath).toURI()
+    }
+}
+
+test.dependsOn pmdMain
+test.dependsOn pmdTest
