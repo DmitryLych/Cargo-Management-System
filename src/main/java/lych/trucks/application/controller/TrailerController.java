@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Rest controller for {@link Trailer}.
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TrailerController {
@@ -23,6 +26,13 @@ public class TrailerController {
 
     private final TrailerService trailerService;
 
+    /**
+     * Method for create trailer.
+     *
+     * @param truckId Truck truckId.
+     * @param request TrailerRequest request.
+     * @return TrailerResponse response mapped from created trailer.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers",
             method = RequestMethod.POST)
     public ResponseEntity create(@PathVariable final Integer truckId, @RequestBody final TrailerRequest request) {
@@ -36,6 +46,12 @@ public class TrailerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    /**
+     * Method for update trailer.
+     *
+     * @param request TrailerRequest request.
+     * @return TrailerResponse response mapped from updated trailer.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers",
             method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody final TrailerRequest request) {
@@ -49,6 +65,12 @@ public class TrailerController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for display trailer.
+     *
+     * @param truckId Truck truckId.
+     * @return TrailerResponse response mapped from displayed trailer.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers",
             method = RequestMethod.GET)
     public ResponseEntity fetch(@PathVariable final Integer truckId) {
@@ -60,6 +82,13 @@ public class TrailerController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for delete trailer.
+     *
+     * @param truckId   Truck truckId.
+     * @param trailerId Trailer trailerId.
+     * @return TrailerResponse response mapped from deleted trailer.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers/{trailerId}",
             method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable final Integer truckId, @PathVariable final Integer trailerId) {

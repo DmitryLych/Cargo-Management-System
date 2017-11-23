@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link InsurancePolicyService}.
+ */
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultInsurancePolicyService implements InsurancePolicyService {
@@ -44,10 +47,12 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
         final InsurancePolicy saved = insurancePolicyRepository.findOne(insurancePolicy.getId());
 
-        insurancePolicy.setOwnerIdForInsurancePolicy(insurancePolicy.getOwnerIdForInsurancePolicy() == null ? saved.getOwnerIdForInsurancePolicy() : insurancePolicy.getOwnerIdForInsurancePolicy());
+        insurancePolicy.setOwnerIdForInsurancePolicy(insurancePolicy.getOwnerIdForInsurancePolicy() == null
+                ? saved.getOwnerIdForInsurancePolicy() : insurancePolicy.getOwnerIdForInsurancePolicy());
         insurancePolicy.setCost(insurancePolicy.getCost() == 0 ? saved.getCost() : insurancePolicy.getCost());
         insurancePolicy.setType(insurancePolicy.getType() == null ? saved.getType() : insurancePolicy.getType());
-        insurancePolicy.setValidate(insurancePolicy.getValidate() == null ? saved.getValidate() : insurancePolicy.getValidate());
+        insurancePolicy.setValidate(insurancePolicy.getValidate() == null ? saved.getValidate()
+                : insurancePolicy.getValidate());
 
         return insurancePolicyRepository.save(insurancePolicy);
     }

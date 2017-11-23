@@ -3,7 +3,7 @@ package lych.trucks.domain.service;
 import lych.trucks.domain.model.DriverLicense;
 
 /**
- * Service for {@link DriverLicense} with database.
+ * Service for {@link DriverLicense} work with database.
  */
 public interface DriverLicenseService {
 

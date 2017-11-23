@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Rest controller for {@link Truck}.
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TruckController {
@@ -23,6 +26,13 @@ public class TruckController {
 
     private final TruckService truckService;
 
+    /**
+     * Method for create truck.
+     *
+     * @param driverId Driver driverId.
+     * @param request  TruckRequest request.
+     * @return TruckResponse response mapped from created truck.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks", method = RequestMethod.POST)
     public ResponseEntity create(@PathVariable final Integer driverId, @RequestBody final TruckRequest request) {
 
@@ -35,6 +45,12 @@ public class TruckController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    /**
+     * Method for update truck.
+     *
+     * @param request TruckRequest request.
+     * @return TruckResponse response mapped from updated truck.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks", method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody final TruckRequest request) {
 
@@ -47,6 +63,12 @@ public class TruckController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for display some truck.
+     *
+     * @param driverId Driver driverId.
+     * @return TruckResponse response mapped from found truck.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks", method = RequestMethod.GET)
     public ResponseEntity fetch(@PathVariable final Integer driverId) {
 
@@ -57,6 +79,13 @@ public class TruckController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for delete truck.
+     *
+     * @param truckId  Truck truckId.
+     * @param driverId Driver driverId.
+     * @return TruckResponse response mapped from deleted truck.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable final Integer truckId, @PathVariable final Integer driverId) {
 
