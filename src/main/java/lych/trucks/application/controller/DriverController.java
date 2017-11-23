@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Rest controller for {@link Driver}
+ * Rest controller for {@link Driver}.
  */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -103,7 +103,7 @@ public class DriverController {
     /**
      * Method for display all drivers of the some company.
      *
-     * @param companyId Company companyId
+     * @param companyId Company companyId.
      * @return List of DriverResponse response mapped from found drivers.
      */
     @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.GET)

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories({"lych.trucks.domain.repository"})
+@SuppressWarnings("PMD")
 public class TrucksApplication {
 
     public static void main(String[] args) {

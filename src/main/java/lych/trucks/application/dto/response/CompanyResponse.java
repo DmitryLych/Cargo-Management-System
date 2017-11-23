@@ -12,7 +12,7 @@ import java.io.Serializable;
 @JsonTypeName(value = "company")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CompanyResponse implements Serializable{
+public class CompanyResponse implements Serializable {
 
     private static final long serialVersionUID = 6590986439451007101L;
 

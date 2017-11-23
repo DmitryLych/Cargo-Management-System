@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link DriverService}
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -18,14 +21,17 @@ public class DefaultDriverService implements DriverService {
 
 
     @Override
-    public List<Driver> fetchAll(Integer ownerId) {
+    public List<Driver> fetchAll(final Integer ownerId) {
+
+        log.info("Drivers displayed.");
+
         return driverRepository.findAllByOwnerId(ownerId);
     }
 
     @Override
-    public Driver create(Integer companyId, Driver driver) {
+    public Driver create(final Integer companyId, final Driver driver) {
 
-        log.info("Driver was added.");
+        log.info("Driver added.");
 
         driver.setOwnerId(companyId);
 
@@ -33,17 +39,25 @@ public class DefaultDriverService implements DriverService {
     }
 
     @Override
-    public Driver fetch(Integer id) {
+    public Driver fetch(final Integer id) {
+
+        log.info("Driver displayed.");
+
         return driverRepository.findOne(id);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(final Integer id) {
+
+        log.info("Driver deleted.");
+
         driverRepository.delete(id);
     }
 
     @Override
-    public Driver update(Driver driver) {
+    public Driver update(final Driver driver) {
+
+        log.info("Driver updated.");
 
         final Driver saved = driverRepository.findOne(driver.getId());
 

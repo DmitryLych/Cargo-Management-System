@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Rest controller for {@link Company}
+ * Rest controller for {@link Company}.
  */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

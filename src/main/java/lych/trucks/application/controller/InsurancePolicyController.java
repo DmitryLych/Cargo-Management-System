@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Rest controller for {@link InsurancePolicy}
+ */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class InsurancePolicyController {
@@ -26,6 +29,13 @@ public class InsurancePolicyController {
 
     private final InsurancePolicyService insurancePolicyService;
 
+    /**
+     * Method for create insurance policy.
+     *
+     * @param driverId Driver driverId.
+     * @param request  InsurancePolicyRequest request.
+     * @return InsurancePolicyResponse response mapped from created insurance policy.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance", method = RequestMethod.POST)
     public ResponseEntity create(@PathVariable final Integer driverId, @RequestBody final InsurancePolicyRequest request) {
 
@@ -38,6 +48,12 @@ public class InsurancePolicyController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    /**
+     * Method for display all insurance policy.
+     *
+     * @param driverId Driver driverId.
+     * @return List of InsurancePolicyResponse response mapped from List of InsurancePolicy.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance", method = RequestMethod.GET)
     public ResponseEntity fetchAll(@PathVariable final Integer driverId) {
 
@@ -48,6 +64,12 @@ public class InsurancePolicyController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for find some insurance policy.
+     *
+     * @param insuranceId InsurancePolicy insuranceId.
+     * @return InsurancePolicyResponse response mapped from found insurance policy.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/{insuranceId}", method = RequestMethod.GET)
     public ResponseEntity fetch(@PathVariable final Integer insuranceId) {
 
@@ -58,6 +80,12 @@ public class InsurancePolicyController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for update insurance policy.
+     *
+     * @param request InsurancePolicyRequest.
+     * @return InsurancePolicyResponse response mapped from updated insurance policy.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance", method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody final InsurancePolicyRequest request) {
 
@@ -70,6 +98,12 @@ public class InsurancePolicyController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for delete InsurancePolicy.
+     *
+     * @param insuranceId InsurancePolicy insuranceId.
+     * @return InsurancePolicyResponse response mapped from deleted insurance policy.
+     */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/{insuranceId}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable final Integer insuranceId) {
 

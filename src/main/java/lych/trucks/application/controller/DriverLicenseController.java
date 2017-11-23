@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Rest controller for {@link DriverLicense}
+ * Rest controller for {@link DriverLicense}.
  */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

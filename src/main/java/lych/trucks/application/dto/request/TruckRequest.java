@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
-import lych.trucks.application.dto.request.TrailerRequest;
 import lych.trucks.application.dto.response.TrailerResponse;
 
 import java.io.Serializable;
