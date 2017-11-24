@@ -30,7 +30,7 @@ public class Company implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "company_name")
+    @Column(name = "company_name", unique = true)
     private String companyName;
 
     @Column(name = "address")
@@ -42,7 +42,11 @@ public class Company implements Serializable {
     @Column(name = "telephone_number")
     private String telephoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", referencedColumnName = "company_id")
     private List<Driver> drivers;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id_for_company", referencedColumnName = "company_id")
+    private List<Logistic> logistics;
 }

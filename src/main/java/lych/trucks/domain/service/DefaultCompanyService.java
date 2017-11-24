@@ -62,6 +62,7 @@ public class DefaultCompanyService implements CompanyService {
         company.setAddress(company.getAddress() == null ? saved.getAddress() : company.getAddress());
         company.setCompanyName(company.getCompanyName() == null ? saved.getCompanyName() : company.getCompanyName());
         company.setDrivers(company.getDrivers() == null ? saved.getDrivers() : company.getDrivers());
+        company.setLogistics(company.getLogistics() == null ? saved.getLogistics() : company.getLogistics());
         company.setEmail(company.getEmail() == null ? saved.getEmail() : company.getEmail());
         company.setTelephoneNumber(company.getTelephoneNumber() == null ? saved.getTelephoneNumber()
                 : company.getTelephoneNumber());

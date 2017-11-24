@@ -31,10 +31,10 @@ public class Truck implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "register_sign")
+    @Column(name = "register_sign", unique = true)
     private String registerSign;
 
-    @Column(name = "body_number")
+    @Column(name = "body_number", unique = true)
     private String bodyNumber;
 
     @Column(name = "weight")

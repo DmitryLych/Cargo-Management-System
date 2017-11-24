@@ -62,4 +62,8 @@ public class Driver implements Serializable {
 
     @Column(name = "owner_id")
     private Integer ownerId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id_driver", referencedColumnName = "order_id")
+    private Order order;
 }

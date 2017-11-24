@@ -3,6 +3,7 @@ package lych.trucks.domain.repository;
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.Truck;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * Interface for work with database.
@@ -15,5 +16,9 @@ public interface TruckRepository extends JpaRepository<Truck, Integer> {
      * @param driverId {@link Driver} driverId.
      * @return truck which found.
      */
+    @Query(value = "SELECT * FROM trucks WHERE owner_id_for_truck=?1", nativeQuery = true)
     Truck findByOwnerIdForTruck(Integer driverId);
+
+    @Query(value = "SELECT * FROM trucks WHERE register_sign=?1", nativeQuery = true)
+    Truck findByRegisterSign(String registerSign);
 }

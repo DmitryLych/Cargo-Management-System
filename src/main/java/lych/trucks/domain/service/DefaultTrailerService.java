@@ -53,7 +53,6 @@ public class DefaultTrailerService implements TrailerService {
         trailer.setOwnerIdForTrailer(trailer.getOwnerIdForTrailer() == null ? saved.getOwnerIdForTrailer()
                 : trailer.getOwnerIdForTrailer());
         trailer.setHeight(saved.getHeight());
-        trailer.setLength(saved.getLength());
         trailer.setRegisterSign(trailer.getRegisterSign() == null ? saved.getRegisterSign()
                 : trailer.getRegisterSign());
         trailer.setWeight(saved.getWeight());

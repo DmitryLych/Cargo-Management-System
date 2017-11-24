@@ -28,17 +28,17 @@ public class Trailer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "register_sign")
+    @Column(name = "register_sign", unique = true)
     private String registerSign;
 
     @Column(name = "weight")
     private float weight;
 
-    @Column(name = "length")
-    private float length;
-
     @Column(name = "height")
     private float height;
+
+    @Column(name = "volume")
+    private float volume;
 
     @Column(name = "year_of_issue")
     @Temporal(TemporalType.TIMESTAMP)
