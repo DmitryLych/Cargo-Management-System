@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
+@SuppressWarnings("PMD")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultTruckService implements TruckService {
 

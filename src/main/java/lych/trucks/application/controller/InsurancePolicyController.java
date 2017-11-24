@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Rest controller for {@link InsurancePolicy}
+ * Rest controller for {@link InsurancePolicy}.
  */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

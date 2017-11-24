@@ -5,9 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lych.trucks.domain.model.Trailer;
 
 import java.io.Serializable;
 
+/**
+ * Dto for {@link Trailer} request.
+ */
 @Data
 @JsonTypeName(value = "trailer")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)

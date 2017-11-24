@@ -7,6 +7,9 @@ import lych.trucks.domain.repository.MedicalExaminationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of {@link MedicalExaminationService}.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

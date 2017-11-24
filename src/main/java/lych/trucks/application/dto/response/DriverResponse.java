@@ -5,9 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lych.trucks.domain.model.Driver;
 
 import java.io.Serializable;
 
+/**
+ * Dto for {@link Driver} response.
+ */
 @Data
 @JsonTypeName(value = "driver")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)

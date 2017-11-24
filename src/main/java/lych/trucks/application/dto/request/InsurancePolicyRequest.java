@@ -5,9 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lych.trucks.domain.model.InsurancePolicy;
 
 import java.io.Serializable;
 
+/**
+ * Dto for {@link InsurancePolicy} request.
+ */
 @Data
 @JsonTypeName(value = "insurancePolicy")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)

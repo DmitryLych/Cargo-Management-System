@@ -9,9 +9,13 @@ import lych.trucks.application.dto.response.DriverLicenseResponse;
 import lych.trucks.application.dto.response.InsurancePolicyResponse;
 import lych.trucks.application.dto.response.MedicalExaminationResponse;
 import lych.trucks.application.dto.response.TruckResponse;
+import lych.trucks.domain.model.Driver;
 
 import java.io.Serializable;
 
+/**
+ * Dto for {@link Driver} request.
+ */
 @Data
 @JsonTypeName(value = "driver")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)

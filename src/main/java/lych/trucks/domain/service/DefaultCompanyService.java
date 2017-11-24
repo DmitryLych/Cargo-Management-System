@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Implementation of {@link CompanyService}
+ * Implementation of {@link CompanyService}.
  */
 @Slf4j
 @Service
@@ -52,6 +52,7 @@ public class DefaultCompanyService implements CompanyService {
     }
 
     @Override
+    @SuppressWarnings("PMD.NPathComplexity")
     public Company update(final Company company) {
 
         log.info("Company updated.");

@@ -1,6 +1,7 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.InsurancePolicy;
 import lych.trucks.domain.repository.InsurancePolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import java.util.List;
  * Implementation of {@link InsurancePolicyService}.
  */
 @Service
+@Slf4j
+@SuppressWarnings("PMD")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
@@ -20,11 +23,15 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     @Override
     public List<InsurancePolicy> fetchAll(final Integer driverId) {
 
+        log.info("Insurance policies displayed.");
+
         return insurancePolicyRepository.findAllByOwnerIdForInsurancePolicy(driverId);
     }
 
     @Override
     public InsurancePolicy create(final Integer driverId, final InsurancePolicy insurancePolicy) {
+
+        log.info("Insurance policy updated.");
 
         insurancePolicy.setOwnerIdForInsurancePolicy(driverId);
 
@@ -33,17 +40,24 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
     @Override
     public InsurancePolicy fetch(final Integer id) {
+
+        log.info("Insurance policy displayed.");
+
         return insurancePolicyRepository.findOne(id);
     }
 
     @Override
     public void delete(final Integer id) {
 
+        log.info("Insurance policy deleted.");
+
         insurancePolicyRepository.delete(id);
     }
 
     @Override
     public InsurancePolicy update(final InsurancePolicy insurancePolicy) {
+
+        log.info("Insurance policy updated.");
 
         final InsurancePolicy saved = insurancePolicyRepository.findOne(insurancePolicy.getId());
 

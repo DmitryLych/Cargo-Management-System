@@ -14,11 +14,11 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@SuppressWarnings("PMD")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultDriverService implements DriverService {
 
     private final DriverRepository driverRepository;
-
 
     @Override
     public List<Driver> fetchAll(final Integer ownerId) {
