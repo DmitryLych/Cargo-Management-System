@@ -31,11 +31,20 @@ public class Trailer implements Serializable {
     @Column(name = "register_sign", unique = true)
     private String registerSign;
 
+    @Column(name = "color")
+    private String color;
+
+    @Column(name = "type")
+    private String type;
+
     @Column(name = "weight")
     private double weight;
 
     @Column(name = "height")
     private double height;
+
+    @Column(name = "longest")
+    private double longest;
 
     @Column(name = "volume")
     private double volume;

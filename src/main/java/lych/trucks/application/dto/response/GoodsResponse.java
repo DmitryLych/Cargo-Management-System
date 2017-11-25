@@ -5,45 +5,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
-import lych.trucks.domain.model.Trailer;
+import lych.trucks.domain.model.Goods;
 
 import java.io.Serializable;
 
 /**
- * Dto for {@link Trailer} response.
+ * Dto for {@link Goods} response.
  */
 @Data
-@JsonTypeName(value = "trailer")
+@JsonTypeName(value = "goods")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public class TrailerResponse implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class GoodsResponse implements Serializable {
 
-    private static final long serialVersionUID = -1104848201726940177L;
-
-    @JsonProperty
-    private Integer id;
+    private static final long serialVersionUID = -4978552629010266835L;
 
     @JsonProperty
-    private String registerSign;
+    private Integer goodsId;
 
     @JsonProperty
-    private String color;
-
-    @JsonProperty
-    private String type;
+    private String name;
 
     @JsonProperty
     private double weight;
 
     @JsonProperty
-    private double longest;
-
-    @JsonProperty
     private double volume;
 
     @JsonProperty
-    private double height;
-
-    @JsonProperty
-    private long yearOfIssue;
+    private String type;
 }

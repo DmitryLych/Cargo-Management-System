@@ -5,42 +5,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
-import lych.trucks.domain.model.Driver;
+import lych.trucks.domain.model.Order;
 
 import java.io.Serializable;
 
 /**
- * Dto for {@link Driver} response.
+ * Dto for {@link Order} response.
  */
 @Data
-@JsonTypeName(value = "driver")
+@JsonTypeName(value = "orders")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public class DriverResponse implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class OrderResponse implements Serializable {
 
-    private static final long serialVersionUID = -97860262938426129L;
-
-    @JsonProperty
-    private Integer id;
+    private static final long serialVersionUID = 8098824423531359494L;
 
     @JsonProperty
-    private String lastName;
+    private Integer orderId;
 
     @JsonProperty
-    private String firstName;
+    private double coast;
 
     @JsonProperty
-    private long yearOfIssue;
+    private String downloadAddress;
 
     @JsonProperty
-    private String address;
+    private String unloadingAddress;
 
     @JsonProperty
-    private String telephoneNumber;
+    private boolean issued;
 
     @JsonProperty
-    private String email;
+    private boolean completed;
 
     @JsonProperty
-    private boolean status;
+    private boolean paid;
 }

@@ -40,12 +40,6 @@ public class Truck implements Serializable {
     @Column(name = "weight")
     private double weight;
 
-    @Column(name = "length")
-    private double length;
-
-    @Column(name = "height")
-    private double height;
-
     @Column(name = "color")
     private String color;
 

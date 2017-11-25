@@ -33,12 +33,6 @@ public class TruckResponse implements Serializable {
     private double weight;
 
     @JsonProperty
-    private double length;
-
-    @JsonProperty
-    private double height;
-
-    @JsonProperty
     private String color;
 
     @JsonProperty

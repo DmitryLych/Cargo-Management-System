@@ -44,6 +44,15 @@ public class Driver implements Serializable {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "status")
+    private boolean status;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id_for_driver_license", referencedColumnName = "driver_license_id")
     private DriverLicense driverLicense;

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
-import lych.trucks.application.dto.response.TrailerResponse;
 import lych.trucks.domain.model.Truck;
 
 import java.io.Serializable;
@@ -34,12 +33,6 @@ public class TruckRequest implements Serializable {
     private double weight;
 
     @JsonProperty
-    private double length;
-
-    @JsonProperty
-    private double height;
-
-    @JsonProperty
     private String color;
 
     @JsonProperty
@@ -49,5 +42,5 @@ public class TruckRequest implements Serializable {
     private Integer ownerIdForTruck;
 
     @JsonProperty
-    private TrailerResponse trailer;
+    private TrailerRequest trailer;
 }

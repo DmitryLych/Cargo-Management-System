@@ -5,48 +5,46 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
-import lych.trucks.domain.model.Trailer;
+import lych.trucks.domain.model.Customer;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * Dto for {@link Trailer} request.
+ * Dto for {@link Customer} request.
  */
 @Data
-@JsonTypeName(value = "trailer")
+@JsonTypeName(value = "customers")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TrailerRequest implements Serializable {
+public class CustomerRequest implements Serializable {
 
-    private static final long serialVersionUID = 5654559859909333441L;
-
-    @JsonProperty
-    private Integer id;
+    private static final long serialVersionUID = -9050131867256691474L;
 
     @JsonProperty
-    private String registerSign;
+    private Integer customerId;
 
     @JsonProperty
-    private String color;
+    private String firstName;
 
     @JsonProperty
-    private String type;
+    private String lastName;
 
     @JsonProperty
-    private double weight;
+    private String address;
 
     @JsonProperty
-    private double longest;
+    private String companyName;
 
     @JsonProperty
-    private double volume;
+    private String email;
 
     @JsonProperty
-    private double height;
+    private String companyTelephoneNumber;
 
     @JsonProperty
-    private long yearOfIssue;
+    private String mobileTelephoneNumber;
 
     @JsonProperty
-    private Integer ownerIdForTrailer;
+    private List<OrderRequest> orders;
 }

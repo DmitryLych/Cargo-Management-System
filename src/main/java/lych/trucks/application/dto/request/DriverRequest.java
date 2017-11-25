@@ -5,10 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
-import lych.trucks.application.dto.response.DriverLicenseResponse;
-import lych.trucks.application.dto.response.InsurancePolicyResponse;
-import lych.trucks.application.dto.response.MedicalExaminationResponse;
-import lych.trucks.application.dto.response.TruckResponse;
 import lych.trucks.domain.model.Driver;
 
 import java.io.Serializable;
@@ -40,17 +36,29 @@ public class DriverRequest implements Serializable {
     private String address;
 
     @JsonProperty
-    private MedicalExaminationResponse medicalExamination;
+    private String telephoneNumber;
 
     @JsonProperty
-    private DriverLicenseResponse driverLicense;
+    private String email;
 
     @JsonProperty
-    private TruckResponse truck;
+    private boolean status;
 
     @JsonProperty
-    private InsurancePolicyResponse insurancePolicy;
+    private MedicalExaminationRequest medicalExamination;
+
+    @JsonProperty
+    private DriverLicenseRequest driverLicense;
+
+    @JsonProperty
+    private TruckRequest truck;
+
+    @JsonProperty
+    private InsurancePolicyRequest insurancePolicy;
 
     @JsonProperty
     private Integer ownerId;
+
+    @JsonProperty
+    private OrderRequest order;
 }

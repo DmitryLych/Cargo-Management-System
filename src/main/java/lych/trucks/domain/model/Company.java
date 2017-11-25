@@ -45,8 +45,4 @@ public class Company implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", referencedColumnName = "company_id")
     private List<Driver> drivers;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id_for_company", referencedColumnName = "company_id")
-    private List<Logistic> logistics;
 }

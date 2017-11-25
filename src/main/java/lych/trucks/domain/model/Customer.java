@@ -51,7 +51,7 @@ public class Customer implements Serializable {
     @Column(name = "mobile_telephone_number")
     private String mobileTelephoneNumber;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_customer_id", referencedColumnName = "customer_id")
     private List<Order> orders;
 }

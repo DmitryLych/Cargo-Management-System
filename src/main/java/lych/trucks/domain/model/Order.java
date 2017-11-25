@@ -30,11 +30,23 @@ public class Order implements Serializable {
     @Column(name = "order_id")
     private Integer orderId;
 
+    @Column(name = "coast")
+    private double coast;
+
+    @Column(name = "download_address")
+    private String downloadAddress;
+
+    @Column(name = "unloading_address")
+    private String unloadingAddress;
+
     @Column(name = "issued")
     private boolean issued;
 
     @Column(name = "completed")
     private boolean completed;
+
+    @Column(name = "paid")
+    private boolean paid;
 
     @Column(name = "owner_customer_id")
     private Integer ownerCustomerId;
