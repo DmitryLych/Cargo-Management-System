@@ -32,13 +32,13 @@ public class Trailer implements Serializable {
     private String registerSign;
 
     @Column(name = "weight")
-    private float weight;
+    private double weight;
 
     @Column(name = "height")
-    private float height;
+    private double height;
 
     @Column(name = "volume")
-    private float volume;
+    private double volume;
 
     @Column(name = "year_of_issue")
     @Temporal(TemporalType.TIMESTAMP)

@@ -27,13 +27,13 @@ public class TrailerResponse implements Serializable {
     private String registerSign;
 
     @JsonProperty
-    private float weight;
+    private double weight;
 
     @JsonProperty
-    private float length;
+    private double length;
 
     @JsonProperty
-    private float height;
+    private double height;
 
     @JsonProperty
     private long yearOfIssue;

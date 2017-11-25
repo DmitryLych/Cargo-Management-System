@@ -31,13 +31,13 @@ public class TruckRequest implements Serializable {
     private String bodyNumber;
 
     @JsonProperty
-    private float weight;
+    private double weight;
 
     @JsonProperty
-    private float length;
+    private double length;
 
     @JsonProperty
-    private float height;
+    private double height;
 
     @JsonProperty
     private String color;

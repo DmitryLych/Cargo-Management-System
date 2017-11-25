@@ -38,13 +38,13 @@ public class Truck implements Serializable {
     private String bodyNumber;
 
     @Column(name = "weight")
-    private float weight;
+    private double weight;
 
     @Column(name = "length")
-    private float length;
+    private double length;
 
     @Column(name = "height")
-    private float height;
+    private double height;
 
     @Column(name = "color")
     private String color;
