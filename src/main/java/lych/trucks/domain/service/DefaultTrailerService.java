@@ -55,6 +55,9 @@ public class DefaultTrailerService implements TrailerService {
         trailer.setHeight(saved.getHeight());
         trailer.setRegisterSign(trailer.getRegisterSign() == null ? saved.getRegisterSign()
                 : trailer.getRegisterSign());
+        trailer.setColor(trailer.getColor() == null ? saved.getColor() : trailer.getColor());
+        trailer.setLongest(saved.getLongest());
+        trailer.setVolume(saved.getVolume());
         trailer.setWeight(saved.getWeight());
         trailer.setYearOfIssue(saved.getYearOfIssue());
 

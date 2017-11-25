@@ -109,7 +109,8 @@ public class CompanyController {
 
         final List<CompanyResponse> response = new ArrayList<>();
 
-        companyService.fetchAll().forEach(company -> response.add(dozerBeanMapper.map(company, CompanyResponse.class)));
+        companyService.fetchAll().forEach(company ->
+                response.add(dozerBeanMapper.map(company, CompanyResponse.class)));
 
         return ResponseEntity.ok().body(response);
     }

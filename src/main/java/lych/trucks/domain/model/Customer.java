@@ -39,16 +39,16 @@ public class Customer implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "company_name")
+    @Column(name = "company_name", unique = true)
     private String companyName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "company_telephone_number")
+    @Column(name = "company_telephone_number", unique = true)
     private String companyTelephoneNumber;
 
-    @Column(name = "mobile_telephone_number")
+    @Column(name = "mobile_telephone_number", unique = true)
     private String mobileTelephoneNumber;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

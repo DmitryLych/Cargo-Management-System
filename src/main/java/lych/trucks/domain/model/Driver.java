@@ -47,7 +47,7 @@ public class Driver implements Serializable {
     @Column(name = "telephone_number")
     private String telephoneNumber;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "status")

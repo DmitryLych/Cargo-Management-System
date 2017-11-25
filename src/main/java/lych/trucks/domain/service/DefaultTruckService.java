@@ -52,10 +52,9 @@ public class DefaultTruckService implements TruckService {
         final Truck saved = truckRepository.findOne(truck.getId());
 
         truck.setBodyNumber(saved.getBodyNumber());
-        truck.setOwnerIdForTruck(truck.getOwnerIdForTruck() == null ? saved.getOwnerIdForTruck() : truck.getOwnerIdForTruck());
+        truck.setOwnerIdForTruck(truck.getOwnerIdForTruck() == null ? saved.getOwnerIdForTruck()
+                : truck.getOwnerIdForTruck());
         truck.setColor(truck.getColor() == null ? saved.getColor() : truck.getColor());
-        truck.setHeight(saved.getHeight());
-        truck.setLength(saved.getLength());
         truck.setRegisterSign(truck.getRegisterSign() == null ? saved.getRegisterSign() : truck.getRegisterSign());
         truck.setTrailer(truck.getTrailer() == null ? saved.getTrailer() : truck.getTrailer());
         truck.setWeight(saved.getWeight());

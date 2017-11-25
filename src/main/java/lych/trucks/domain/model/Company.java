@@ -36,10 +36,10 @@ public class Company implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "telephone_number")
+    @Column(name = "telephone_number", unique = true)
     private String telephoneNumber;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
