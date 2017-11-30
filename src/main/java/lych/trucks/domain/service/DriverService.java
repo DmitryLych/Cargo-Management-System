@@ -34,12 +34,14 @@ public interface DriverService {
      */
     Driver fetch(Integer id);
 
+
     /**
-     * Method for delete Driver.
+     * Method for delete some driver.
      *
      * @param id Driver id.
+     * @return deleted driver.
      */
-    void delete(Integer id);
+    Driver delete(Integer id);
 
     /**
      * Method for update Driver.
@@ -49,7 +51,20 @@ public interface DriverService {
      */
     Driver update(Driver driver);
 
+    /**
+     * Method for fetch drivers by last name and first name.
+     *
+     * @param lastName  Driver lastName.
+     * @param firstName Driver firstName.
+     * @return list of drivers which found.
+     */
     List<Driver> fetchByLastNameAndFirstName(String lastName, String firstName);
 
+    /**
+     * Method for fetch drivers by status.
+     *
+     * @param status Driver status.
+     * @return list of drivers which found.
+     */
     List<Driver> fetchByStatus(boolean status);
 }

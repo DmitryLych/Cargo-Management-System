@@ -2,6 +2,7 @@ package lych.trucks.domain.service;
 
 import lych.trucks.domain.model.InsurancePolicy;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,8 +39,9 @@ public interface InsurancePolicyService {
      * Method for delete insurance policy.
      *
      * @param id InsurancePolicy id.
+     * @return deleted insurance policy.
      */
-    void delete(Integer id);
+    InsurancePolicy delete(Integer id);
 
     /**
      * Method for update insurance policy.
@@ -48,4 +50,8 @@ public interface InsurancePolicyService {
      * @return updated insurance policy.
      */
     InsurancePolicy update(InsurancePolicy insurancePolicy);
+
+    List<InsurancePolicy> fetchByValidate(Date validate);
+
+    List<InsurancePolicy> findByType(String type);
 }

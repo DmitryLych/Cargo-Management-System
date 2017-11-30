@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 /**
- * Interface for work with database.
+ * Interface for {@link Truck} work with database.
  */
 public interface TruckRepository extends JpaRepository<Truck, Integer> {
 
@@ -19,6 +19,21 @@ public interface TruckRepository extends JpaRepository<Truck, Integer> {
     @Query(value = "SELECT * FROM trucks WHERE owner_id_for_truck=?1", nativeQuery = true)
     Truck findByOwnerIdForTruck(Integer driverId);
 
+    /**
+     * Method for find {@link Truck} by register sign.
+     *
+     * @param registerSign {@link Truck} registerSign.
+     * @return truck which found.
+     */
     @Query(value = "SELECT * FROM trucks WHERE register_sign=?1", nativeQuery = true)
     Truck findByRegisterSign(String registerSign);
+
+    /**
+     * Method for find {@link Truck} by body number.
+     *
+     * @param bodyNumber {@link Truck} bodyNumber.
+     * @return truck which found.
+     */
+    @Query(value = "SELECT * FROM trucks WHERE body_number=?1", nativeQuery = true)
+    Truck findByBodyNumber(String bodyNumber);
 }

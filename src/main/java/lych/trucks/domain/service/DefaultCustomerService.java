@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link CustomerService}.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -41,11 +44,15 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     @Override
-    public void delete(final Integer customerId) {
+    public Customer delete(final Integer customerId) {
 
         log.info("Customer deleted.");
 
+        final Customer customer = customerRepository.findOne(customerId);
+
         customerRepository.delete(customerId);
+
+        return customer;
     }
 
     @Override
@@ -58,11 +65,11 @@ public class DefaultCustomerService implements CustomerService {
         customer.setAddress(customer.getAddress() == null ? saved.getAddress() : customer.getAddress());
         customer.setCustomerName(customer.getCustomerName() == null ? saved.getCustomerName()
                 : customer.getCustomerName());
-        customer.setCompanyTelephoneNumber(customer.getCompanyTelephoneNumber() == null ?
-                saved.getCompanyTelephoneNumber() : customer.getCompanyTelephoneNumber());
+        customer.setCompanyTelephoneNumber(customer.getCompanyTelephoneNumber() == null
+                ? saved.getCompanyTelephoneNumber() : customer.getCompanyTelephoneNumber());
         customer.setEmail(customer.getEmail() == null ? saved.getEmail() : customer.getEmail());
-        customer.setMobileTelephoneNumber(customer.getMobileTelephoneNumber() == null ?
-                saved.getMobileTelephoneNumber() : customer.getMobileTelephoneNumber());
+        customer.setMobileTelephoneNumber(customer.getMobileTelephoneNumber() == null
+                ? saved.getMobileTelephoneNumber() : customer.getMobileTelephoneNumber());
         customer.setOrders(customer.getOrders() == null ? saved.getOrders() : customer.getOrders());
 
         return customerRepository.save(customer);

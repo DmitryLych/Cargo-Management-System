@@ -8,6 +8,8 @@ import lych.trucks.domain.repository.TrailerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Implementation of {@link TrailerService}.
  */
@@ -45,11 +47,15 @@ public class DefaultTrailerService implements TrailerService {
     }
 
     @Override
-    public void delete(final Integer id) {
+    public Trailer delete(final Integer id) {
 
         log.info("Trailer deleted");
 
+        final Trailer trailer = trailerRepository.findOne(id);
+
         trailerRepository.delete(id);
+
+        return trailer;
     }
 
     @Override
@@ -71,5 +77,29 @@ public class DefaultTrailerService implements TrailerService {
         trailer.setYearOfIssue(saved.getYearOfIssue());
 
         return trailerRepository.save(trailer);
+    }
+
+    @Override
+    public Trailer fetchByRegisterSign(final String registerSign) {
+
+        log.info("Trailer fetched by register sign.");
+
+        return trailerRepository.findByRegisterSign(registerSign);
+    }
+
+    @Override
+    public List<Trailer> fetchByVolume(final Integer volume) {
+
+        log.info("Trailer fetched by volume");
+
+        return trailerRepository.findByVolume(volume);
+    }
+
+    @Override
+    public List<Trailer> fetchByType(final String type) {
+
+        log.info("Trailer fetched by type.");
+
+        return trailerRepository.findByType(type);
     }
 }

@@ -47,11 +47,15 @@ public class DefaultDriverService implements DriverService {
     }
 
     @Override
-    public void delete(final Integer id) {
+    public Driver delete(final Integer id) {
 
         log.info("Driver deleted.");
 
+        final Driver driver = driverRepository.findOne(id);
+
         driverRepository.delete(id);
+
+        return driver;
     }
 
     @Override
@@ -72,7 +76,7 @@ public class DefaultDriverService implements DriverService {
         driver.setTelephoneNumber(driver.getTelephoneNumber() == null ? saved.getTelephoneNumber()
                 : driver.getTelephoneNumber());
         driver.setEmail(driver.getEmail() == null ? saved.getEmail() : driver.getEmail());
-        driver.setStatus(driver.getOrder() != null);
+        driver.setStatus(driver.isStatus() ? driver.isStatus() : saved.isStatus());
         driver.setLastName(driver.getLastName() == null ? saved.getLastName() : driver.getLastName());
         driver.setMedicalExamination(driver.getMedicalExamination() == null ? saved.getMedicalExamination()
                 : driver.getMedicalExamination());

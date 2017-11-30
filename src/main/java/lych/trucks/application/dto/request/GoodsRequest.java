@@ -33,7 +33,7 @@ public class GoodsRequest implements Serializable {
     private double volume;
 
     @JsonProperty
-    private String type;
+    private String goodsType;
 
     @JsonProperty
     private Integer ownerOrderId;

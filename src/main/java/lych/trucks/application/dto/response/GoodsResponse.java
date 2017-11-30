@@ -33,5 +33,5 @@ public class GoodsResponse implements Serializable {
     private double volume;
 
     @JsonProperty
-    private String type;
+    private String goodsType;
 }

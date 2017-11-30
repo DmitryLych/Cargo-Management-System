@@ -9,12 +9,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Interface for work with database.
+ * Interface for {@link MedicalExamination} work with database.
  */
 public interface MedicalExaminationRepository extends JpaRepository<MedicalExamination, Integer> {
 
     /**
-     * Method for find {@link MedicalExamination} by driver id.
+     * Method for find medical examination by driver id.
      *
      * @param driverId {@link Driver} driverId.
      * @return medical examination which found.
@@ -22,6 +22,12 @@ public interface MedicalExaminationRepository extends JpaRepository<MedicalExami
     @Query(value = "SELECT * FROM medical_examinations WHERE owner_id_for_medical_examination=?1", nativeQuery = true)
     MedicalExamination findByOwnerIdForMedicalExamination(Integer driverId);
 
+    /**
+     * Method for find medical examination by validate.
+     *
+     * @param validate MedicalExamination validate.
+     * @return list of medical examination which found.
+     */
     @Query(value = "SELECT * FROM medical_examinations WHERE validate=?1", nativeQuery = true)
     List<MedicalExamination> findByValidate(Date validate);
 }

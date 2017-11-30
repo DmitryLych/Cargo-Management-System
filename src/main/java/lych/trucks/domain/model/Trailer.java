@@ -34,8 +34,8 @@ public class Trailer implements Serializable {
     @Column(name = "color")
     private String color;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "trailer_type")
+    private String trailerType;
 
     @Column(name = "weight")
     private double weight;
@@ -47,7 +47,7 @@ public class Trailer implements Serializable {
     private double longest;
 
     @Column(name = "volume")
-    private double volume;
+    private Integer volume;
 
     @Column(name = "year_of_issue")
     @Temporal(TemporalType.TIMESTAMP)

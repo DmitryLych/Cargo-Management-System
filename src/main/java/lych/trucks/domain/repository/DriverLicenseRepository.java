@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 /**
- * Interface for work with database.
+ * Interface for {@link DriverLicense} work with database.
  */
 public interface DriverLicenseRepository extends JpaRepository<DriverLicense, Integer> {
 
     /**
-     * Method for find {@link DriverLicense} by driver Id.
+     * Method for find driver license by driver Id.
      *
      * @param driverId {@link Driver} driverId.
      * @return driver license which found.
@@ -21,9 +21,21 @@ public interface DriverLicenseRepository extends JpaRepository<DriverLicense, In
     @Query(value = "SELECT * FROM driver_licenses WHERE owner_id_for_driver_license=?1", nativeQuery = true)
     DriverLicense findByOwnerIdForDriverLicense(Integer driverId);
 
+    /**
+     * Method for find driver licenses by category.
+     *
+     * @param category DriverLicense category.
+     * @return list of found driver licenses.
+     */
     @Query(value = "SELECT * FROM driver_licenses WHERE categories=?1", nativeQuery = true)
     List<DriverLicense> findByCategory(String category);
 
+    /**
+     * Method for find driver license by special notes.
+     *
+     * @param specialNotes DriverLicense specialNotes.
+     * @return list of found driver license.
+     */
     @Query(value = "SELECT * FROM driver_licenses WHERE special_notes=?1", nativeQuery = true)
     List<DriverLicense> findBySpecialNotes(String specialNotes);
 }

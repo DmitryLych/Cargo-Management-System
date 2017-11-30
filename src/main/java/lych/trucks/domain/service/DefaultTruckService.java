@@ -44,11 +44,15 @@ public class DefaultTruckService implements TruckService {
     }
 
     @Override
-    public void delete(final Integer id) {
+    public Truck delete(final Integer id) {
 
         log.info("Truck deleted.");
 
+        final Truck truck = truckRepository.findOne(id);
+
         truckRepository.delete(id);
+
+        return truck;
     }
 
     @Override
@@ -68,5 +72,21 @@ public class DefaultTruckService implements TruckService {
         truck.setYearOfIssue(saved.getYearOfIssue());
 
         return truckRepository.save(truck);
+    }
+
+    @Override
+    public Truck fetchByRegisterSign(final String registerSign) {
+
+        log.info("Truck fetched by register sign.");
+
+        return truckRepository.findByRegisterSign(registerSign);
+    }
+
+    @Override
+    public Truck fetchByBodyNumber(final String bodyNumber) {
+
+        log.info("Truck fetched by body number.");
+
+        return truckRepository.findByBodyNumber(bodyNumber);
     }
 }

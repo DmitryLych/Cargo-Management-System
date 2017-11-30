@@ -76,6 +76,6 @@ public class Driver implements Serializable {
     private Integer ownerId;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id_driver", referencedColumnName = "order_id")
+    @JoinColumn(name = "owner_id_driver", referencedColumnName = "driver_id")
     private List<Order> order;
 }

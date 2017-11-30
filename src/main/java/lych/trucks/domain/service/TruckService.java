@@ -25,11 +25,12 @@ public interface TruckService {
     Truck fetch(Integer driverId);
 
     /**
-     * Method for delete truck.
+     * Method for delete truck by id.
      *
      * @param id Truck id.
+     * @return deleted truck.
      */
-    void delete(Integer id);
+    Truck delete(Integer id);
 
     /**
      * Method for update truck.
@@ -38,4 +39,20 @@ public interface TruckService {
      * @return updated truck.
      */
     Truck update(Truck truck);
+
+    /**
+     * Method for fetch truck by register sign.
+     *
+     * @param registerSign Truck registerSign.
+     * @return truck which found.
+     */
+    Truck fetchByRegisterSign(String registerSign);
+
+    /**
+     * Method for fetch truck by body number.
+     *
+     * @param bodyNumber Truck bodyNumber.
+     * @return truck which found.
+     */
+    Truck fetchByBodyNumber(String bodyNumber);
 }

@@ -8,6 +8,7 @@ import lych.trucks.domain.repository.InsurancePolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,11 +57,15 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     }
 
     @Override
-    public void delete(final Integer id) {
+    public InsurancePolicy delete(final Integer id) {
 
         log.info("Insurance policy deleted.");
 
+        final InsurancePolicy insurancePolicy = insurancePolicyRepository.findOne(id);
+
         insurancePolicyRepository.delete(id);
+
+        return insurancePolicy;
     }
 
     @Override
@@ -78,5 +83,21 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
                 : insurancePolicy.getValidate());
 
         return insurancePolicyRepository.save(insurancePolicy);
+    }
+
+    @Override
+    public List<InsurancePolicy> fetchByValidate(final Date validate) {
+
+        log.info("Insurance policy fetched by validate.");
+
+        return insurancePolicyRepository.findByValidate(validate);
+    }
+
+    @Override
+    public List<InsurancePolicy> findByType(final String type) {
+
+        log.info("Insurance policy fetched by type.");
+
+        return insurancePolicyRepository.findByType(type);
     }
 }

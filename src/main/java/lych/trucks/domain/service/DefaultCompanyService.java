@@ -44,11 +44,15 @@ public class DefaultCompanyService implements CompanyService {
     }
 
     @Override
-    public void delete(final Integer id) {
+    public Company delete(final Integer id) {
 
         log.info("Company deleted.");
 
+        final Company company = companyRepository.findOne(id);
+
         companyRepository.delete(id);
+
+        return company;
     }
 
     @Override

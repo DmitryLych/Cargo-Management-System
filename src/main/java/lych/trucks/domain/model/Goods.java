@@ -34,8 +34,8 @@ public class Goods implements Serializable {
     @Column(name = "volume")
     private double volume;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "goods_type")
+    private String goodsType;
 
     @Column(name = "owner_order_id")
     private Integer ownerOrderId;

@@ -27,11 +27,12 @@ public interface DriverLicenseService {
     DriverLicense fetch(Integer driverId);
 
     /**
-     * Method for delete Driver license by id.
+     * Method for delete some driver license.
      *
      * @param id DriverLicense id.
+     * @return deleted driver license.
      */
-    void delete(Integer id);
+    DriverLicense delete(Integer id);
 
     /**
      * Method for update Driver license.
@@ -41,7 +42,19 @@ public interface DriverLicenseService {
      */
     DriverLicense update(DriverLicense driverLicense);
 
+    /**
+     * Method for fetch driver licenses by category.
+     *
+     * @param category DriverLicense category.
+     * @return list of driver licenses which found.
+     */
     List<DriverLicense> fetchByCategory(String category);
 
+    /**
+     * Method for fetch driver license by special notes.
+     *
+     * @param specialNotes DriverLicense specialNotes.
+     * @return list of driver license which found.
+     */
     List<DriverLicense> fetchBySpecialNotes(String specialNotes);
 }

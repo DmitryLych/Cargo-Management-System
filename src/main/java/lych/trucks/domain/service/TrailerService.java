@@ -2,6 +2,8 @@ package lych.trucks.domain.service;
 
 import lych.trucks.domain.model.Trailer;
 
+import java.util.List;
+
 /**
  * Service for {@link Trailer} work with database.
  */
@@ -25,11 +27,12 @@ public interface TrailerService {
     Trailer fetch(Integer truckId);
 
     /**
-     * Method for delete trailer.
+     * Method for delete some trailer.
      *
      * @param id Trailer id.
+     * @return deleted trailer.
      */
-    void delete(Integer id);
+    Trailer delete(Integer id);
 
     /**
      * Method for update trailer.
@@ -38,4 +41,28 @@ public interface TrailerService {
      * @return updated trailer.
      */
     Trailer update(Trailer trailer);
+
+    /**
+     * Method for fetch trailer by register sign.
+     *
+     * @param registerSign Trailer registerSign.
+     * @return trailer which found.
+     */
+    Trailer fetchByRegisterSign(String registerSign);
+
+    /**
+     * Method for fetch trailer by volume.
+     *
+     * @param volume Trailer volume.
+     * @return list of trailers which found.
+     */
+    List<Trailer> fetchByVolume(Integer volume);
+
+    /**
+     * Method for fetch trailers by type.
+     *
+     * @param type Trailer type.
+     * @return list of trailers which found.
+     */
+    List<Trailer> fetchByType(String type);
 }

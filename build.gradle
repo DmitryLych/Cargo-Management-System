@@ -53,7 +53,7 @@ test {
 	jacoco {
 		append = false
 		destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-		classDumpDir = file("$buildDir/jacoco/classpathdumps")
+		classDumpFile = file("$buildDir/jacoco/classpathdumps")
 	}
 }
 
@@ -71,7 +71,7 @@ test.finalizedBy jacocoTestReport
 		jacoco {
 		append = false
 		destinationFile = file("$buildDir/jacoco/integrationTest.exec")
-		classDumpDir = file("$buildDir/jacoco/classpathdumpsIT")
+		classDumpFile = file("$buildDir/jacoco/classpathdumpsIT")
 	}
 	testLogging {
 		afterSuite { desc, result ->

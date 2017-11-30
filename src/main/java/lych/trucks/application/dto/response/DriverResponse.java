@@ -42,5 +42,6 @@ public class DriverResponse implements Serializable {
     private String email;
 
     @JsonProperty
+    @JsonInclude
     private boolean status;
 }

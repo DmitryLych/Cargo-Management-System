@@ -47,11 +47,15 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
     }
 
     @Override
-    public void delete(final Integer id) {
+    public DriverLicense delete(final Integer id) {
 
         log.info("Driver license deleted.");
 
+        final DriverLicense driverLicense = driverLicenseRepository.findOne(id);
+
         driverLicenseRepository.delete(id);
+
+        return driverLicense;
     }
 
     @Override

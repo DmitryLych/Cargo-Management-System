@@ -8,6 +8,9 @@ import lych.trucks.domain.repository.MedicalExaminationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Implementation of {@link MedicalExaminationService}.
  */
@@ -45,11 +48,15 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
     }
 
     @Override
-    public void delete(final Integer id) {
+    public MedicalExamination delete(final Integer id) {
 
         log.info("Medical examination deleted.");
 
+        final MedicalExamination medicalExamination = medicalExaminationRepository.findOne(id);
+
         medicalExaminationRepository.delete(id);
+
+        return medicalExamination;
     }
 
     @Override
@@ -63,5 +70,13 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
         medicalExamination.setValidate(medicalExamination.getValidate() == null ? saved.getValidate() : medicalExamination.getValidate());
 
         return medicalExaminationRepository.save(medicalExamination);
+    }
+
+    @Override
+    public List<MedicalExamination> fetchByValidate(final Date validate) {
+
+        log.info("Medical examination fetched by validate.");
+
+        return medicalExaminationRepository.findByValidate(validate);
     }
 }

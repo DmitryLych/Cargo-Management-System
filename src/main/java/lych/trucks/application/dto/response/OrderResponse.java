@@ -33,11 +33,14 @@ public class OrderResponse implements Serializable {
     private String unloadingAddress;
 
     @JsonProperty
+    @JsonInclude
     private boolean issued;
 
     @JsonProperty
+    @JsonInclude
     private boolean completed;
 
     @JsonProperty
+    @JsonInclude
     private boolean paid;
 }

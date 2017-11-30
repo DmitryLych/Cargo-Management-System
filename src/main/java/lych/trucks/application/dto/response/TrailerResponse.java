@@ -30,7 +30,7 @@ public class TrailerResponse implements Serializable {
     private String color;
 
     @JsonProperty
-    private String type;
+    private String trailerType;
 
     @JsonProperty
     private double weight;

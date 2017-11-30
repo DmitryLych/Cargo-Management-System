@@ -36,8 +36,9 @@ public interface CompanyService {
      * Method for delete company by id.
      *
      * @param id Company id.
+     * @return deleted company.
      */
-    void delete(Integer id);
+    Company delete(Integer id);
 
     /**
      * Method for update company.
@@ -47,5 +48,11 @@ public interface CompanyService {
      */
     Company update(Company company);
 
+    /**
+     * Method for fetch company by company name.
+     *
+     * @param companyName Company companyName.
+     * @return company which found.
+     */
     Company fetchByCompanyName(String companyName);
 }

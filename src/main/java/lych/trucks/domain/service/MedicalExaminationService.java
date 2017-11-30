@@ -2,6 +2,9 @@ package lych.trucks.domain.service;
 
 import lych.trucks.domain.model.MedicalExamination;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Service for {@link MedicalExamination} work with database.
  */
@@ -28,8 +31,9 @@ public interface MedicalExaminationService {
      * Method for delete medical examination.
      *
      * @param id MedicalExamination id.
+     * @return deleted medical examination.
      */
-    void delete(Integer id);
+    MedicalExamination delete(Integer id);
 
     /**
      * Method for update medical examination.
@@ -38,4 +42,12 @@ public interface MedicalExaminationService {
      * @return updated medical examination.
      */
     MedicalExamination update(MedicalExamination medicalExamination);
+
+    /**
+     * Method for fetch medical examination by validate.
+     *
+     * @param validate MedicalExamination validate.
+     * @return list of medical examination which found.
+     */
+    List<MedicalExamination> fetchByValidate(Date validate);
 }
