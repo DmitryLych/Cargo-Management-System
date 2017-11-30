@@ -68,4 +68,12 @@ public class DefaultCompanyService implements CompanyService {
 
         return companyRepository.save(company);
     }
+
+    @Override
+    public Company fetchByCompanyName(final String companyName) {
+
+        log.info("Company found by company name.");
+
+        return companyRepository.findByCompanyName(companyName);
+    }
 }

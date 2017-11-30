@@ -19,4 +19,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query(value = "SELECT * FROM orders WHERE completed=?1", nativeQuery = true)
     List<Order> findByCompleted(boolean completed);
+
+    @Query(value = "SELECT * FROM orders WHERE paid=?1", nativeQuery = true)
+    List<Order> findByPaid(boolean paid);
 }

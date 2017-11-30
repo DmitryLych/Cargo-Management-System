@@ -46,4 +46,6 @@ public interface CompanyService {
      * @return updated Company company.
      */
     Company update(Company company);
+
+    Company fetchByCompanyName(String companyName);
 }

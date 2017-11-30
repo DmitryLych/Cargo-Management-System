@@ -3,6 +3,7 @@ package lych.trucks.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.Trailer;
+import lych.trucks.domain.model.Truck;
 import lych.trucks.domain.repository.TrailerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,20 @@ public class DefaultTrailerService implements TrailerService {
 
     private final TrailerRepository trailerRepository;
 
+    private final TruckService truckService;
+
     @Override
     public Trailer create(final Integer truckId, final Trailer trailer) {
 
         log.info("Trailer created.");
 
         trailer.setOwnerIdForTrailer(truckId);
+
+        final Truck truck = truckService.fetch(truckId);
+
+        truck.setTrailer(trailer);
+
+        truckService.update(truck);
 
         return trailerRepository.save(trailer);
     }

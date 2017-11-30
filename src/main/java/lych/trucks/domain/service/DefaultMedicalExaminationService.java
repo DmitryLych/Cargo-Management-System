@@ -2,6 +2,7 @@ package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.MedicalExamination;
 import lych.trucks.domain.repository.MedicalExaminationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,20 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
 
     private final MedicalExaminationRepository medicalExaminationRepository;
 
+    private final DriverService driverService;
+
     @Override
     public MedicalExamination create(final Integer driverId, final MedicalExamination medicalExamination) {
 
         log.info("Medical examination created.");
 
         medicalExamination.setOwnerIdForMedicalExamination(driverId);
+
+        final Driver driver = driverService.fetch(driverId);
+
+        driver.setMedicalExamination(medicalExamination);
+
+        driverService.update(driver);
 
         return medicalExaminationRepository.save(medicalExamination);
     }

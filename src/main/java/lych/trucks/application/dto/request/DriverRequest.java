@@ -8,6 +8,7 @@ import lombok.Data;
 import lych.trucks.domain.model.Driver;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Dto for {@link Driver} request.
@@ -60,5 +61,5 @@ public class DriverRequest implements Serializable {
     private Integer ownerId;
 
     @JsonProperty
-    private OrderRequest order;
+    private List<OrderRequest> order;
 }

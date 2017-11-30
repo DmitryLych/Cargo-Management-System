@@ -5,7 +5,7 @@ import lych.trucks.domain.model.DriverLicense;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * Interface for work with database.
@@ -22,11 +22,8 @@ public interface DriverLicenseRepository extends JpaRepository<DriverLicense, In
     DriverLicense findByOwnerIdForDriverLicense(Integer driverId);
 
     @Query(value = "SELECT * FROM driver_licenses WHERE categories=?1", nativeQuery = true)
-    DriverLicense findByCategory(String category);
+    List<DriverLicense> findByCategory(String category);
 
     @Query(value = "SELECT * FROM driver_licenses WHERE special_notes=?1", nativeQuery = true)
-    DriverLicense findBySpecialNotes(String specialNotes);
-
-    @Query(value = "SELECT * FROM driver_licenses WHERE validate=?1", nativeQuery = true)
-    DriverLicense findByValidate(Date validate);
+    List<DriverLicense> findBySpecialNotes(String specialNotes);
 }

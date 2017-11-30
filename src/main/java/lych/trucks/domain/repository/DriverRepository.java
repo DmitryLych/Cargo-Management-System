@@ -22,4 +22,7 @@ public interface DriverRepository extends JpaRepository<Driver, Integer> {
 
     @Query(value = "SELECT * FROM drivers WHERE last_name=?1 AND first_name=?2", nativeQuery = true)
     List<Driver> findByLastNameAndFirstName(String lastName, String firstName);
+
+    @Query(value = "SELECT * FROM drivers WHERE status=?1", nativeQuery = true)
+    List<Driver> findByStatus(boolean status);
 }

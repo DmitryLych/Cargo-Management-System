@@ -15,4 +15,6 @@ public interface CustomerService {
     void delete(Integer customerId);
 
     Customer update(Customer customer);
+
+    Customer fetchByCustomerName(String customerName);
 }

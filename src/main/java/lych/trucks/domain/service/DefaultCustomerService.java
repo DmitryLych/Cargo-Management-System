@@ -16,7 +16,6 @@ public class DefaultCustomerService implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
-
     @Override
     public List<Customer> fetchAll() {
 
@@ -57,17 +56,23 @@ public class DefaultCustomerService implements CustomerService {
         final Customer saved = customerRepository.findOne(customer.getCustomerId());
 
         customer.setAddress(customer.getAddress() == null ? saved.getAddress() : customer.getAddress());
-        customer.setCompanyName(customer.getCompanyName() == null ? saved.getCompanyName()
-                : customer.getCompanyName());
+        customer.setCustomerName(customer.getCustomerName() == null ? saved.getCustomerName()
+                : customer.getCustomerName());
         customer.setCompanyTelephoneNumber(customer.getCompanyTelephoneNumber() == null ?
                 saved.getCompanyTelephoneNumber() : customer.getCompanyTelephoneNumber());
         customer.setEmail(customer.getEmail() == null ? saved.getEmail() : customer.getEmail());
-        customer.setFirstName(customer.getFirstName() == null ? saved.getFirstName() : customer.getFirstName());
-        customer.setLastName(customer.getLastName() == null ? saved.getLastName() : customer.getLastName());
         customer.setMobileTelephoneNumber(customer.getMobileTelephoneNumber() == null ?
                 saved.getMobileTelephoneNumber() : customer.getMobileTelephoneNumber());
         customer.setOrders(customer.getOrders() == null ? saved.getOrders() : customer.getOrders());
 
         return customerRepository.save(customer);
+    }
+
+    @Override
+    public Customer fetchByCustomerName(final String customerName) {
+
+        log.info("Customer found by customer name.");
+
+        return customerRepository.findByCustomerName(customerName);
     }
 }

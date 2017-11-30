@@ -81,4 +81,20 @@ public class DefaultDriverService implements DriverService {
 
         return driverRepository.save(driver);
     }
+
+    @Override
+    public List<Driver> fetchByLastNameAndFirstName(final String lastName, final String firstName) {
+
+        log.info("Drivers fetch by last name and first name.");
+
+        return driverRepository.findByLastNameAndFirstName(lastName, firstName);
+    }
+
+    @Override
+    public List<Driver> fetchByStatus(final boolean status) {
+
+        log.info("Drivers fetch by status.");
+
+        return driverRepository.findByStatus(status);
+    }
 }

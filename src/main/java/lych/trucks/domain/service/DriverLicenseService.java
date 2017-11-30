@@ -2,6 +2,8 @@ package lych.trucks.domain.service;
 
 import lych.trucks.domain.model.DriverLicense;
 
+import java.util.List;
+
 /**
  * Service for {@link DriverLicense} work with database.
  */
@@ -38,4 +40,8 @@ public interface DriverLicenseService {
      * @return updated DriverLicense driverLicense.
      */
     DriverLicense update(DriverLicense driverLicense);
+
+    List<DriverLicense> fetchByCategory(String category);
+
+    List<DriverLicense> fetchBySpecialNotes(String specialNotes);
 }

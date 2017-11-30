@@ -48,4 +48,8 @@ public interface DriverService {
      * @return updated driver.
      */
     Driver update(Driver driver);
+
+    List<Driver> fetchByLastNameAndFirstName(String lastName, String firstName);
+
+    List<Driver> fetchByStatus(boolean status);
 }

@@ -2,10 +2,13 @@ package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.DriverLicense;
 import lych.trucks.domain.repository.DriverLicenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Implementation of {@link DriverLicenseService}.
@@ -17,12 +20,20 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
 
     private final DriverLicenseRepository driverLicenseRepository;
 
+    private final DriverService driverService;
+
     @Override
     public DriverLicense create(final Integer driverId, final DriverLicense driverLicense) {
 
         log.info("Driver license created.");
 
         driverLicense.setOwnerIdForDriverLicense(driverId);
+
+        final Driver driver = driverService.fetch(driverId);
+
+        driver.setDriverLicense(driverLicense);
+
+        driverService.update(driver);
 
         return driverLicenseRepository.save(driverLicense);
     }
@@ -59,5 +70,21 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
                 : driverLicense.getValidate());
 
         return driverLicenseRepository.save(driverLicense);
+    }
+
+    @Override
+    public List<DriverLicense> fetchByCategory(final String category) {
+
+        log.info("Driver licenses found by category.");
+
+        return driverLicenseRepository.findByCategory(category);
+    }
+
+    @Override
+    public List<DriverLicense> fetchBySpecialNotes(final String specialNotes) {
+
+        log.info("Driver licenses found by special notes.");
+
+        return driverLicenseRepository.findBySpecialNotes(specialNotes);
     }
 }

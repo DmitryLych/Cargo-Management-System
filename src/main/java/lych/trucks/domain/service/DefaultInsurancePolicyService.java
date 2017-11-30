@@ -2,6 +2,7 @@ package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.InsurancePolicy;
 import lych.trucks.domain.repository.InsurancePolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
     private final InsurancePolicyRepository insurancePolicyRepository;
 
+    private final DriverService driverService;
+
     @Override
     public List<InsurancePolicy> fetchAll(final Integer driverId) {
 
@@ -34,6 +37,12 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
         log.info("Insurance policy updated.");
 
         insurancePolicy.setOwnerIdForInsurancePolicy(driverId);
+
+        final Driver driver = driverService.fetch(driverId);
+
+        driver.setInsurancePolicy(insurancePolicy);
+
+        driverService.update(driver);
 
         return insurancePolicyRepository.save(insurancePolicy);
     }

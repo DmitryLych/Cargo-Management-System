@@ -25,16 +25,10 @@ public class CustomerRequest implements Serializable {
     private Integer customerId;
 
     @JsonProperty
-    private String firstName;
-
-    @JsonProperty
-    private String lastName;
-
-    @JsonProperty
     private String address;
 
     @JsonProperty
-    private String companyName;
+    private String customerName;
 
     @JsonProperty
     private String email;

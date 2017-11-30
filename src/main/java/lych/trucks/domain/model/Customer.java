@@ -30,17 +30,11 @@ public class Customer implements Serializable {
     @Column(name = "customer_id")
     private Integer customerId;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
     @Column(name = "address")
     private String address;
 
-    @Column(name = "company_name", unique = true)
-    private String companyName;
+    @Column(name = "customer_name", unique = true)
+    private String customerName;
 
     @Column(name = "email", unique = true)
     private String email;

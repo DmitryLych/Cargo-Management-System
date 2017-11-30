@@ -2,6 +2,7 @@ package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.Truck;
 import lych.trucks.domain.repository.TruckRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,18 @@ public class DefaultTruckService implements TruckService {
 
     private final TruckRepository truckRepository;
 
+    private final DriverService driverService;
+
     @Override
     public Truck create(final Integer driverId, final Truck truck) {
 
         log.info("Truck created");
 
-        truck.setOwnerIdForTruck(driverId);
+        final Driver driver = driverService.fetch(driverId);
+
+        driver.setTruck(truck);
+
+        driverService.update(driver);
 
         return truckRepository.save(truck);
     }
