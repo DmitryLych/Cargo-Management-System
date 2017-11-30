@@ -29,6 +29,12 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    /**
+     * Method for create customer.
+     *
+     * @param request {@link CustomerRequest} request.
+     * @return {@link CustomerResponse} response mapped from created customer.
+     */
     @RequestMapping(value = "/customers", method = RequestMethod.POST)
     public ResponseEntity create(@RequestBody final CustomerRequest request) {
 
@@ -41,6 +47,12 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    /**
+     * Method for update customer.
+     *
+     * @param request {@link CustomerRequest} request.
+     * @return @link CustomerResponse} response mapped from updated customer.
+     */
     @RequestMapping(value = "/customers", method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody final CustomerRequest request) {
 
@@ -53,6 +65,12 @@ public class CustomerController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for fetch some customer.
+     *
+     * @param customerId Customer customerId.
+     * @return {@link CustomerResponse} response mapped from customer which found.
+     */
     @RequestMapping(value = "/customers/{customerId}", method = RequestMethod.GET)
     public ResponseEntity fetch(@PathVariable final Integer customerId) {
 
@@ -63,18 +81,27 @@ public class CustomerController {
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for delete some customer.
+     *
+     * @param customerId Customer customerId.
+     * @return {@link CustomerResponse} response mapped from deleted customer.
+     */
     @RequestMapping(value = "/customers/{customerId}", method = RequestMethod.DELETE)
     public ResponseEntity delete(final Integer customerId) {
 
-        final Customer customerToResponse = customerService.fetch(customerId);
-
-        customerService.delete(customerId);
+        final Customer customerToResponse = customerService.delete(customerId);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
 
         return ResponseEntity.ok().body(response);
     }
 
+    /**
+     * Method for fetch all customers.
+     *
+     * @return list of {@link CustomerResponse} responses mapped from customers which found.
+     */
     @RequestMapping(value = "/customers", method = RequestMethod.GET)
     public ResponseEntity fetchAll() {
 

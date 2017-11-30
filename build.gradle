@@ -36,6 +36,7 @@ dependencies {
 	compile('org.postgresql:postgresql')
 	compile('org.projectlombok:lombok')
 	compile("net.sf.dozer:dozer:$dozerVersion")
+	testCompile("com.h2database:h2")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

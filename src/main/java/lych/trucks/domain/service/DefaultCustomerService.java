@@ -56,6 +56,7 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     @Override
+    @SuppressWarnings("PMD.NPathComplexity")
     public Customer update(final Customer customer) {
 
         log.info("Customer updated");

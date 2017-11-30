@@ -30,6 +30,7 @@ public class DefaultGoodsService implements GoodsService {
     }
 
     @Override
+    @SuppressWarnings("PMD.NPathComplexity")
     public Goods update(final Goods goods) {
 
         log.info("Goods updated.");

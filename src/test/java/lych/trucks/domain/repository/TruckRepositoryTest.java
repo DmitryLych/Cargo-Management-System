@@ -1,0 +1,63 @@
+package lych.trucks.domain.repository;
+
+import lych.trucks.domain.model.Truck;
+import org.hamcrest.core.Is;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.Assert.assertThat;
+
+@RunWith(SpringRunner.class)
+@DataJpaTest
+public class TruckRepositoryTest {
+
+    @Autowired
+    private TruckRepository truckRepository;
+
+    private static final Integer DRIVER_ID_CONTENT = 1;
+
+    private static final String REGISTER_SIGN_CONTENT = "register";
+
+    private static final String BODY_NUMBER_CONTENT = "body";
+
+    @Before
+    public void setUp() {
+
+        final Truck truck = new Truck();
+
+        truck.setOwnerIdForTruck(DRIVER_ID_CONTENT);
+        truck.setBodyNumber(BODY_NUMBER_CONTENT);
+        truck.setRegisterSign(REGISTER_SIGN_CONTENT);
+
+        truckRepository.save(truck);
+    }
+
+    @Test
+    public void findByOwnerIdForTruck() {
+
+        final Truck foundTruck = truckRepository.findByOwnerIdForTruck(DRIVER_ID_CONTENT);
+
+        assertThat(foundTruck.getOwnerIdForTruck(), Is.is(DRIVER_ID_CONTENT));
+    }
+
+    @Test
+    public void findByRegisterSign() {
+
+        final Truck foundTruck = truckRepository.findByRegisterSign(REGISTER_SIGN_CONTENT);
+
+        assertThat(foundTruck.getRegisterSign(), Is.is(REGISTER_SIGN_CONTENT));
+    }
+
+    @Test
+    public void findByBodyNumber() {
+
+        final Truck foundTruck = truckRepository.findByBodyNumber(BODY_NUMBER_CONTENT);
+
+        assertThat(foundTruck.getBodyNumber(), Is.is(BODY_NUMBER_CONTENT));
+    }
+
+}

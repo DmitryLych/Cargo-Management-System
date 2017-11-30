@@ -30,6 +30,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
+    @SuppressWarnings("PMD.NPathComplexity")
     public Order update(final Order order) {
 
         log.info("Order updated.");

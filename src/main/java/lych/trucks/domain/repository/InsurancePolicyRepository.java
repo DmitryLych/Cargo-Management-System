@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Interface for work with database.
+ * Interface for {@link InsurancePolicy} work with database.
  */
 public interface InsurancePolicyRepository extends JpaRepository<InsurancePolicy, Integer> {
 
@@ -22,9 +22,21 @@ public interface InsurancePolicyRepository extends JpaRepository<InsurancePolicy
     @Query(value = "SELECT * FROM insurance_policies WHERE owner_id_for_insurance_policy=?1", nativeQuery = true)
     List<InsurancePolicy> findAllByOwnerIdForInsurancePolicy(Integer driverId);
 
+    /**
+     * Method for find insurance policy by validate.
+     *
+     * @param validate InsurancePolicy validate.
+     * @return list of insurance policy which found.
+     */
     @Query(value = "SELECT * FROM insurance_policies WHERE validate=?1", nativeQuery = true)
     List<InsurancePolicy> findByValidate(Date validate);
 
+    /**
+     * Method for find insurance policy by type.
+     *
+     * @param type InsurancePolicy type.
+     * @return list of insurance policy which found.
+     */
     @Query(value = "SELECT * FROM insurance_policies WHERE type_insurance_policy=?1", nativeQuery = true)
     List<InsurancePolicy> findByType(String type);
 }
