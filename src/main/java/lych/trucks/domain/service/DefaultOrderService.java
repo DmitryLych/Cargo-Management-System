@@ -47,7 +47,7 @@ public class DefaultOrderService implements OrderService {
         order.setPaid(order.isPaid() ? order.isPaid() : saved.isPaid());
         order.setUnloadingAddress(order.getUnloadingAddress() == null ? saved.getUnloadingAddress() : order.getUnloadingAddress());
 
-        return order;
+        return orderRepository.save(order);
     }
 
     @Override

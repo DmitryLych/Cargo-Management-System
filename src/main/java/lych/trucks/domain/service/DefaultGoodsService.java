@@ -43,7 +43,7 @@ public class DefaultGoodsService implements GoodsService {
         goods.setVolume(goods.getVolume() == 0 ? saved.getVolume() : goods.getVolume());
         goods.setWeight(goods.getWeight() == 0 ? saved.getWeight() : goods.getWeight());
 
-        return goods;
+        return goodsRepository.save(goods);
     }
 
     @Override
