@@ -19,8 +19,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * @param driverId {@link Driver} driverId.
      * @return list of orders which found.
      */
-    @Query(value = "SELECT * FROM orders WHERE owner_id_driver=?1", nativeQuery = true)
-    List<Order> findByOwnerIdDriver(Integer driverId);
+    @Query(value = "SELECT * FROM orders WHERE driver_id=?1", nativeQuery = true)
+    List<Order> findByDriver(Integer driverId);
 
     /**
      * Method for find orders by customer.
@@ -28,8 +28,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    @Query(value = "SELECT * FROM orders WHERE owner_customer_id=?1", nativeQuery = true)
-    List<Order> findByOwnerCustomerId(Integer customerId);
+    @Query(value = "SELECT * FROM orders WHERE customer_id=?1", nativeQuery = true)
+    List<Order> findByCustomer(Integer customerId);
 
     /**
      * Method for found orders by issued and customer.
@@ -38,8 +38,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    @Query(value = "SELECT * FROM orders WHERE issued=?1 AND owner_customer_id=?2", nativeQuery = true)
-    List<Order> findByIssuedAndOwnerCustomerId(boolean issued, Integer customerId);
+    @Query(value = "SELECT * FROM orders WHERE issued=?1 AND customer_id=?2", nativeQuery = true)
+    List<Order> findByIssuedAndCustomer(boolean issued, Integer customerId);
 
     /**
      * Method for find orders by completed and customer.
@@ -48,8 +48,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    @Query(value = "SELECT * FROM orders WHERE completed=?1 AND owner_customer_id=?2", nativeQuery = true)
-    List<Order> findByCompletedAndOwnerCustomerId(boolean completed, Integer customerId);
+    @Query(value = "SELECT * FROM orders WHERE completed=?1 AND customer_id=?2", nativeQuery = true)
+    List<Order> findByCompletedAndCustomer(boolean completed, Integer customerId);
 
     /**
      * Method for find orders by paid and customer.
@@ -58,6 +58,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    @Query(value = "SELECT * FROM orders WHERE paid=?1 AND owner_customer_id=?2", nativeQuery = true)
-    List<Order> findByPaidAndOwnerCustomerId(boolean paid, Integer customerId);
+    @Query(value = "SELECT * FROM orders WHERE paid=?1 AND customer_id=?2", nativeQuery = true)
+    List<Order> findByPaidAndCustomer(boolean paid, Integer customerId);
 }

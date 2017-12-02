@@ -19,7 +19,7 @@ public interface DriverLicenseRepository extends JpaRepository<DriverLicense, In
      * @return driver license which found.
      */
     @Query(value = "SELECT * FROM driver_licenses WHERE driver_license_fk=?1", nativeQuery = true)
-    DriverLicense findByOwnerIdForDriverLicense(Integer driverId);
+    DriverLicense findByDriverLicenseFk(Integer driverId);
 
     /**
      * Method for find driver licenses by category.

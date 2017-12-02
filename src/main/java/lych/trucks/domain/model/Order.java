@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -48,13 +49,17 @@ public class Order implements Serializable {
     @Column(name = "paid")
     private boolean paid;
 
-    @Column(name = "owner_customer_id")
-    private Integer ownerCustomerId;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_order_id", referencedColumnName = "order_id")
+    @OneToMany(mappedBy = "order",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
     private List<Goods> goods;
 
-    @Column(name = "owner_id_driver")
-    private Integer ownerIdDriver;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
 }

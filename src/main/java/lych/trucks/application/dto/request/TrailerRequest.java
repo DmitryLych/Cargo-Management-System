@@ -39,7 +39,7 @@ public class TrailerRequest implements Serializable {
     private double longest;
 
     @JsonProperty
-    private double volume;
+    private Integer volume;
 
     @JsonProperty
     private double height;
@@ -48,5 +48,5 @@ public class TrailerRequest implements Serializable {
     private long yearOfIssue;
 
     @JsonProperty
-    private Integer ownerIdForTrailer;
+    private Integer trailerFk;
 }

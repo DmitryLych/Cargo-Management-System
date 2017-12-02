@@ -43,7 +43,7 @@ public class DefaultTrailerService implements TrailerService {
 
         log.info("Trailer found.");
 
-        return trailerRepository.findByOwnerIdForTrailer(truckId);
+        return trailerRepository.findByTrailerFk(truckId);
     }
 
     @Override

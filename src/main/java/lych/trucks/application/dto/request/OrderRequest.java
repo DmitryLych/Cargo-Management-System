@@ -43,11 +43,11 @@ public class OrderRequest implements Serializable {
     private boolean paid;
 
     @JsonProperty
-    private Integer ownerCustomerId;
+    private CustomerRequest customer;
 
     @JsonProperty
     private List<GoodsRequest> goods;
 
     @JsonProperty
-    private Integer ownerIdDriver;
+    private DriverRequest driver;
 }

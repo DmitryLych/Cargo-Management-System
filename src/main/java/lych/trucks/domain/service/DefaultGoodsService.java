@@ -3,6 +3,7 @@ package lych.trucks.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.Goods;
+import lych.trucks.domain.model.Order;
 import lych.trucks.domain.repository.GoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,16 @@ public class DefaultGoodsService implements GoodsService {
 
     private final GoodsRepository goodsRepository;
 
+    private final OrderService orderService;
+
     @Override
     public Goods create(final Integer orderId, final Goods goods) {
 
         log.info("Goods created.");
 
-        goods.setOwnerOrderId(orderId);
+        final Order order = orderService.fetch(orderId);
+
+        goods.setOrder(order);
 
         return goodsRepository.save(goods);
     }
@@ -37,7 +42,7 @@ public class DefaultGoodsService implements GoodsService {
 
         final Goods saved = goodsRepository.findOne(goods.getGoodsId());
 
-        goods.setOwnerOrderId(goods.getOwnerOrderId() == null ? saved.getOwnerOrderId() : goods.getOwnerOrderId());
+        goods.setOrder(goods.getOrder() == null ? saved.getOrder() : goods.getOrder());
         goods.setGoodsType(goods.getGoodsType() == null ? saved.getGoodsType() : goods.getGoodsType());
         goods.setName(goods.getName() == null ? saved.getName() : goods.getName());
         goods.setVolume(goods.getVolume() == 0 ? saved.getVolume() : goods.getVolume());
@@ -63,7 +68,7 @@ public class DefaultGoodsService implements GoodsService {
 
         log.info("All goods found.");
 
-        return goodsRepository.findByOwnerOrderId(orderId);
+        return goodsRepository.findAllByOrder(orderId);
     }
 
     @Override

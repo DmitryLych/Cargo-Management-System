@@ -77,7 +77,9 @@ public class Driver implements Serializable {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id_driver", referencedColumnName = "driver_id")
+    @OneToMany(mappedBy = "driver",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
     private List<Order> order;
 }

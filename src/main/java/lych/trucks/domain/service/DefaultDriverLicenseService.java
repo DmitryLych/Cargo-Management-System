@@ -43,7 +43,7 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
 
         log.info("Driver license displayed.");
 
-        return driverLicenseRepository.findByOwnerIdForDriverLicense(driverId);
+        return driverLicenseRepository.findByDriverLicenseFk(driverId);
     }
 
     @Override

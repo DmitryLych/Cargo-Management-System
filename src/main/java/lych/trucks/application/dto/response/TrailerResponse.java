@@ -39,7 +39,7 @@ public class TrailerResponse implements Serializable {
     private double longest;
 
     @JsonProperty
-    private double volume;
+    private Integer volume;
 
     @JsonProperty
     private double height;

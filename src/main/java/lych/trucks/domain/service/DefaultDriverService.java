@@ -28,7 +28,7 @@ public class DefaultDriverService implements DriverService {
 
         log.info("Drivers displayed.");
 
-        return driverRepository.findAllByOwnerId(ownerId);
+        return driverRepository.findAllByCompany(ownerId);
     }
 
     @Override

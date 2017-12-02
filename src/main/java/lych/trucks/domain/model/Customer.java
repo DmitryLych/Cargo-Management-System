@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -45,7 +44,9 @@ public class Customer implements Serializable {
     @Column(name = "mobile_telephone_number", unique = true)
     private String mobileTelephoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_customer_id", referencedColumnName = "customer_id")
+    @OneToMany(mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
     private List<Order> orders;
 }

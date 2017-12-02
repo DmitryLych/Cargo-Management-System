@@ -42,7 +42,7 @@ public class DefaultTruckService implements TruckService {
 
         log.info("Truck displayed.");
 
-        return truckRepository.findByOwnerIdForTruck(driverId);
+        return truckRepository.findByTruckFk(driverId);
     }
 
     @Override

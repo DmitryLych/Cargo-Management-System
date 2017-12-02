@@ -39,7 +39,7 @@ public class TruckRequest implements Serializable {
     private long yearOfIssue;
 
     @JsonProperty
-    private Integer ownerIdForTruck;
+    private Integer truckFk;
 
     @JsonProperty
     private TrailerRequest trailer;

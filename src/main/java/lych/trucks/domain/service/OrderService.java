@@ -67,7 +67,7 @@ public interface OrderService {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    List<Order> fetchByIssued(boolean issued, Integer customerId);
+    List<Order> fetchByIssuedAndCustomer(boolean issued, Integer customerId);
 
     /**
      * Method for fetch by completed and customer.
@@ -76,14 +76,14 @@ public interface OrderService {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    List<Order> fetchByCompleted(boolean completed, Integer customerId);
+    List<Order> fetchByCompletedAndCustomer(boolean completed, Integer customerId);
 
     /**
      * Method for fetch orders by paid and customer.
      *
-     * @param paid       Orser paid.
+     * @param paid       Order paid.
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    List<Order> fetchByPaid(boolean paid, Integer customerId);
+    List<Order> fetchByPaidAndCustomer(boolean paid, Integer customerId);
 }

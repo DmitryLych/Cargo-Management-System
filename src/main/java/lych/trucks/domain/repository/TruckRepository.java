@@ -17,7 +17,7 @@ public interface TruckRepository extends JpaRepository<Truck, Integer> {
      * @return truck which found.
      */
     @Query(value = "SELECT * FROM trucks WHERE truck_fk=?1", nativeQuery = true)
-    Truck findByOwnerIdForTruck(Integer driverId);
+    Truck findByTruckFk(Integer driverId);
 
     /**
      * Method for find {@link Truck} by register sign.

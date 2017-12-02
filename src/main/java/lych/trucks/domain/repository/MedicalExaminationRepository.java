@@ -20,7 +20,7 @@ public interface MedicalExaminationRepository extends JpaRepository<MedicalExami
      * @return medical examination which found.
      */
     @Query(value = "SELECT * FROM medical_examinations WHERE medical_examination_fk=?1", nativeQuery = true)
-    MedicalExamination findByOwnerIdForMedicalExamination(Integer driverId);
+    MedicalExamination findByMedicalExaminationFk(Integer driverId);
 
     /**
      * Method for find medical examination by validate.

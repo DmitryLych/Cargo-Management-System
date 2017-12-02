@@ -27,5 +27,5 @@ public class MedicalExaminationRequest implements Serializable {
     private long validate;
 
     @JsonProperty
-    private Integer ownerIdForMedicalExamination;
+    private Integer medicalExaminationFk;
 }

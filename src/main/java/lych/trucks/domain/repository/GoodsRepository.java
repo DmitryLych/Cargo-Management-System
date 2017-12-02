@@ -18,8 +18,8 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer> {
      * @param orderId Order orderId.
      * @return list of found goods.
      */
-    @Query(value = "SELECT * FROM goods WHERE owner_order_id=?1", nativeQuery = true)
-    List<Goods> findByOwnerOrderId(Integer orderId);
+    @Query(value = "SELECT * FROM goods WHERE order_id=?1", nativeQuery = true)
+    List<Goods> findAllByOrder(Integer orderId);
 
     /**
      * Method for find goods by type.

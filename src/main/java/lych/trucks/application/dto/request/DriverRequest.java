@@ -46,10 +46,10 @@ public class DriverRequest implements Serializable {
     private boolean status;
 
     @JsonProperty
-    private MedicalExaminationRequest medicalExamination;
+    private DriverLicenseRequest driverLicense;
 
     @JsonProperty
-    private DriverLicenseRequest driverLicense;
+    private MedicalExaminationRequest medicalExamination;
 
     @JsonProperty
     private TruckRequest truck;
@@ -58,7 +58,7 @@ public class DriverRequest implements Serializable {
     private InsurancePolicyRequest insurancePolicy;
 
     @JsonProperty
-    private Integer ownerId;
+    private CompanyRequest company;
 
     @JsonProperty
     private List<OrderRequest> order;

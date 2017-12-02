@@ -20,7 +20,7 @@ public interface DriverRepository extends JpaRepository<Driver, Integer> {
      * @return List of Driver class objects.
      */
     @Query(value = "SELECT * FROM drivers WHERE company_id=?1", nativeQuery = true)
-    List<Driver> findAllByOwnerId(Integer companyId);
+    List<Driver> findAllByCompany(Integer companyId);
 
     /**
      * Method for find drivers by last name and first name.

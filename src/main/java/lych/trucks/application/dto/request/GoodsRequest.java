@@ -36,5 +36,5 @@ public class GoodsRequest implements Serializable {
     private String goodsType;
 
     @JsonProperty
-    private Integer ownerOrderId;
+    private OrderRequest order;
 }

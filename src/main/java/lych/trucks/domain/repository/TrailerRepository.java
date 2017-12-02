@@ -19,7 +19,7 @@ public interface TrailerRepository extends JpaRepository<Trailer, Integer> {
      * @return trailer which found.
      */
     @Query(value = "SELECT * FROM trailers WHERE trailer_fk=?1", nativeQuery = true)
-    Trailer findByOwnerIdForTrailer(Integer truckId);
+    Trailer findByTrailerFk(Integer truckId);
 
     /**
      * Method for find {@link Trailer} by register sign.

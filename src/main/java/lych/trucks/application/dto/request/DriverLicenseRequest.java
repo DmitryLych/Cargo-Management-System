@@ -34,5 +34,5 @@ public class DriverLicenseRequest implements Serializable {
     private String specialNotes;
 
     @JsonProperty
-    private Integer ownerIdForDriverLicense;
+    private Integer driverLicenseFk;
 }

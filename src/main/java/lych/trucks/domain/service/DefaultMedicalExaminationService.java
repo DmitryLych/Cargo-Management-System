@@ -44,7 +44,7 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
 
         log.info("Medical examination displayed.");
 
-        return medicalExaminationRepository.findByOwnerIdForMedicalExamination(driverId);
+        return medicalExaminationRepository.findByMedicalExaminationFk(driverId);
     }
 
     @Override
