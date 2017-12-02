@@ -49,10 +49,6 @@ public class DefaultOrderServiceTest {
     @Before
     public void setUp() {
 
-        customerRepository.deleteAll();
-        driverRepository.deleteAll();
-        orderRepository.deleteAll();
-
         customerIdContent = customerRepository.save(new Customer()).getCustomerId();
 
         driverIdContent = driverRepository.save(new Driver()).getId();

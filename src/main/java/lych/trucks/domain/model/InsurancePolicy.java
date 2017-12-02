@@ -38,6 +38,6 @@ public class InsurancePolicy implements Serializable {
     @Column(name = "cost_of_payment")
     private double cost;
 
-    @Column(name = "owner_id_for_insurance_policy")
-    private Integer ownerIdForInsurancePolicy;
+    @Column(name = "insurance_policy_fk")
+    private Integer insurancePolicyFk;
 }

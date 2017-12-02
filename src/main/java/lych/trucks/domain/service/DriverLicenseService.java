@@ -27,14 +27,6 @@ public interface DriverLicenseService {
     DriverLicense fetch(Integer driverId);
 
     /**
-     * Method for delete some driver license.
-     *
-     * @param id DriverLicense id.
-     * @return deleted driver license.
-     */
-    DriverLicense delete(Integer id);
-
-    /**
      * Method for update Driver license.
      *
      * @param driverLicense DriverLicense driverLicense.

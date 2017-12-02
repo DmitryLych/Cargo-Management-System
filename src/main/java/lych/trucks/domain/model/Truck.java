@@ -47,10 +47,10 @@ public class Truck implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date yearOfIssue;
 
-    @Column(name = "owner_id_for_truck")
-    private Integer ownerIdForTruck;
+    @Column(name = "truck_fk")
+    private Integer truckFk;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id_for_trailer", referencedColumnName = "trailer_id")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
+    @JoinColumn(name = "trailer_fk", referencedColumnName = "trailer_id")
     private Trailer trailer;
 }

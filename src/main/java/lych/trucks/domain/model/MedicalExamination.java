@@ -32,6 +32,6 @@ public class MedicalExamination implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date validate;
 
-    @Column(name = "owner_id_for_medical_examination")
-    private Integer ownerIdForMedicalExamination;
+    @Column(name = "medical_examination_fk")
+    private Integer medicalExaminationFk;
 }

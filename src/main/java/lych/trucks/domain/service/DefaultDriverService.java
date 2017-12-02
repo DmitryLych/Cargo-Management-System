@@ -2,6 +2,7 @@ package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lych.trucks.domain.model.Company;
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class DefaultDriverService implements DriverService {
 
     private final DriverRepository driverRepository;
 
+    private final CompanyService companyService;
+
     @Override
     public List<Driver> fetchAll(final Integer ownerId) {
 
@@ -33,7 +36,9 @@ public class DefaultDriverService implements DriverService {
 
         log.info("Driver added.");
 
-        driver.setOwnerId(companyId);
+        final Company company = companyService.fetch(companyId);
+
+        driver.setCompany(company);
 
         return driverRepository.save(driver);
     }
@@ -65,7 +70,7 @@ public class DefaultDriverService implements DriverService {
 
         final Driver saved = driverRepository.findOne(driver.getId());
 
-        driver.setOwnerId(driver.getOwnerId() == null ? saved.getOwnerId() : driver.getOwnerId());
+        driver.setCompany(driver.getCompany() == null ? saved.getCompany() : driver.getCompany());
         driver.setAddress(driver.getAddress() == null ? saved.getAddress() : driver.getAddress());
         driver.setDriverLicense(driver.getDriverLicense() == null ? saved.getDriverLicense()
                 : driver.getDriverLicense());

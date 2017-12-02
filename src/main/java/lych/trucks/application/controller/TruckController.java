@@ -78,23 +78,4 @@ public class TruckController {
 
         return ResponseEntity.ok().body(response);
     }
-
-    /**
-     * Method for delete truck.
-     *
-     * @param truckId  Truck truckId.
-     * @param driverId Driver driverId.
-     * @return TruckResponse response mapped from deleted truck.
-     */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable final Integer truckId, @PathVariable final Integer driverId) {
-
-        final Truck truckToResponse = truckService.fetch(driverId);
-
-        truckService.delete(truckId);
-
-        final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
-
-        return ResponseEntity.ok().body(response);
-    }
 }

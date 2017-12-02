@@ -28,9 +28,9 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
 
         log.info("Medical examination created.");
 
-        medicalExamination.setOwnerIdForMedicalExamination(driverId);
-
         final Driver driver = driverService.fetch(driverId);
+
+        medicalExamination.setMedicalExaminationFk(driverId);
 
         driver.setMedicalExamination(medicalExamination);
 
@@ -48,25 +48,13 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
     }
 
     @Override
-    public MedicalExamination delete(final Integer id) {
-
-        log.info("Medical examination deleted.");
-
-        final MedicalExamination medicalExamination = medicalExaminationRepository.findOne(id);
-
-        medicalExaminationRepository.delete(id);
-
-        return medicalExamination;
-    }
-
-    @Override
     public MedicalExamination update(final MedicalExamination medicalExamination) {
 
         log.info("Medical examination updated.");
 
         final MedicalExamination saved = medicalExaminationRepository.findOne(medicalExamination.getId());
 
-        medicalExamination.setOwnerIdForMedicalExamination(saved.getOwnerIdForMedicalExamination());
+        medicalExamination.setMedicalExaminationFk(saved.getMedicalExaminationFk());
         medicalExamination.setValidate(medicalExamination.getValidate() == null ? saved.getValidate() : medicalExamination.getValidate());
 
         return medicalExaminationRepository.save(medicalExamination);

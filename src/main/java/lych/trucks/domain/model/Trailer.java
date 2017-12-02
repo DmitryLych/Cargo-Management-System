@@ -53,6 +53,6 @@ public class Trailer implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date yearOfIssue;
 
-    @Column(name = "owner_id_for_trailer")
-    private Integer ownerIdForTrailer;
+    @Column(name = "trailer_fk")
+    private Integer trailerFk;
 }
