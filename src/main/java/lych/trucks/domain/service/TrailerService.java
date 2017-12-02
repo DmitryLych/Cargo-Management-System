@@ -12,11 +12,12 @@ public interface TrailerService {
     /**
      * Method for create trailer.
      *
-     * @param truckId Truck truckId.
-     * @param trailer Trailer trailer.
+     * @param driverId Driver DriverId.
+     * @param truckId  Truck truckId.
+     * @param trailer  Trailer trailer.
      * @return created trailer.
      */
-    Trailer create(Integer truckId, Trailer trailer);
+    Trailer create(Integer driverId, Integer truckId, Trailer trailer);
 
     /**
      * Method for find trailer.
@@ -25,14 +26,6 @@ public interface TrailerService {
      * @return trailer which found.
      */
     Trailer fetch(Integer truckId);
-
-    /**
-     * Method for delete some trailer.
-     *
-     * @param id Trailer id.
-     * @return deleted trailer.
-     */
-    Trailer delete(Integer id);
 
     /**
      * Method for update trailer.

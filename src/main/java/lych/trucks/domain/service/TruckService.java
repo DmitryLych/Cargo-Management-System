@@ -25,14 +25,6 @@ public interface TruckService {
     Truck fetch(Integer driverId);
 
     /**
-     * Method for delete truck by id.
-     *
-     * @param id Truck id.
-     * @return deleted truck.
-     */
-    Truck delete(Integer id);
-
-    /**
      * Method for update truck.
      *
      * @param truck Truck truck.

@@ -41,10 +41,6 @@ public class DefaultInsurancePolicyServiceTest {
     @Before
     public void setUp() {
 
-        driverRepository.deleteAll();
-
-        insurancePolicyRepository.deleteAll();
-
         driverIdContent = driverRepository.save(new Driver()).getId();
 
         final InsurancePolicy insurancePolicy = new InsurancePolicy();

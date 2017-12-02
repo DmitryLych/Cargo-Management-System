@@ -37,7 +37,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
         log.info("Insurance policy updated.");
 
-        insurancePolicy.setOwnerIdForInsurancePolicy(driverId);
+      //  insurancePolicy.setOwnerIdForInsurancePolicy(driverId);
 
         final Driver driver = driverService.fetch(driverId);
 
@@ -75,8 +75,8 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
         final InsurancePolicy saved = insurancePolicyRepository.findOne(insurancePolicy.getId());
 
-        insurancePolicy.setOwnerIdForInsurancePolicy(insurancePolicy.getOwnerIdForInsurancePolicy() == null
-                ? saved.getOwnerIdForInsurancePolicy() : insurancePolicy.getOwnerIdForInsurancePolicy());
+       // insurancePolicy.setOwnerIdForInsurancePolicy(insurancePolicy.getOwnerIdForInsurancePolicy() == null
+        //        ? saved.getOwnerIdForInsurancePolicy() : insurancePolicy.getOwnerIdForInsurancePolicy());
         insurancePolicy.setCost(insurancePolicy.getCost() == 0 ? saved.getCost() : insurancePolicy.getCost());
         insurancePolicy.setType(insurancePolicy.getType() == null ? saved.getType() : insurancePolicy.getType());
         insurancePolicy.setValidate(insurancePolicy.getValidate() == null ? saved.getValidate()

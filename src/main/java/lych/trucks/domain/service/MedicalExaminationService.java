@@ -28,14 +28,6 @@ public interface MedicalExaminationService {
     MedicalExamination fetch(Integer driverId);
 
     /**
-     * Method for delete medical examination.
-     *
-     * @param id MedicalExamination id.
-     * @return deleted medical examination.
-     */
-    MedicalExamination delete(Integer id);
-
-    /**
      * Method for update medical examination.
      *
      * @param medicalExamination MedicalExamination medicalExamination.

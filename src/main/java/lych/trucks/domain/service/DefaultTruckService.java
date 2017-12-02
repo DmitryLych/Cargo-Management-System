@@ -30,6 +30,8 @@ public class DefaultTruckService implements TruckService {
 
         driver.setTruck(truck);
 
+        truck.setTruckFk(driverId);
+
         driverService.update(driver);
 
         return truckRepository.save(truck);
@@ -44,18 +46,6 @@ public class DefaultTruckService implements TruckService {
     }
 
     @Override
-    public Truck delete(final Integer id) {
-
-        log.info("Truck deleted.");
-
-        final Truck truck = truckRepository.findOne(id);
-
-        truckRepository.delete(id);
-
-        return truck;
-    }
-
-    @Override
     public Truck update(final Truck truck) {
 
         log.info("Truck updated.");
@@ -63,8 +53,8 @@ public class DefaultTruckService implements TruckService {
         final Truck saved = truckRepository.findOne(truck.getId());
 
         truck.setBodyNumber(saved.getBodyNumber());
-        truck.setOwnerIdForTruck(truck.getOwnerIdForTruck() == null ? saved.getOwnerIdForTruck()
-                : truck.getOwnerIdForTruck());
+        truck.setTruckFk(truck.getTruckFk() == null ? saved.getTruckFk()
+                : truck.getTruckFk());
         truck.setColor(truck.getColor() == null ? saved.getColor() : truck.getColor());
         truck.setRegisterSign(truck.getRegisterSign() == null ? saved.getRegisterSign() : truck.getRegisterSign());
         truck.setTrailer(truck.getTrailer() == null ? saved.getTrailer() : truck.getTrailer());

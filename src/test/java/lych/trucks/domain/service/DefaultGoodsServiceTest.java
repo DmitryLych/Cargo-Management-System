@@ -40,8 +40,6 @@ public class DefaultGoodsServiceTest {
     @Before
     public void setUp() {
 
-        goodsRepository.deleteAll();
-
         final Order order = new Order();
 
         orderIdContent = orderRepository.save(order).getOrderId();

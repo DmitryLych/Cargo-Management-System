@@ -16,11 +16,11 @@ public interface DriverRepository extends JpaRepository<Driver, Integer> {
     /**
      * Method for fetch all drivers from the company.
      *
-     * @param ownerId {@link Company} ownerId.
+     * @param companyId {@link Company} companyId.
      * @return List of Driver class objects.
      */
-    @Query(value = "SELECT * FROM drivers WHERE owner_id=?1", nativeQuery = true)
-    List<Driver> findAllByOwnerId(Integer ownerId);
+    @Query(value = "SELECT * FROM drivers WHERE company_id=?1", nativeQuery = true)
+    List<Driver> findAllByOwnerId(Integer companyId);
 
     /**
      * Method for find drivers by last name and first name.

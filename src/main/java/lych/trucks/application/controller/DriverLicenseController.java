@@ -78,23 +78,4 @@ public class DriverLicenseController {
 
         return ResponseEntity.ok().body(response);
     }
-
-    /**
-     * Method for delete driver license.
-     *
-     * @param licenseId DriverLicense licenseId.
-     * @param driverId  Driver driverId.
-     * @return deleted driver license.
-     */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses/{licenseId}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable final Integer licenseId, @PathVariable final Integer driverId) {
-
-        final DriverLicense driverLicenseToResponse = driverLicenseService.fetch(driverId);
-
-        driverLicenseService.delete(licenseId);
-
-        final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse, DriverLicenseResponse.class);
-
-        return ResponseEntity.ok().body(response);
-    }
 }

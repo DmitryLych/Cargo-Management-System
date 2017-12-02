@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -27,7 +26,7 @@ public class Company implements Serializable {
 
     @Id
     @Column(name = "company_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "company_name", unique = true)
@@ -42,7 +41,9 @@ public class Company implements Serializable {
     @Column(name = "telephone_number", unique = true)
     private String telephoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", referencedColumnName = "company_id")
+    @OneToMany(mappedBy = "company",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
     private List<Driver> drivers;
 }

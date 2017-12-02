@@ -27,7 +27,7 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
 
         log.info("Driver license created.");
 
-        driverLicense.setOwnerIdForDriverLicense(driverId);
+        driverLicense.setDriverLicenseFk(driverId);
 
         final Driver driver = driverService.fetch(driverId);
 
@@ -47,27 +47,16 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
     }
 
     @Override
-    public DriverLicense delete(final Integer id) {
-
-        log.info("Driver license deleted.");
-
-        final DriverLicense driverLicense = driverLicenseRepository.findOne(id);
-
-        driverLicenseRepository.delete(id);
-
-        return driverLicense;
-    }
-
-    @Override
     public DriverLicense update(final DriverLicense driverLicense) {
 
         log.info("Driver license updated.");
 
         final DriverLicense saved = driverLicenseRepository.findOne(driverLicense.getId());
 
-        driverLicense.setOwnerIdForDriverLicense(saved.getOwnerIdForDriverLicense());
         driverLicense.setCategory(driverLicense.getCategory() == null ? saved.getCategory()
                 : driverLicense.getCategory());
+        driverLicense.setDriverLicenseFk(driverLicense.getDriverLicenseFk() == null ?
+                saved.getDriverLicenseFk() : driverLicense.getDriverLicenseFk());
         driverLicense.setSpecialNotes(driverLicense.getSpecialNotes() == null ? saved.getSpecialNotes()
                 : driverLicense.getSpecialNotes());
         driverLicense.setValidate(driverLicense.getValidate() == null ? saved.getValidate()

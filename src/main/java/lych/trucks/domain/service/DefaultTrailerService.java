@@ -23,13 +23,13 @@ public class DefaultTrailerService implements TrailerService {
     private final TruckService truckService;
 
     @Override
-    public Trailer create(final Integer truckId, final Trailer trailer) {
+    public Trailer create(final Integer driverId, final Integer truckId, final Trailer trailer) {
 
         log.info("Trailer created.");
 
-        trailer.setOwnerIdForTrailer(truckId);
+        final Truck truck = truckService.fetch(driverId);
 
-        final Truck truck = truckService.fetch(truckId);
+        trailer.setTrailerFk(truckId);
 
         truck.setTrailer(trailer);
 
@@ -47,26 +47,14 @@ public class DefaultTrailerService implements TrailerService {
     }
 
     @Override
-    public Trailer delete(final Integer id) {
-
-        log.info("Trailer deleted");
-
-        final Trailer trailer = trailerRepository.findOne(id);
-
-        trailerRepository.delete(id);
-
-        return trailer;
-    }
-
-    @Override
     public Trailer update(final Trailer trailer) {
 
         log.info("Trailer updated.");
 
         final Trailer saved = trailerRepository.findOne(trailer.getId());
 
-        trailer.setOwnerIdForTrailer(trailer.getOwnerIdForTrailer() == null ? saved.getOwnerIdForTrailer()
-                : trailer.getOwnerIdForTrailer());
+        trailer.setTrailerFk(trailer.getTrailerFk() == null ? saved.getTrailerFk()
+                : trailer.getTrailerFk());
         trailer.setHeight(saved.getHeight());
         trailer.setRegisterSign(trailer.getRegisterSign() == null ? saved.getRegisterSign()
                 : trailer.getRegisterSign());

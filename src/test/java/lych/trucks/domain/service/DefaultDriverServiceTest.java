@@ -42,8 +42,6 @@ public class DefaultDriverServiceTest {
     @Before
     public void setUp() {
 
-        driverRepository.deleteAll();
-
         companyIdContent = companyRepository.save(new Company()).getId();
 
         final Driver driver = new Driver();

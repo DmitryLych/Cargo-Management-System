@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,7 +32,7 @@ public class Driver implements Serializable {
 
     @Id
     @Column(name = "driver_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "last_name")
@@ -56,24 +57,25 @@ public class Driver implements Serializable {
     @Column(name = "status")
     private boolean status;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id_for_driver_license", referencedColumnName = "driver_license_id")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
+    @JoinColumn(name = "driver_license_fk", referencedColumnName = "driver_license_id")
     private DriverLicense driverLicense;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id_for_medical_examination", referencedColumnName = "medical_examination_id")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
+    @JoinColumn(name = "medical_examination_fk", referencedColumnName = "medical_examination_id")
     private MedicalExamination medicalExamination;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id_for_truck", referencedColumnName = "truck_id")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
+    @JoinColumn(name = "truck_fk", referencedColumnName = "truck_id")
     private Truck truck;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id_for_insurance_policy", referencedColumnName = "insurance_policy_id")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
+    @JoinColumn(name = "insurance_policy_fk", referencedColumnName = "insurance_policy_id")
     private InsurancePolicy insurancePolicy;
 
-    @Column(name = "owner_id")
-    private Integer ownerId;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "company_id")
+    private Company company;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id_driver", referencedColumnName = "driver_id")

@@ -19,7 +19,7 @@ public interface MedicalExaminationRepository extends JpaRepository<MedicalExami
      * @param driverId {@link Driver} driverId.
      * @return medical examination which found.
      */
-    @Query(value = "SELECT * FROM medical_examinations WHERE owner_id_for_medical_examination=?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM medical_examinations WHERE medical_examination_fk=?1", nativeQuery = true)
     MedicalExamination findByOwnerIdForMedicalExamination(Integer driverId);
 
     /**

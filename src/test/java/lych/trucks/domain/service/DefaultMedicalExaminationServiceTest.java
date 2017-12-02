@@ -39,10 +39,6 @@ public class DefaultMedicalExaminationServiceTest {
     @Before
     public void setUp() {
 
-        driverRepository.deleteAll();
-
-        medicalExaminationRepository.deleteAll();
-
         driverIdContent = driverRepository.save(new Driver()).getId();
 
         final MedicalExamination medicalExamination = new MedicalExamination();

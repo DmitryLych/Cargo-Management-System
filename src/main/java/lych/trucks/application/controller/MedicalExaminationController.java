@@ -79,23 +79,4 @@ public class MedicalExaminationController {
 
         return ResponseEntity.ok().body(response);
     }
-
-    /**
-     * Method for delete medical examination.
-     *
-     * @param medicalId MedicalExamination medicalId.
-     * @param driverId  Driver driverId.
-     * @return MedicalExaminationResponse response mapped from deleted medical examination.
-     */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/medical/{medicalId}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable final Integer medicalId, @PathVariable final Integer driverId) {
-
-        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.fetch(driverId);
-
-        medicalExaminationService.delete(medicalId);
-
-        final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse, MedicalExaminationResponse.class);
-
-        return ResponseEntity.ok().body(response);
-    }
 }
