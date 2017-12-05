@@ -30,6 +30,7 @@ public class TrailerController {
      * Method for create trailer.
      *
      * @param driverId Driver driverId.
+     * @param truckId  Truck truckId.
      * @param request  TrailerRequest request.
      * @return TrailerResponse response mapped from created trailer.
      */

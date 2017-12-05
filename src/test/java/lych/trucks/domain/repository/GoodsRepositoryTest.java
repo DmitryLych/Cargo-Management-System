@@ -33,13 +33,13 @@ public class GoodsRepositoryTest {
     @Before
     public void setUp() {
 
-        final Order order = new Order();
+        final Order order = orderRepository.save(new Order());
 
-        orderIdContent = orderRepository.save(order).getOrderId();
+        orderIdContent = order.getOrderId();
 
         final Goods goods = new Goods();
 
-        goods.setOwnerOrderId(orderIdContent);
+        goods.setOrder(order);
         goods.setName(NAME_CONTENT);
         goods.setGoodsType(TYPE_CONTENT);
 
@@ -47,11 +47,11 @@ public class GoodsRepositoryTest {
     }
 
     @Test
-    public void findByOwnerOrderId() {
+    public void findAllByOrder() {
 
-        final List<Goods> foundGoods = goodsRepository.findByOwnerOrderId(orderIdContent);
+        final List<Goods> foundGoods = goodsRepository.findAllByOrder(orderIdContent);
 
-        foundGoods.forEach(goods -> assertThat(goods.getOwnerOrderId(), Is.is(orderIdContent)));
+        foundGoods.forEach(goods -> assertThat(goods.getOrder().getOrderId(), Is.is(orderIdContent)));
     }
 
     @Test

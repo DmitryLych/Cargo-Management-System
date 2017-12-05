@@ -43,7 +43,7 @@ public class DefaultMedicalExaminationServiceTest {
 
         final MedicalExamination medicalExamination = new MedicalExamination();
 
-        medicalExamination.setOwnerIdForMedicalExamination(driverIdContent);
+        medicalExamination.setMedicalExaminationFk(driverIdContent);
         medicalExamination.setValidate(VALIDATE_CONTENT);
 
         medicalExaminationIdContent = medicalExaminationRepository.save(medicalExamination).getId();
@@ -73,13 +73,6 @@ public class DefaultMedicalExaminationServiceTest {
                 Is.is(VALIDATE_CONTENT.getTime()));
     }
 
-    @Test
-    public void delete() {
-
-        medicalExaminationService.delete(medicalExaminationIdContent);
-
-        assertThat(medicalExaminationRepository.exists(medicalExaminationIdContent), Is.is(false));
-    }
 
     @Test
     public void update() {

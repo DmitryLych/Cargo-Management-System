@@ -41,63 +41,64 @@ public class OrderRepositoryTest {
     @Before
     public void setUp() {
 
-        final Driver driver = new Driver();
+        final Driver driver = driverRepository.save(new Driver());
 
-        driverIdContent = driverRepository.save(driver).getId();
+        driverIdContent = driver.getId();
 
-        final Customer customer = new Customer();
+        final Customer customer = customerRepository.save(new Customer());
 
-        customerIdContent = customerRepository.save(customer).getCustomerId();
+        customerIdContent = customer.getCustomerId();
 
         final Order order = new Order();
 
         order.setPaid(PAID_CONTENT);
         order.setCompleted(COMPLETED_CONTENT);
         order.setIssued(ISSUED_CONTENT);
-        order.setOwnerCustomerId(customerIdContent);
-        order.setOwnerIdDriver(driverIdContent);
+        order.setCustomer(customer);
+        order.setDriver(driver);
 
         orderRepository.save(order);
     }
 
     @Test
-    public void findByOwnerIdDriver() {
+    public void findByDriver() {
 
-        final List<Order> foundOrders = orderRepository.findByOwnerIdDriver(driverIdContent);
+        final List<Order> foundOrders = orderRepository.findByDriver(driverIdContent);
 
-        foundOrders.forEach(order -> assertThat(order.getOwnerIdDriver(), Is.is(driverIdContent)));
+        foundOrders.forEach(order -> assertThat(order.getDriver().getId(), Is.is(driverIdContent)));
     }
 
     @Test
-    public void findByOwnerCustomerId() {
+    public void findByCustomer() {
 
-        final List<Order> foundOrders = orderRepository.findByOwnerCustomerId(customerIdContent);
+        final List<Order> foundOrders = orderRepository.findByCustomer(customerIdContent);
 
-        foundOrders.forEach(order -> assertThat(order.getOwnerCustomerId(), Is.is(customerIdContent)));
+        foundOrders.forEach(order -> assertThat(order.getCustomer().getCustomerId(), Is.is(customerIdContent)));
     }
 
     @Test
-    public void findByIssuedAndOwnerCustomerId() {
+    public void findByIssuedAndCustomer() {
 
-        final List<Order> foundOrders = orderRepository.findByIssuedAndOwnerCustomerId(ISSUED_CONTENT, customerIdContent);
+        final List<Order> foundOrders = orderRepository.findByIssuedAndCustomer(ISSUED_CONTENT, customerIdContent);
 
         foundOrders.forEach(order -> assertThat(order.isIssued(), Is.is(ISSUED_CONTENT)));
     }
 
     @Test
-    public void findByCompletedAndOwnerCustomerId() {
+    public void findByCompletedAndCustomer() {
 
-        final List<Order> foundOrders = orderRepository.findByCompletedAndOwnerCustomerId(COMPLETED_CONTENT, customerIdContent);
+        final List<Order> foundOrders = orderRepository
+                .findByCompletedAndCustomer(COMPLETED_CONTENT, customerIdContent);
 
         foundOrders.forEach(order -> assertThat(order.isCompleted(), Is.is(COMPLETED_CONTENT)));
     }
 
     @Test
-    public void findByPaidAndOwnerCustomerId() {
+    public void findByPaidAndCustomer() {
 
-        final List<Order> foundOrders = orderRepository.findByPaidAndOwnerCustomerId(PAID_CONTENT, customerIdContent);
+        final List<Order> foundOrders = orderRepository
+                .findByPaidAndCustomer(PAID_CONTENT, customerIdContent);
 
         foundOrders.forEach(order -> assertThat(order.isPaid(), Is.is(PAID_CONTENT)));
     }
-
 }

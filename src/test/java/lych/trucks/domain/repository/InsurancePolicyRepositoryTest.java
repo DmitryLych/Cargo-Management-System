@@ -42,19 +42,23 @@ public class InsurancePolicyRepositoryTest {
     }
 
     @Test
-    public void findAllByOwnerIdForInsurancePolicy() {
+    public void findByInsurancePolicyFk() {
 
-        final List<InsurancePolicy> foundInsurancePolicies = insurancePolicyRepository.findAllByOwnerIdForInsurancePolicy(DRIVER_ID_CONTENT);
+        final List<InsurancePolicy> foundInsurancePolicies = insurancePolicyRepository
+                .findByInsurancePolicyFk(DRIVER_ID_CONTENT);
 
-        foundInsurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getOwnerIdForInsurancePolicy(), Is.is(DRIVER_ID_CONTENT)));
+        foundInsurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy
+                .getInsurancePolicyFk(), Is.is(DRIVER_ID_CONTENT)));
     }
 
     @Test
     public void findByValidate() {
 
-        final List<InsurancePolicy> foundInsurancePolicies = insurancePolicyRepository.findByValidate(validateContent);
+        final List<InsurancePolicy> foundInsurancePolicies = insurancePolicyRepository
+                .findByValidate(validateContent);
 
-        foundInsurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getValidate(), Is.is(validateContent)));
+        foundInsurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getValidate(),
+                Is.is(validateContent)));
     }
 
     @Test

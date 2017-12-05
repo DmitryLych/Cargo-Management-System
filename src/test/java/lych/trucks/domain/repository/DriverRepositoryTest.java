@@ -35,32 +35,33 @@ public class DriverRepositoryTest {
     @Before
     public void setUp() {
 
-        final Company company = new Company();
+        final Company company = companyRepository.save(new Company());
 
-        companyIdContent = companyRepository.save(company).getId();
+        companyIdContent = company.getId();
 
         final Driver driver = new Driver();
 
         driver.setStatus(STATUS_CONTENT);
         driver.setLastName(LAST_NAME_CONTENT);
         driver.setFirstName(FIRST_NAME_CONTENT);
-        driver.setOwnerId(companyIdContent);
+        driver.setCompany(company);
 
         driverRepository.save(driver);
     }
 
     @Test
-    public void findAllByOwnerId() {
+    public void findAllByCompany() {
 
-        final List<Driver> foundDrivers = driverRepository.findAllByOwnerId(companyIdContent);
+        final List<Driver> foundDrivers = driverRepository.findAllByCompany(companyIdContent);
 
-        foundDrivers.forEach(driver -> assertThat(driver.getOwnerId(), Is.is(companyIdContent)));
+        foundDrivers.forEach(driver -> assertThat(driver.getCompany().getId(), Is.is(companyIdContent)));
     }
 
     @Test
     public void findByLastNameAndFirstName() {
 
-        final List<Driver> foundDrivers = driverRepository.findByLastNameAndFirstName(LAST_NAME_CONTENT, FIRST_NAME_CONTENT);
+        final List<Driver> foundDrivers = driverRepository
+                .findByLastNameAndFirstName(LAST_NAME_CONTENT, FIRST_NAME_CONTENT);
 
         foundDrivers.forEach(driver -> assertThat(driver.getLastName(), Is.is(LAST_NAME_CONTENT)));
     }

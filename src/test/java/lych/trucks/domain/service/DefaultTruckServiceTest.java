@@ -4,7 +4,6 @@ import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.Truck;
 import lych.trucks.domain.repository.DriverRepository;
 import lych.trucks.domain.repository.TruckRepository;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -29,8 +29,6 @@ public class DefaultTruckServiceTest {
 
     private Integer driverIdContent;
 
-    private Integer truckIdContent;
-
     private static final String REGISTER_SIGN_CONTENT = "register";
 
     private static final String BODY_NUMBER_CONTENT = "number";
@@ -42,15 +40,17 @@ public class DefaultTruckServiceTest {
 
         truckRepository.deleteAll();
 
-        driverIdContent = driverRepository.save(new Driver()).getId();
+        final Driver driver = driverRepository.save(new Driver());
+
+        driverIdContent = driver.getId();
 
         final Truck truck = new Truck();
 
-        truck.setOwnerIdForTruck(driverIdContent);
+        truck.setTruckFk(driverIdContent);
         truck.setRegisterSign(REGISTER_SIGN_CONTENT);
         truck.setBodyNumber(BODY_NUMBER_CONTENT);
 
-        truckIdContent = truckRepository.save(truck).getId();
+        truckRepository.save(truck);
     }
 
     @Test
@@ -64,27 +64,41 @@ public class DefaultTruckServiceTest {
 
         final Integer newTruckId = truckService.create(driverIdContent, truck).getId();
 
-        assertThat(truckRepository.findOne(newTruckId).getBodyNumber(), Is.is(content));
+        assertThat(truckRepository.findOne(newTruckId).getRegisterSign(), is(content));
     }
 
     @Test
-    public void fetch() throws Exception {
+    public void fetch() {
+
+        assertThat(truckService.fetch(driverIdContent).getBodyNumber(), is(BODY_NUMBER_CONTENT));
     }
 
     @Test
-    public void delete() throws Exception {
+    public void update() {
+
+        final String content = "update";
+
+        final Truck truck = truckRepository.findByTruckFk(driverIdContent);
+
+        truck.setRegisterSign(content);
+
+        truckService.update(truck);
+
+        assertThat(truckRepository.findByTruckFk(driverIdContent).getRegisterSign(), is(content));
     }
 
     @Test
-    public void update() throws Exception {
+    public void fetchByRegisterSign() {
+
+        assertThat(truckService.fetchByRegisterSign(REGISTER_SIGN_CONTENT).getRegisterSign(),
+                is(REGISTER_SIGN_CONTENT));
     }
 
     @Test
-    public void fetchByRegisterSign() throws Exception {
-    }
+    public void fetchByBodyNumber() {
 
-    @Test
-    public void fetchByBodyNumber() throws Exception {
+        assertThat(truckService.fetchByBodyNumber(BODY_NUMBER_CONTENT).getBodyNumber(),
+                is(BODY_NUMBER_CONTENT));
     }
 
 }

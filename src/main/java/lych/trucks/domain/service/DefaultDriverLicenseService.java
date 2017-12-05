@@ -55,8 +55,8 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
 
         driverLicense.setCategory(driverLicense.getCategory() == null ? saved.getCategory()
                 : driverLicense.getCategory());
-        driverLicense.setDriverLicenseFk(driverLicense.getDriverLicenseFk() == null ?
-                saved.getDriverLicenseFk() : driverLicense.getDriverLicenseFk());
+        driverLicense.setDriverLicenseFk(driverLicense.getDriverLicenseFk() == null
+                ? saved.getDriverLicenseFk() : driverLicense.getDriverLicenseFk());
         driverLicense.setSpecialNotes(driverLicense.getSpecialNotes() == null ? saved.getSpecialNotes()
                 : driverLicense.getSpecialNotes());
         driverLicense.setValidate(driverLicense.getValidate() == null ? saved.getValidate()

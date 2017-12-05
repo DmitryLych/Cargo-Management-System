@@ -1,6 +1,5 @@
 package lych.trucks.domain.repository;
 
-import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.DriverLicense;
 import org.hamcrest.core.Is;
 import org.junit.Before;
@@ -21,10 +20,7 @@ public class DriverLicenseRepositoryTest {
     @Autowired
     private DriverLicenseRepository driverLicenseRepository;
 
-    @Autowired
-    private DriverRepository driverRepository;
-
-    private Integer driverIdContent;
+    private static final Integer DRIVER_ID_CONTENT = 1;
 
     private static final String CATEGORY_CONTENT = "a,b,c,d";
 
@@ -33,24 +29,22 @@ public class DriverLicenseRepositoryTest {
     @Before
     public void setUp() {
 
-        driverIdContent = driverRepository.save(new Driver()).getId();
-
         final DriverLicense driverLicense = new DriverLicense();
 
         driverLicense.setSpecialNotes(SPECIAL_NOTES_CONTENT);
         driverLicense.setCategory(CATEGORY_CONTENT);
-        driverLicense.setDriverLicenseFk(driverIdContent);
+        driverLicense.setDriverLicenseFk(DRIVER_ID_CONTENT);
 
         driverLicenseRepository.save(driverLicense);
     }
 
     @Test
-    public void findByOwnerIdForDriverLicense() {
+    public void findByDriverLicenseFk() {
 
         final DriverLicense foundDriverLicense = driverLicenseRepository
-                .findByOwnerIdForDriverLicense(driverIdContent);
+                .findByDriverLicenseFk(DRIVER_ID_CONTENT);
 
-        assertThat(foundDriverLicense.getDriverLicenseFk(), Is.is(driverIdContent));
+        assertThat(foundDriverLicense.getDriverLicenseFk(), Is.is(DRIVER_ID_CONTENT));
     }
 
     @Test

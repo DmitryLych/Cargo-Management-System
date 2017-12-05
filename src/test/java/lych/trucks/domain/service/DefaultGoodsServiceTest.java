@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class DefaultGoodsServiceTest {
 
     @Autowired
@@ -46,7 +48,7 @@ public class DefaultGoodsServiceTest {
 
         final Goods goods = new Goods();
 
-        goods.setOwnerOrderId(orderIdContent);
+        goods.setOrder(order);
         goods.setGoodsType(TYPE_CONTENT);
         goods.setName(NAME_CONTENT);
 

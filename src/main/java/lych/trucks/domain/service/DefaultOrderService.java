@@ -47,10 +47,12 @@ public class DefaultOrderService implements OrderService {
         order.setDriver(order.getDriver() == null ? saved.getDriver() : order.getDriver());
         order.setCompleted(order.isCompleted() ? order.isCompleted() : saved.isCompleted());
         order.setIssued(order.isIssued() ? order.isIssued() : saved.isIssued());
-        order.setDownloadAddress(order.getDownloadAddress() == null ? saved.getDownloadAddress() : order.getDownloadAddress());
+        order.setDownloadAddress(order.getDownloadAddress() == null ? saved.getDownloadAddress()
+                : order.getDownloadAddress());
         order.setGoods(order.getGoods() == null ? saved.getGoods() : order.getGoods());
         order.setPaid(order.isPaid() ? order.isPaid() : saved.isPaid());
-        order.setUnloadingAddress(order.getUnloadingAddress() == null ? saved.getUnloadingAddress() : order.getUnloadingAddress());
+        order.setUnloadingAddress(order.getUnloadingAddress() == null ? saved.getUnloadingAddress()
+                : order.getUnloadingAddress());
 
         return orderRepository.save(order);
     }

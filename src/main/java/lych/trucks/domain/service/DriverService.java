@@ -12,10 +12,10 @@ public interface DriverService {
     /**
      * Method for find all drivers.
      *
-     * @param ownerId Company ownerId.
+     * @param companyId Company companyId.
      * @return List of drivers.
      */
-    List<Driver> fetchAll(Integer ownerId);
+    List<Driver> fetchAll(Integer companyId);
 
     /**
      * Method for create driver.
@@ -33,7 +33,6 @@ public interface DriverService {
      * @return found driver.
      */
     Driver fetch(Integer id);
-
 
     /**
      * Method for delete some driver.

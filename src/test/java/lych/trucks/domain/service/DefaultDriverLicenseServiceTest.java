@@ -46,7 +46,7 @@ public class DefaultDriverLicenseServiceTest {
 
         final DriverLicense driverLicense = new DriverLicense();
 
-        driverLicense.setOwnerIdForDriverLicense(driverIdContent);
+        driverLicense.setDriverLicenseFk(driverIdContent);
         driverLicense.setCategory(CATEGORY_CONTENT);
         driverLicense.setSpecialNotes(SPECIAL_NOTES_CONTENT);
 
@@ -71,14 +71,6 @@ public class DefaultDriverLicenseServiceTest {
     public void fetch() {
 
         assertThat(driverLicenseService.fetch(driverIdContent).getCategory(), Is.is(CATEGORY_CONTENT));
-    }
-
-    @Test
-    public void delete() {
-
-        driverLicenseService.delete(driverLicenseIdContent);
-
-        assertThat(driverLicenseRepository.exists(driverLicenseIdContent), Is.is(false));
     }
 
     @Test

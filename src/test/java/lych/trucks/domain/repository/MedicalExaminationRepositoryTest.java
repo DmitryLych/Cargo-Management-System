@@ -33,25 +33,28 @@ public class MedicalExaminationRepositoryTest {
         validateContent = new Date();
 
         medicalExamination.setValidate(validateContent);
-        medicalExamination.setOwnerIdForMedicalExamination(DRIVER_ID_CONTENT);
+        medicalExamination.setMedicalExaminationFk(DRIVER_ID_CONTENT);
 
         medicalExaminationRepository.save(medicalExamination);
     }
 
     @Test
-    public void findByOwnerIdForMedicalExamination() {
+    public void findByMedicalExaminationFk() {
 
-        final MedicalExamination foundMedicalExamination = medicalExaminationRepository.findByOwnerIdForMedicalExamination(DRIVER_ID_CONTENT);
+        final MedicalExamination foundMedicalExamination = medicalExaminationRepository
+                .findByMedicalExaminationFk(DRIVER_ID_CONTENT);
 
-        assertThat(foundMedicalExamination.getOwnerIdForMedicalExamination(), Is.is(DRIVER_ID_CONTENT));
+        assertThat(foundMedicalExamination.getMedicalExaminationFk(), Is.is(DRIVER_ID_CONTENT));
     }
 
     @Test
     public void findByValidate() {
 
-        final List<MedicalExamination> foundMedicalExaminations = medicalExaminationRepository.findByValidate(validateContent);
+        final List<MedicalExamination> foundMedicalExaminations = medicalExaminationRepository.
+                findByValidate(validateContent);
 
-        foundMedicalExaminations.forEach(medicalExamination -> assertThat(medicalExamination.getValidate(), Is.is(validateContent)));
+        foundMedicalExaminations.forEach(medicalExamination -> assertThat(medicalExamination.getValidate(),
+                Is.is(validateContent)));
     }
 
 }

@@ -45,7 +45,7 @@ public class DefaultInsurancePolicyServiceTest {
 
         final InsurancePolicy insurancePolicy = new InsurancePolicy();
 
-        insurancePolicy.setOwnerIdForInsurancePolicy(driverIdContent);
+        insurancePolicy.setInsurancePolicyFk(driverIdContent);
         insurancePolicy.setType(TYPE_CONTENT);
         insurancePolicy.setValidate(VALIDATE_CONTENT);
 

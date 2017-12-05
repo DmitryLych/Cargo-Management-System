@@ -6,7 +6,6 @@ import lych.trucks.domain.model.Order;
 import lych.trucks.domain.repository.CustomerRepository;
 import lych.trucks.domain.repository.DriverRepository;
 import lych.trucks.domain.repository.OrderRepository;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class DefaultOrderServiceTest {
 
     @Autowired
@@ -49,17 +51,21 @@ public class DefaultOrderServiceTest {
     @Before
     public void setUp() {
 
-        customerIdContent = customerRepository.save(new Customer()).getCustomerId();
+        final Customer customer = customerRepository.save(new Customer());
 
-        driverIdContent = driverRepository.save(new Driver()).getId();
+        customerIdContent = customer.getCustomerId();
+
+        final Driver driver = driverRepository.save(new Driver());
+
+        driverIdContent = driver.getId();
 
         final Order order = new Order();
 
         order.setCompleted(COMPLETED_CONTENT);
         order.setIssued(ISSUED_CONTENT);
         order.setPaid(PAID_CONTENT);
-        order.setOwnerCustomerId(customerIdContent);
-        order.setOwnerIdDriver(driverIdContent);
+        order.setCustomer(customer);
+        order.setDriver(driver);
 
         orderIdContent = orderRepository.save(order).getOrderId();
     }
@@ -75,7 +81,7 @@ public class DefaultOrderServiceTest {
 
         final Integer newId = orderService.create(customerIdContent, order).getOrderId();
 
-        assertThat(orderRepository.findOne(newId).getDownloadAddress(), Is.is(content));
+        assertThat(orderRepository.findOne(newId).getDownloadAddress(), is(content));
     }
 
     @Test
@@ -89,13 +95,13 @@ public class DefaultOrderServiceTest {
 
         orderService.update(order);
 
-        assertThat(orderRepository.findOne(orderIdContent).getDownloadAddress(), Is.is(content));
+        assertThat(orderRepository.findOne(orderIdContent).getDownloadAddress(), is(content));
     }
 
     @Test
     public void fetch() {
 
-        assertThat(orderService.fetch(orderIdContent).isCompleted(), Is.is(COMPLETED_CONTENT));
+        assertThat(orderService.fetch(orderIdContent).isCompleted(), is(COMPLETED_CONTENT));
     }
 
     @Test
@@ -103,7 +109,7 @@ public class DefaultOrderServiceTest {
 
         orderService.delete(orderIdContent);
 
-        assertThat(orderRepository.exists(orderIdContent), Is.is(false));
+        assertThat(orderRepository.exists(orderIdContent), is(false));
     }
 
     @Test
@@ -111,7 +117,7 @@ public class DefaultOrderServiceTest {
 
         final List<Order> orders = orderService.fetchByDriver(driverIdContent);
 
-        orders.forEach(order -> assertThat(order.getOwnerIdDriver(), Is.is(driverIdContent)));
+        orders.forEach(order -> assertThat(order.getDriver().getId(), is(driverIdContent)));
     }
 
     @Test
@@ -119,30 +125,30 @@ public class DefaultOrderServiceTest {
 
         final List<Order> orders = orderService.fetchByCustomer(customerIdContent);
 
-        orders.forEach(order -> assertThat(order.getOwnerCustomerId(), Is.is(customerIdContent)));
+        orders.forEach(order -> assertThat(order.getCustomer().getCustomerId(), is(customerIdContent)));
     }
 
     @Test
-    public void fetchByIssued() {
+    public void fetchByIssuedAndCustomer() {
 
-        final List<Order> orders = orderService.fetchByIssued(ISSUED_CONTENT, customerIdContent);
+        final List<Order> orders = orderService.fetchByIssuedAndCustomer(ISSUED_CONTENT, customerIdContent);
 
-        orders.forEach(order -> assertThat(order.getOwnerCustomerId(), Is.is(customerIdContent)));
+        orders.forEach(order -> assertThat(order.isIssued(), is(ISSUED_CONTENT)));
     }
 
     @Test
-    public void fetchByCompleted() {
+    public void fetchByCompletedAndCustomer() {
 
-        final List<Order> orders = orderService.fetchByCompleted(COMPLETED_CONTENT, customerIdContent);
+        final List<Order> orders = orderService.fetchByCompletedAndCustomer(COMPLETED_CONTENT, customerIdContent);
 
-        orders.forEach(order -> assertThat(order.getOwnerCustomerId(), Is.is(customerIdContent)));
+        orders.forEach(order -> assertThat(order.isCompleted(), is(COMPLETED_CONTENT)));
     }
 
     @Test
-    public void fetchByPaid() {
+    public void fetchByPaidAndCustomer() {
 
-        final List<Order> orders = orderService.fetchByPaid(PAID_CONTENT, customerIdContent);
+        final List<Order> orders = orderService.fetchByPaidAndCustomer(PAID_CONTENT, customerIdContent);
 
-        orders.forEach(order -> assertThat(order.getOwnerCustomerId(), Is.is(customerIdContent)));
+        orders.forEach(order -> assertThat(order.isPaid(), is(PAID_CONTENT)));
     }
 }

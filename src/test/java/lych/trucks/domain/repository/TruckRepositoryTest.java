@@ -29,7 +29,7 @@ public class TruckRepositoryTest {
 
         final Truck truck = new Truck();
 
-        truck.setOwnerIdForTruck(DRIVER_ID_CONTENT);
+        truck.setTruckFk(DRIVER_ID_CONTENT);
         truck.setBodyNumber(BODY_NUMBER_CONTENT);
         truck.setRegisterSign(REGISTER_SIGN_CONTENT);
 
@@ -37,11 +37,11 @@ public class TruckRepositoryTest {
     }
 
     @Test
-    public void findByOwnerIdForTruck() {
+    public void findByTruckFk() {
 
-        final Truck foundTruck = truckRepository.findByOwnerIdForTruck(DRIVER_ID_CONTENT);
+        final Truck foundTruck = truckRepository.findByTruckFk(DRIVER_ID_CONTENT);
 
-        assertThat(foundTruck.getOwnerIdForTruck(), Is.is(DRIVER_ID_CONTENT));
+        assertThat(foundTruck.getTruckFk(), Is.is(DRIVER_ID_CONTENT));
     }
 
     @Test

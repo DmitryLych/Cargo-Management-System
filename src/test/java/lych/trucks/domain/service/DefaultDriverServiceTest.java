@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class DefaultDriverServiceTest {
 
     @Autowired
@@ -29,35 +31,46 @@ public class DefaultDriverServiceTest {
     @Autowired
     private CompanyRepository companyRepository;
 
-    private static final String LAST_NAME_CONTENT = "last name";
-
-    private static final String FIRST_NAME_CONTENT = "first name";
-
-    private static final boolean STATUS_CONTENT = true;
-
     private Integer companyIdContent;
 
     private Integer driverIdContent;
 
+    private static final String FIRST_NAME_CONTENT = "firstName";
+
+    private static final String LAST_NAME_CONTENT = "lastName";
+
+    private static final boolean STATUS_CONTENT = true;
+
     @Before
     public void setUp() {
 
-        companyIdContent = companyRepository.save(new Company()).getId();
+        final Company company = companyRepository.save(new Company());
+
+        companyIdContent = company.getId();
 
         final Driver driver = new Driver();
 
-        driver.setOwnerId(companyIdContent);
+        driver.setStatus(STATUS_CONTENT);
         driver.setFirstName(FIRST_NAME_CONTENT);
         driver.setLastName(LAST_NAME_CONTENT);
-        driver.setStatus(STATUS_CONTENT);
+        driver.setCompany(company);
 
         driverIdContent = driverRepository.save(driver).getId();
+
+    }
+
+    @Test
+    public void fetchAll() {
+
+        final List<Driver> drivers = driverService.fetchAll(companyIdContent);
+
+        drivers.forEach(driver -> assertThat(driver.getCompany().getId(), Is.is(companyIdContent)));
     }
 
     @Test
     public void create() {
 
-        final String content = "newName";
+        final String content = "new";
 
         final Driver driver = new Driver();
 
@@ -85,15 +98,15 @@ public class DefaultDriverServiceTest {
     @Test
     public void update() {
 
-        final String content = "new first name";
-
         final Driver driver = driverRepository.findOne(driverIdContent);
 
-        driver.setFirstName(content);
+        final String content = "updated";
+
+        driver.setLastName(content);
 
         driverService.update(driver);
 
-        assertThat(driverRepository.findOne(driverIdContent).getFirstName(), Is.is(content));
+        assertThat(driverRepository.findOne(driverIdContent).getLastName(), Is.is(content));
     }
 
     @Test
@@ -101,7 +114,7 @@ public class DefaultDriverServiceTest {
 
         final List<Driver> drivers = driverService.fetchByLastNameAndFirstName(LAST_NAME_CONTENT, FIRST_NAME_CONTENT);
 
-        drivers.forEach(driver -> assertThat(driver.isStatus(), Is.is(true)));
+        drivers.forEach(driver -> assertThat(driver.getLastName(), Is.is(LAST_NAME_CONTENT)));
     }
 
     @Test
@@ -109,7 +122,7 @@ public class DefaultDriverServiceTest {
 
         final List<Driver> drivers = driverService.fetchByStatus(STATUS_CONTENT);
 
-        drivers.forEach(driver -> assertThat(driver.getLastName(), Is.is(LAST_NAME_CONTENT)));
+        drivers.forEach(driver -> assertThat(driver.isStatus(), Is.is(true)));
     }
 
 }

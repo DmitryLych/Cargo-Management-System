@@ -33,7 +33,7 @@ public class TrailerRepositoryTest {
 
         final Trailer trailer = new Trailer();
 
-        trailer.setOwnerIdForTrailer(TRUCK_ID_CONTENT);
+        trailer.setTrailerFk(TRUCK_ID_CONTENT);
         trailer.setRegisterSign(REGISTER_SIGN_CONTENT);
         trailer.setTrailerType(TYPE_CONTENT);
         trailer.setVolume(VOLUME_CONTENT);
@@ -42,11 +42,11 @@ public class TrailerRepositoryTest {
     }
 
     @Test
-    public void findByOwnerIdForTrailer() {
+    public void findByTrailerFk() {
 
-        final Trailer foundTrailer = trailerRepository.findByOwnerIdForTrailer(TRUCK_ID_CONTENT);
+        final Trailer foundTrailer = trailerRepository.findByTrailerFk(TRUCK_ID_CONTENT);
 
-        assertThat(foundTrailer.getOwnerIdForTrailer(), Is.is(TRUCK_ID_CONTENT));
+        assertThat(foundTrailer.getTrailerFk(), Is.is(TRUCK_ID_CONTENT));
     }
 
     @Test
@@ -72,5 +72,4 @@ public class TrailerRepositoryTest {
 
         foundTrailers.forEach(trailer -> assertThat(trailer.getTrailerType(), Is.is(TYPE_CONTENT)));
     }
-
 }

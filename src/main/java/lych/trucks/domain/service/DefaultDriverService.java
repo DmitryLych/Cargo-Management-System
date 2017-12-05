@@ -24,11 +24,11 @@ public class DefaultDriverService implements DriverService {
     private final CompanyService companyService;
 
     @Override
-    public List<Driver> fetchAll(final Integer ownerId) {
+    public List<Driver> fetchAll(final Integer companyId) {
 
         log.info("Drivers displayed.");
 
-        return driverRepository.findAllByCompany(ownerId);
+        return driverRepository.findAllByCompany(companyId);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class DefaultDriverService implements DriverService {
         driver.setMedicalExamination(driver.getMedicalExamination() == null ? saved.getMedicalExamination()
                 : driver.getMedicalExamination());
         driver.setTruck(driver.getTruck() == null ? saved.getTruck() : driver.getTruck());
-        driver.setYearOfIssue(driver.getYearOfIssue() == null ? saved.getYearOfIssue() : driver.getYearOfIssue());
+        driver.setYearOfIssue(saved.getYearOfIssue());
 
         return driverRepository.save(driver);
     }
