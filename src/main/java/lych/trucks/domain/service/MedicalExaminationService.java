@@ -2,7 +2,6 @@ package lych.trucks.domain.service;
 
 import lych.trucks.domain.model.MedicalExamination;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,5 +40,5 @@ public interface MedicalExaminationService {
      * @param validate MedicalExamination validate.
      * @return list of medical examination which found.
      */
-    List<MedicalExamination> fetchByValidate(Date validate);
+    List<MedicalExamination> fetchByValidate(long validate);
 }

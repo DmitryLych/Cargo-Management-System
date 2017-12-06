@@ -78,4 +78,38 @@ public class TruckController {
 
         return ResponseEntity.ok().body(response);
     }
+
+    /**
+     * Method for fetch truck by register sign.
+     *
+     * @param registerSign {@link Truck} registerSign.
+     * @return {@link TruckResponse} response mapped from truck which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/register/{registerSign}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchByRegisterSign(@PathVariable final String registerSign) {
+
+        final Truck truckToResponse = truckService.fetchByRegisterSign(registerSign);
+
+        final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch truck by body number.
+     *
+     * @param bodyNumber {@link Truck} bodyNumber.
+     * @return {@link TruckResponse} response mapped from truck which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/number/{bodyNumber}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchByBodyNumber(final String bodyNumber) {
+
+        final Truck truckToResponse = truckService.fetchByBodyNumber(bodyNumber);
+
+        final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
 }

@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Rest controller for {@link MedicalExamination}.
  */
@@ -76,6 +79,28 @@ public class MedicalExaminationController {
         final MedicalExamination medicalExaminationToResponse = medicalExaminationService.fetch(driverId);
 
         final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse, MedicalExaminationResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch medical examinations by validate.
+     *
+     * @param validate {@link MedicalExamination} validate.
+     * @return list of {@link MedicalExaminationResponse} response mapped from list of medical examinations
+     * which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/medical/{validate}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchByValidate(@PathVariable final long validate) {
+
+        final List<MedicalExamination> medicalExaminationsToResponse = medicalExaminationService
+                .fetchByValidate(validate);
+
+        final List<MedicalExaminationResponse> response = new ArrayList<>();
+
+        medicalExaminationsToResponse.forEach(medicalExamination -> response.add(dozerBeanMapper
+                .map(medicalExamination, MedicalExaminationResponse.class)));
 
         return ResponseEntity.ok().body(response);
     }

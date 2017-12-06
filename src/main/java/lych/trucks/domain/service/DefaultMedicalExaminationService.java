@@ -62,10 +62,14 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
     }
 
     @Override
-    public List<MedicalExamination> fetchByValidate(final Date validate) {
+    public List<MedicalExamination> fetchByValidate(final long validate) {
 
         log.info("Medical examination fetched by validate.");
 
-        return medicalExaminationRepository.findByValidate(validate);
+        final Date date = new Date();
+
+        date.setTime(validate);
+
+        return medicalExaminationRepository.findByValidate(date);
     }
 }

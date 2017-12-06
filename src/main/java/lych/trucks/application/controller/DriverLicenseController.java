@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Rest controller for {@link DriverLicense}.
  */
@@ -34,13 +37,15 @@ public class DriverLicenseController {
      * @return DriverLicenseResponse response mapped from created driver license.
      */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses", method = RequestMethod.POST)
-    public ResponseEntity create(@PathVariable final Integer driverId, @RequestBody final DriverLicenseRequest request) {
+    public ResponseEntity create(@PathVariable final Integer driverId,
+                                 @RequestBody final DriverLicenseRequest request) {
 
         final DriverLicense driverLicenseToCreate = dozerBeanMapper.map(request, DriverLicense.class);
 
         final DriverLicense driverLicenseToResponse = driverLicenseService.create(driverId, driverLicenseToCreate);
 
-        final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse, DriverLicenseResponse.class);
+        final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse,
+                DriverLicenseResponse.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -56,7 +61,8 @@ public class DriverLicenseController {
 
         final DriverLicense driverLicenseToResponse = driverLicenseService.fetch(driverId);
 
-        final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse, DriverLicenseResponse.class);
+        final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse,
+                DriverLicenseResponse.class);
 
         return ResponseEntity.ok().body(response);
     }
@@ -75,6 +81,47 @@ public class DriverLicenseController {
         final DriverLicense driverLicenseToResponse = driverLicenseService.update(driverLicenseToUpdate);
 
         final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse, DriverLicenseResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch driver licenses by category.
+     *
+     * @param category {@link DriverLicense} category.
+     * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses/{category}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchByCategory(@PathVariable final String category) {
+
+        final List<DriverLicense> driverLicensesToResponse = driverLicenseService.fetchByCategory(category);
+
+        final List<DriverLicenseResponse> response = new ArrayList<>();
+
+        driverLicensesToResponse.forEach(driverLicense -> response.add(dozerBeanMapper.map(driverLicense,
+                DriverLicenseResponse.class)));
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch driver licenses by special notes.
+     *
+     * @param specialNotes {@link DriverLicense} specialNotes.
+     * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses/{specialNotes}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchBySpecialNotes(@PathVariable final String specialNotes) {
+
+        final List<DriverLicense> driverLicensesToResponse = driverLicenseService
+                .fetchBySpecialNotes(specialNotes);
+
+        final List<DriverLicenseResponse> response = new ArrayList<>();
+
+        driverLicensesToResponse.forEach(driverLicense -> response.add(dozerBeanMapper.map(driverLicense,
+                DriverLicenseResponse.class)));
 
         return ResponseEntity.ok().body(response);
     }

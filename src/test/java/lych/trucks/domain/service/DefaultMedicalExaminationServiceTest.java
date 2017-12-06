@@ -30,7 +30,7 @@ public class DefaultMedicalExaminationServiceTest {
     @Autowired
     private MedicalExaminationService medicalExaminationService;
 
-    private static final Date VALIDATE_CONTENT = new Date();
+    private static final long VALIDATE_CONTENT = 123;
 
     private Integer driverIdContent;
 
@@ -44,7 +44,12 @@ public class DefaultMedicalExaminationServiceTest {
         final MedicalExamination medicalExamination = new MedicalExamination();
 
         medicalExamination.setMedicalExaminationFk(driverIdContent);
-        medicalExamination.setValidate(VALIDATE_CONTENT);
+
+        final Date date = new Date();
+
+        date.setTime(VALIDATE_CONTENT);
+
+        medicalExamination.setValidate(date);
 
         medicalExaminationIdContent = medicalExaminationRepository.save(medicalExamination).getId();
     }
@@ -70,7 +75,7 @@ public class DefaultMedicalExaminationServiceTest {
     public void fetch() {
 
         assertThat(medicalExaminationService.fetch(driverIdContent).getValidate().getTime(),
-                Is.is(VALIDATE_CONTENT.getTime()));
+                Is.is(VALIDATE_CONTENT));
     }
 
 
@@ -98,6 +103,6 @@ public class DefaultMedicalExaminationServiceTest {
                 .fetchByValidate(VALIDATE_CONTENT);
 
         medicalExaminations.forEach(medicalExamination -> assertThat(medicalExamination.getValidate().getTime(),
-                Is.is(VALIDATE_CONTENT.getTime())));
+                Is.is(VALIDATE_CONTENT)));
     }
 }

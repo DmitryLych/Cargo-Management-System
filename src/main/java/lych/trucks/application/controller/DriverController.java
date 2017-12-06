@@ -73,9 +73,7 @@ public class DriverController {
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable final Integer driverId) {
 
-        final Driver driverToResponse = driverService.fetch(driverId);
-
-        driverService.delete(driverId);
+        final Driver driverToResponse = driverService.delete(driverId);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
@@ -111,7 +109,30 @@ public class DriverController {
 
         final List<DriverResponse> response = new ArrayList<>();
 
-        driverService.fetchAll(companyId).forEach(driver -> response.add(dozerBeanMapper.map(driver, DriverResponse.class)));
+        final List<Driver> driversToResponse = driverService.fetchAll(companyId);
+
+        driversToResponse.forEach(driver ->
+                response.add(dozerBeanMapper.map(driver, DriverResponse.class)));
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch drivers by last name and first name.
+     *
+     * @param lastName  {@link Driver} lastName.
+     * @param firstName {@link Driver} firstName.
+     * @return list of {@link DriverResponse} response mapped from list of drivers which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{lastName}/{firstName}", method = RequestMethod.GET)
+    public ResponseEntity fetchByLastNameAndFirstName(@PathVariable final String lastName,
+                                                      @PathVariable final String firstName) {
+
+        final List<DriverResponse> response = new ArrayList<>();
+
+        final List<Driver> driversToResponse = driverService.fetchByLastNameAndFirstName(lastName, firstName);
+
+        driversToResponse.forEach(driver -> response.add(dozerBeanMapper.map(driver, DriverResponse.class)));
 
         return ResponseEntity.ok().body(response);
     }

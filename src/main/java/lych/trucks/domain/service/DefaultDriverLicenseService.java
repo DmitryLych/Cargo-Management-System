@@ -47,6 +47,7 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
     }
 
     @Override
+    @SuppressWarnings("PMD.NPathComplexity")
     public DriverLicense update(final DriverLicense driverLicense) {
 
         log.info("Driver license updated.");

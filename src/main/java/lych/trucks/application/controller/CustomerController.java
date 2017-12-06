@@ -107,8 +107,26 @@ public class CustomerController {
 
         final List<CustomerResponse> response = new ArrayList<>();
 
-        customerService.fetchAll().forEach(customer ->
+        final List<Customer> customersToResponse = customerService.fetchAll();
+
+        customersToResponse.forEach(customer ->
                 response.add(dozerBeanMapper.map(customer, CustomerResponse.class)));
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch customer by customer name.
+     *
+     * @param customerName {@link Customer} customerName.
+     * @return {@link CustomerResponse} response mapped from customer which found.
+     */
+    @RequestMapping(value = "/customers/{customerName}", method = RequestMethod.GET)
+    public ResponseEntity fetchByCustomerName(@PathVariable final String customerName) {
+
+        final Customer customerToResponse = customerService.fetchByCustomerName(customerName);
+
+        final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
 
         return ResponseEntity.ok().body(response);
     }

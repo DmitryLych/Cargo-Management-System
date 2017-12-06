@@ -90,9 +90,7 @@ public class CompanyController {
     @RequestMapping(value = "/companies/{companyId}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable final Integer companyId) {
 
-        final Company companyToResponse = companyService.fetch(companyId);
-
-        companyService.delete(companyId);
+        final Company companyToResponse = companyService.delete(companyId);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
@@ -109,8 +107,26 @@ public class CompanyController {
 
         final List<CompanyResponse> response = new ArrayList<>();
 
-        companyService.fetchAll().forEach(company ->
+        final List<Company> companiesToResponse = companyService.fetchAll();
+
+        companiesToResponse.forEach(company ->
                 response.add(dozerBeanMapper.map(company, CompanyResponse.class)));
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch company by company name.
+     *
+     * @param companyName {@link Company} companyName.
+     * @return {@link CompanyResponse} response mapped from company which found.
+     */
+    @RequestMapping(value = "/companies/{companyName}}", method = RequestMethod.GET)
+    public ResponseEntity fetchByCompanyName(@PathVariable final String companyName) {
+
+        final Company companyToResponse = companyService.fetchByCompanyName(companyName);
+
+        final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
         return ResponseEntity.ok().body(response);
     }

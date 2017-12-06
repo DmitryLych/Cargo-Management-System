@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Rest controller for {@link Trailer}.
  */
@@ -80,6 +83,64 @@ public class TrailerController {
         final Trailer trailerToResponse = trailerService.fetch(truckId);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch some trailer by register sign.
+     *
+     * @param registerSign {@link Trailer} registerSign.
+     * @return {@link TrailerResponse} response mapped from trailer which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers/register/"
+            + "{registerSign}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchByRegisterSign(@PathVariable final String registerSign) {
+
+        final Trailer trailerToResponse = trailerService.fetchByRegisterSign(registerSign);
+
+        final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch trailers by volume.
+     *
+     * @param volume {@link Trailer} volume.
+     * @return list of {@link TrailerResponse} response mapped from list of trailers which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers/volume/"
+            + "{volume}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchByVolume(@PathVariable final Integer volume) {
+
+        final List<Trailer> trailersToResponse = trailerService.fetchByVolume(volume);
+
+        final List<TrailerResponse> response = new ArrayList<>();
+
+        trailersToResponse.forEach(trailer -> response.add(dozerBeanMapper.map(trailer, TrailerResponse.class)));
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch trailers by type.
+     *
+     * @param type {@link Trailer} trailerType.
+     * @return list of {@link TrailerResponse} response mapped from list of trailers which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers/type/"
+            + "{type}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchByType(@PathVariable final String type) {
+
+        final List<Trailer> trailersToResponse = trailerService.fetchByType(type);
+
+        final List<TrailerResponse> response = new ArrayList<>();
+
+        trailersToResponse.forEach(trailer -> response.add(dozerBeanMapper.map(trailer, TrailerResponse.class)));
 
         return ResponseEntity.ok().body(response);
     }
