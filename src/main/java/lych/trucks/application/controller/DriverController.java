@@ -124,7 +124,8 @@ public class DriverController {
      * @param firstName {@link Driver} firstName.
      * @return list of {@link DriverResponse} response mapped from list of drivers which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{lastName}/{firstName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/companies/{companyId}/drivers/lastName/{lastName}/firstName/{firstName}",
+            method = RequestMethod.GET)
     public ResponseEntity fetchByLastNameAndFirstName(@PathVariable final String lastName,
                                                       @PathVariable final String firstName) {
 

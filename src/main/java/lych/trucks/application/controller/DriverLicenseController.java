@@ -91,7 +91,7 @@ public class DriverLicenseController {
      * @param category {@link DriverLicense} category.
      * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses/{category}",
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses/category/{category}",
             method = RequestMethod.GET)
     public ResponseEntity fetchByCategory(@PathVariable final String category) {
 
@@ -111,7 +111,7 @@ public class DriverLicenseController {
      * @param specialNotes {@link DriverLicense} specialNotes.
      * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses/{specialNotes}",
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses/specialNotes/{specialNotes}",
             method = RequestMethod.GET)
     public ResponseEntity fetchBySpecialNotes(@PathVariable final String specialNotes) {
 

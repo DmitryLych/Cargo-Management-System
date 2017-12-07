@@ -55,7 +55,7 @@ public class DriverRequest implements Serializable {
     private TruckRequest truck;
 
     @JsonProperty
-    private InsurancePolicyRequest insurancePolicy;
+    private List<InsurancePolicyRequest> insurancePolicies;
 
     @JsonProperty
     private CompanyRequest company;

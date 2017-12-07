@@ -121,7 +121,7 @@ public class CompanyController {
      * @param companyName {@link Company} companyName.
      * @return {@link CompanyResponse} response mapped from company which found.
      */
-    @RequestMapping(value = "/companies/{companyName}}", method = RequestMethod.GET)
+    @RequestMapping(value = "/companies/companyName/{companyName}", method = RequestMethod.GET)
     public ResponseEntity fetchByCompanyName(@PathVariable final String companyName) {
 
         final Company companyToResponse = companyService.fetchByCompanyName(companyName);

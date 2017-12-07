@@ -88,7 +88,7 @@ public class CustomerController {
      * @return {@link CustomerResponse} response mapped from deleted customer.
      */
     @RequestMapping(value = "/customers/{customerId}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(final Integer customerId) {
+    public ResponseEntity delete(@PathVariable final Integer customerId) {
 
         final Customer customerToResponse = customerService.delete(customerId);
 
@@ -121,7 +121,7 @@ public class CustomerController {
      * @param customerName {@link Customer} customerName.
      * @return {@link CustomerResponse} response mapped from customer which found.
      */
-    @RequestMapping(value = "/customers/{customerName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/customers/customerName/{customerName}", method = RequestMethod.GET)
     public ResponseEntity fetchByCustomerName(@PathVariable final String customerName) {
 
         final Customer customerToResponse = customerService.fetchByCustomerName(customerName);

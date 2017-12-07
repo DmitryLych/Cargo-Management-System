@@ -55,7 +55,7 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
         final MedicalExamination saved = medicalExaminationRepository.findOne(medicalExamination.getId());
 
         medicalExamination.setMedicalExaminationFk(saved.getMedicalExaminationFk());
-        medicalExamination.setValidate(medicalExamination.getValidate() == null ? saved.getValidate()
+        medicalExamination.setValidate(medicalExamination.getValidate().getTime() == 0 ? saved.getValidate()
                 : medicalExamination.getValidate());
 
         return medicalExaminationRepository.save(medicalExamination);

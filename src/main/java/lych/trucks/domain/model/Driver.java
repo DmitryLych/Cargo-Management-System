@@ -69,9 +69,11 @@ public class Driver implements Serializable {
     @JoinColumn(name = "truck_fk", referencedColumnName = "truck_id")
     private Truck truck;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
-    @JoinColumn(name = "insurance_policy_fk", referencedColumnName = "insurance_policy_id")
-    private InsurancePolicy insurancePolicy;
+    @OneToMany(mappedBy = "driver",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
+    private List<InsurancePolicy> insurancePolicies;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "company_id")

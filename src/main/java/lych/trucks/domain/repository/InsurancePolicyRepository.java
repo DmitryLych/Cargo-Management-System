@@ -19,8 +19,8 @@ public interface InsurancePolicyRepository extends JpaRepository<InsurancePolicy
      * @param driverId {@link Driver}
      * @return insurance policy which found.
      */
-    @Query(value = "SELECT * FROM insurance_policies WHERE insurance_policy_fk=?1", nativeQuery = true)
-    List<InsurancePolicy> findByInsurancePolicyFk(Integer driverId);
+    @Query(value = "SELECT * FROM insurance_policies WHERE driver_id=?1", nativeQuery = true)
+    List<InsurancePolicy> findAllByDriver(Integer driverId);
 
     /**
      * Method for find insurance policy by validate.

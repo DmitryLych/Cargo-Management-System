@@ -104,7 +104,7 @@ public class TruckController {
      */
     @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/number/{bodyNumber}",
             method = RequestMethod.GET)
-    public ResponseEntity fetchByBodyNumber(final String bodyNumber) {
+    public ResponseEntity fetchByBodyNumber(@PathVariable final String bodyNumber) {
 
         final Truck truckToResponse = truckService.fetchByBodyNumber(bodyNumber);
 

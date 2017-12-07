@@ -90,7 +90,7 @@ public class MedicalExaminationController {
      * @return list of {@link MedicalExaminationResponse} response mapped from list of medical examinations
      * which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/medical/{validate}",
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/medical/validate/{validate}",
             method = RequestMethod.GET)
     public ResponseEntity fetchByValidate(@PathVariable final long validate) {
 

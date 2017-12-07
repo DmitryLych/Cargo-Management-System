@@ -59,7 +59,10 @@ public class InsurancePolicyController {
 
         final List<InsurancePolicyResponse> response = new ArrayList<>();
 
-        insurancePolicyService.fetchAll(driverId).forEach(insurancePolicy -> response.add(dozerBeanMapper.map(insurancePolicy, InsurancePolicyResponse.class)));
+        final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService.fetchAll(driverId);
+
+        insurancePoliciesToResponse.forEach(insurancePolicy -> response.add(dozerBeanMapper.map(insurancePolicy,
+                InsurancePolicyResponse.class)));
 
         return ResponseEntity.ok().body(response);
     }
@@ -104,7 +107,8 @@ public class InsurancePolicyController {
      * @param insuranceId InsurancePolicy insuranceId.
      * @return InsurancePolicyResponse response mapped from deleted insurance policy.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/{insuranceId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/{insuranceId}",
+            method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable final Integer insuranceId) {
 
         final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.fetch(insuranceId);
@@ -112,6 +116,49 @@ public class InsurancePolicyController {
         insurancePolicyService.delete(insuranceId);
 
         final InsurancePolicyResponse response = dozerBeanMapper.map(insurancePolicyToResponse, InsurancePolicyResponse.class);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch insurance policy by validate.
+     *
+     * @param validate {@link InsurancePolicy} validate.
+     * @return list of {@link InsurancePolicyResponse} response mapped from list of insurance policy
+     * which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/validate/{validate}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchByValidate(@PathVariable final long validate) {
+
+        final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService
+                .fetchByValidate(validate);
+
+        final List<InsurancePolicyResponse> response = new ArrayList<>();
+
+        insurancePoliciesToResponse.forEach(insurancePolicy -> response.add(dozerBeanMapper
+                .map(insurancePolicy, InsurancePolicyResponse.class)));
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Method for fetch insurance policy by type.
+     *
+     * @param type {@link InsurancePolicy} type.
+     * @return list of {@link InsurancePolicyResponse} response mapped from list of insurance policy
+     * which found.
+     */
+    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/type/{type}",
+            method = RequestMethod.GET)
+    public ResponseEntity fetchByType(@PathVariable final String type) {
+
+        final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService.fetchByType(type);
+
+        final List<InsurancePolicyResponse> response = new ArrayList<>();
+
+        insurancePoliciesToResponse.forEach(insurancePolicy -> response.add(dozerBeanMapper
+                .map(insurancePolicy, InsurancePolicyResponse.class)));
 
         return ResponseEntity.ok().body(response);
     }

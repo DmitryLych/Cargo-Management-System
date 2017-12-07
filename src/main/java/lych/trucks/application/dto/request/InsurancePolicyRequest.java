@@ -33,5 +33,5 @@ public class InsurancePolicyRequest implements Serializable {
     private double cost;
 
     @JsonProperty
-    private Integer insurancePolicyFk;
+    private DriverRequest driver;
 }

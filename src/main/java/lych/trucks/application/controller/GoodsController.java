@@ -73,7 +73,7 @@ public class GoodsController {
      * @param goodsId {@link Goods} goodsId.
      * @return {@link GoodsResponse} response mapped from deleted goods.
      */
-    @RequestMapping(value = "customers/{customerId}/orders/{orderId}/goods/{goodsId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/customers/{customerId}/orders/{orderId}/goods/{goodsId}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable final Integer goodsId) {
 
         final Goods goodsToResponse = goodsService.delete(goodsId);

@@ -76,8 +76,8 @@ public class DefaultDriverService implements DriverService {
                 : driver.getDriverLicense());
         driver.setOrder(driver.getOrder() == null ? saved.getOrder() : driver.getOrder());
         driver.setFirstName(driver.getFirstName() == null ? saved.getFirstName() : driver.getFirstName());
-        driver.setInsurancePolicy(driver.getInsurancePolicy() == null ? saved.getInsurancePolicy()
-                : driver.getInsurancePolicy());
+        driver.setInsurancePolicies(driver.getInsurancePolicies() == null ? saved.getInsurancePolicies()
+                : driver.getInsurancePolicies());
         driver.setTelephoneNumber(driver.getTelephoneNumber() == null ? saved.getTelephoneNumber()
                 : driver.getTelephoneNumber());
         driver.setEmail(driver.getEmail() == null ? saved.getEmail() : driver.getEmail());

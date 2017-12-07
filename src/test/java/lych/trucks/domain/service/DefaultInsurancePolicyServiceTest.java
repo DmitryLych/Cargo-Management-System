@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class DefaultInsurancePolicyServiceTest {
 
     @Autowired
@@ -34,20 +36,27 @@ public class DefaultInsurancePolicyServiceTest {
 
     private Integer insurancePolicyIdContent;
 
-    private static final Date VALIDATE_CONTENT = new Date();
+    private static final long VALIDATE_CONTENT = 123;
 
     private static final String TYPE_CONTENT = "content";
 
     @Before
     public void setUp() {
 
+        final Date date = new Date();
+
+        date.setTime(VALIDATE_CONTENT);
+
         driverIdContent = driverRepository.save(new Driver()).getId();
 
         final InsurancePolicy insurancePolicy = new InsurancePolicy();
 
-        insurancePolicy.setInsurancePolicyFk(driverIdContent);
+        final Driver saved = driverRepository.findOne(driverIdContent);
+
+        insurancePolicy.setDriver(saved);
         insurancePolicy.setType(TYPE_CONTENT);
-        insurancePolicy.setValidate(VALIDATE_CONTENT);
+
+        insurancePolicy.setValidate(date);
 
         insurancePolicyIdContent = insurancePolicyRepository.save(insurancePolicy).getId();
     }
@@ -108,13 +117,13 @@ public class DefaultInsurancePolicyServiceTest {
         final List<InsurancePolicy> insurancePolicies = insurancePolicyService.fetchByValidate(VALIDATE_CONTENT);
 
         insurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getValidate().getTime(),
-                Is.is(VALIDATE_CONTENT.getTime())));
+                Is.is(VALIDATE_CONTENT)));
     }
 
     @Test
     public void findByType() {
 
-        final List<InsurancePolicy> insurancePolicies = insurancePolicyService.findByType(TYPE_CONTENT);
+        final List<InsurancePolicy> insurancePolicies = insurancePolicyService.fetchByType(TYPE_CONTENT);
 
         insurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getType(), Is.is(TYPE_CONTENT)));
     }

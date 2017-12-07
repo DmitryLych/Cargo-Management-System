@@ -1,8 +1,8 @@
 package lych.trucks.domain.service;
 
+import lych.trucks.application.dto.response.InsurancePolicyResponse;
 import lych.trucks.domain.model.InsurancePolicy;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,7 +51,19 @@ public interface InsurancePolicyService {
      */
     InsurancePolicy update(InsurancePolicy insurancePolicy);
 
-    List<InsurancePolicy> fetchByValidate(Date validate);
+    /**
+     * Method for fetch insurance policies by validate.
+     *
+     * @param validate {@link InsurancePolicy} validate.
+     * @return list of {@link InsurancePolicyResponse} mapped from list of insurance policies which found.
+     */
+    List<InsurancePolicy> fetchByValidate(long validate);
 
-    List<InsurancePolicy> findByType(String type);
+    /**
+     * Method for fetch insurance policies by type.
+     *
+     * @param type {@link InsurancePolicy} type.
+     * @return list of {@link InsurancePolicyResponse} mapped from list of insurance policies which found.
+     */
+    List<InsurancePolicy> fetchByType(String type);
 }
