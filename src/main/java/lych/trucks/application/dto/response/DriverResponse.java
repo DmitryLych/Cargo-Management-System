@@ -30,7 +30,7 @@ public class DriverResponse implements Serializable {
     private String firstName;
 
     @JsonProperty
-    private long yearOfIssue;
+    private Long yearOfIssue;
 
     @JsonProperty
     private String address;

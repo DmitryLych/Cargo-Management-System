@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lombok.NonNull;
 import lych.trucks.domain.model.InsurancePolicy;
 
 import java.io.Serializable;
@@ -24,13 +25,16 @@ public class InsurancePolicyRequest implements Serializable {
     private Integer id;
 
     @JsonProperty
-    private long validate;
+    @NonNull
+    private Long validate;
 
     @JsonProperty
+    @NonNull
     private String type;
 
     @JsonProperty
-    private double cost;
+    @NonNull
+    private Double cost;
 
     @JsonProperty
     private DriverRequest driver;

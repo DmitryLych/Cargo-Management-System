@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lombok.NonNull;
 import lych.trucks.domain.model.Order;
 
 import java.io.Serializable;
@@ -25,12 +26,15 @@ public class OrderRequest implements Serializable {
     private Integer orderId;
 
     @JsonProperty
-    private double coast;
+    @NonNull
+    private Double coast;
 
     @JsonProperty
+    @NonNull
     private String downloadAddress;
 
     @JsonProperty
+    @NonNull
     private String unloadingAddress;
 
     @JsonProperty

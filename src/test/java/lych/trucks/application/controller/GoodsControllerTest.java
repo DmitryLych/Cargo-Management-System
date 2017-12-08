@@ -59,6 +59,10 @@ public class GoodsControllerTest {
 
     private static final String TYPE = "type";
 
+    private static final Double WEIGHT = 12.0;
+
+    private static final Double VOLUME = 11.0;
+
     private static final Integer CUSTOMER_ID = 1;
 
     @Before
@@ -79,13 +83,13 @@ public class GoodsControllerTest {
 
         goodsId = goodsRepository.save(goods).getGoodsId();
 
+        request = new GoodsRequest(NAME, WEIGHT, VOLUME, TYPE);
+
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
     public void create() throws Exception {
-
-        request = new GoodsRequest();
 
         final String content = "new";
 
@@ -102,8 +106,6 @@ public class GoodsControllerTest {
 
     @Test
     public void update() throws Exception {
-
-        request = new GoodsRequest();
 
         final String content = "update";
 

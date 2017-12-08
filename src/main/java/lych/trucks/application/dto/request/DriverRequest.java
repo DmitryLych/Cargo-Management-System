@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lombok.NonNull;
 import lych.trucks.domain.model.Driver;
 
 import java.io.Serializable;
@@ -25,21 +26,26 @@ public class DriverRequest implements Serializable {
     private Integer id;
 
     @JsonProperty
+    @NonNull
     private String lastName;
 
     @JsonProperty
+    @NonNull
     private String firstName;
 
     @JsonProperty
-    private long yearOfIssue;
+    @NonNull
+    private Long yearOfIssue;
 
     @JsonProperty
     private String address;
 
     @JsonProperty
+    @NonNull
     private String telephoneNumber;
 
     @JsonProperty
+    @NonNull
     private String email;
 
     @JsonProperty

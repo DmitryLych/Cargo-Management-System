@@ -77,15 +77,15 @@ public class MedicalExaminationControllerTest {
 
         medicalExaminationId = medicalExaminationRepository.save(medicalExamination).getId();
 
+        request = new MedicalExaminationRequest(VALIDATE.getTime());
+
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
     public void create() throws Exception {
 
-        request = new MedicalExaminationRequest();
-
-        final long content = new Date().getTime();
+        final Long content = new Date().getTime();
 
         request.setValidate(content);
 
@@ -101,8 +101,6 @@ public class MedicalExaminationControllerTest {
 
     @Test
     public void update() throws Exception {
-
-        request = new MedicalExaminationRequest();
 
         final long content = new Date().getTime();
 

@@ -56,6 +56,8 @@ public class InsurancePolicyControllerTest {
 
     private static final String TYPE = "type";
 
+    private static final Double COAST = 1.0;
+
     private Integer driverId;
 
     private Integer insurancePolicyId;
@@ -76,17 +78,18 @@ public class InsurancePolicyControllerTest {
 
         insurancePolicy.setDriver(saved);
         insurancePolicy.setType(TYPE);
+
         insurancePolicy.setValidate(VALIDATE);
 
         insurancePolicyId = insurancePolicyRepository.save(insurancePolicy).getId();
+
+        request = new InsurancePolicyRequest(VALIDATE.getTime(), TYPE, COAST);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
     public void create() throws Exception {
-
-        request = new InsurancePolicyRequest();
 
         final String content = "new";
 
@@ -134,8 +137,6 @@ public class InsurancePolicyControllerTest {
     public void update() throws Exception {
 
         final String content = "update";
-
-        request = new InsurancePolicyRequest();
 
         request.setId(insurancePolicyId);
         request.setType(content);

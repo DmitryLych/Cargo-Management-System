@@ -27,10 +27,10 @@ public class GoodsResponse implements Serializable {
     private String name;
 
     @JsonProperty
-    private double weight;
+    private Double weight;
 
     @JsonProperty
-    private double volume;
+    private Double volume;
 
     @JsonProperty
     private String goodsType;

@@ -73,7 +73,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
         insurancePolicy.setDriver(insurancePolicy.getDriver() == null ? saved.getDriver()
                 : insurancePolicy.getDriver());
-        insurancePolicy.setCost(insurancePolicy.getCost() == 0 ? saved.getCost() : insurancePolicy.getCost());
+        insurancePolicy.setCost(insurancePolicy.getCost() == null ? saved.getCost() : insurancePolicy.getCost());
         insurancePolicy.setType(insurancePolicy.getType() == null ? saved.getType() : insurancePolicy.getType());
         insurancePolicy.setValidate(insurancePolicy.getValidate().getTime() == 0 ? saved.getValidate()
                 : insurancePolicy.getValidate());
@@ -82,7 +82,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     }
 
     @Override
-    public List<InsurancePolicy> fetchByValidate(final long validate) {
+    public List<InsurancePolicy> fetchByValidate(final Long validate) {
 
         log.info("Insurance policy fetched by validate.");
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lombok.NonNull;
 import lych.trucks.domain.model.Customer;
 
 import java.io.Serializable;
@@ -25,12 +26,15 @@ public class CustomerRequest implements Serializable {
     private Integer customerId;
 
     @JsonProperty
+    @NonNull
     private String address;
 
     @JsonProperty
+    @NonNull
     private String customerName;
 
     @JsonProperty
+    @NonNull
     private String email;
 
     @JsonProperty

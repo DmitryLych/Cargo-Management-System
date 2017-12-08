@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lombok.NonNull;
 import lych.trucks.domain.model.Goods;
 
 import java.io.Serializable;
@@ -24,15 +25,19 @@ public class GoodsRequest implements Serializable {
     private Integer goodsId;
 
     @JsonProperty
+    @NonNull
     private String name;
 
     @JsonProperty
-    private double weight;
+    @NonNull
+    private Double weight;
 
     @JsonProperty
-    private double volume;
+    @NonNull
+    private Double volume;
 
     @JsonProperty
+    @NonNull
     private String goodsType;
 
     @JsonProperty

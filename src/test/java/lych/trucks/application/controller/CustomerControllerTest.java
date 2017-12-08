@@ -47,9 +47,9 @@ public class CustomerControllerTest {
 
     private static final String CUSTOMER_NAME = "customer";
 
-    private static final String CREATE_CUSTOMER_NAME = "create";
+    private static final String ADDRESS = "address";
 
-    private static final String UPDATE_CUSTOMER_NAME = "update";
+    private static final String EMAIL = "email";
 
     @Before
     public void setUp() throws Exception {
@@ -62,9 +62,7 @@ public class CustomerControllerTest {
 
         customerId = customerRepository.save(customer).getCustomerId();
 
-        request = new CustomerRequest();
-
-        request.setCustomerName(CREATE_CUSTOMER_NAME);
+        request = new CustomerRequest(ADDRESS, CUSTOMER_NAME, EMAIL);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
@@ -72,19 +70,25 @@ public class CustomerControllerTest {
     @Test
     public void create() throws Exception {
 
+        final String content = "create";
+
+        request.setCustomerName(content);
+
         mockMvc.perform(request(POST, "/customers")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.customerName", is(CREATE_CUSTOMER_NAME)));
+                .andExpect(jsonPath("$.customerName", is(content)));
     }
 
     @Test
     public void update() throws Exception {
 
-        request.setCustomerName(UPDATE_CUSTOMER_NAME);
+        final String content = "update";
+
+        request.setCustomerName(content);
         request.setCustomerId(customerId);
 
         mockMvc.perform(request(PUT, "/customers")
@@ -93,7 +97,9 @@ public class CustomerControllerTest {
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.customerName", is(UPDATE_CUSTOMER_NAME)));
+                .andExpect(jsonPath("$.customerName", is(content)))
+                .andExpect(jsonPath("$.address", is(ADDRESS)))
+                .andExpect(jsonPath("$.email", is(EMAIL)));
     }
 
     @Test

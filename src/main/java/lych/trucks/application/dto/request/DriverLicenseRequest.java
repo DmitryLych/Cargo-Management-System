@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lombok.NonNull;
 import lych.trucks.domain.model.DriverLicense;
 
 import java.io.Serializable;
@@ -25,10 +26,12 @@ public class DriverLicenseRequest implements Serializable {
     private Integer id;
 
     @JsonProperty
+    @NonNull
     private String category;
 
     @JsonProperty
-    private long validate;
+    @NonNull
+    private Long validate;
 
     @JsonProperty
     private String specialNotes;

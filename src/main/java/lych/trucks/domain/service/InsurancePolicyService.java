@@ -57,7 +57,7 @@ public interface InsurancePolicyService {
      * @param validate {@link InsurancePolicy} validate.
      * @return list of {@link InsurancePolicyResponse} mapped from list of insurance policies which found.
      */
-    List<InsurancePolicy> fetchByValidate(long validate);
+    List<InsurancePolicy> fetchByValidate(Long validate);
 
     /**
      * Method for fetch insurance policies by type.

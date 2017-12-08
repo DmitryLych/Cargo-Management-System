@@ -63,6 +63,16 @@ public class TrailerControllerTest {
 
     private static final Integer COMPANY_ID = 1;
 
+    private static final String COLOR = "red";
+
+    private static final Double WEIGHT = 123.0;
+
+    private static final Double LONGEST = 124.0;
+
+    private static final Double HEIGHT = 12.0;
+
+    private static final Long YEAR_OF_ISSUED = 125L;
+
     private TrailerRequest trailerRequest;
 
     @Before
@@ -101,6 +111,9 @@ public class TrailerControllerTest {
 
         trailerId = trailerRepository.save(trailer).getId();
 
+        trailerRequest = new TrailerRequest(REGISTER_SIGN, COLOR, TYPE, WEIGHT, LONGEST,
+                VOLUME, HEIGHT, YEAR_OF_ISSUED);
+
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
@@ -109,9 +122,7 @@ public class TrailerControllerTest {
 
         final String content = "new";
 
-        trailerRequest = new TrailerRequest();
-
-        trailerRequest.setTrailerType(content);
+        trailerRequest.setRegisterSign(content);
 
         mockMvc.perform(request(POST, "/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/trucks/" + truckId + "/trailers")
@@ -120,15 +131,13 @@ public class TrailerControllerTest {
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.trailerType", is(content)));
+                .andExpect(jsonPath("$.registerSign", is(content)));
     }
 
     @Test
     public void update() throws Exception {
 
         final String content = "update";
-
-        trailerRequest = new TrailerRequest();
 
         trailerRequest.setRegisterSign(content);
         trailerRequest.setId(trailerId);

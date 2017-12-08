@@ -33,17 +33,17 @@ public class TrailerResponse implements Serializable {
     private String trailerType;
 
     @JsonProperty
-    private double weight;
+    private Double weight;
 
     @JsonProperty
-    private double longest;
+    private Double longest;
 
     @JsonProperty
     private Integer volume;
 
     @JsonProperty
-    private double height;
+    private Double height;
 
     @JsonProperty
-    private long yearOfIssue;
+    private Long yearOfIssue;
 }

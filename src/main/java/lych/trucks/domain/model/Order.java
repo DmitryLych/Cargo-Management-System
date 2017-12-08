@@ -32,7 +32,7 @@ public class Order implements Serializable {
     private Integer orderId;
 
     @Column(name = "coast")
-    private double coast;
+    private Double coast;
 
     @Column(name = "download_address")
     private String downloadAddress;

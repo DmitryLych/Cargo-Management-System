@@ -24,5 +24,5 @@ public class MedicalExaminationResponse implements Serializable {
     private Integer id;
 
     @JsonProperty
-    private long validate;
+    private Long validate;
 }

@@ -32,10 +32,10 @@ public class Goods implements Serializable {
     private String name;
 
     @Column(name = "weight")
-    private double weight;
+    private Double weight;
 
     @Column(name = "volume")
-    private double volume;
+    private Double volume;
 
     @Column(name = "goods_type")
     private String goodsType;

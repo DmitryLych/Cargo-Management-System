@@ -39,7 +39,7 @@ public class InsurancePolicy implements Serializable {
     private String type;
 
     @Column(name = "cost_of_payment")
-    private double cost;
+    private Double cost;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "driver_id")

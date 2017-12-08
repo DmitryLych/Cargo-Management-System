@@ -53,6 +53,8 @@ public class DriverLicenseControllerTest {
 
     private static final String SPECIAL_NOTES = "notes";
 
+    private static final Long VALIDATE = 123L;
+
     private Integer driverLicenseId;
 
     private Integer driverId;
@@ -83,13 +85,13 @@ public class DriverLicenseControllerTest {
 
         driverLicenseId = driverLicenseRepository.save(driverLicense).getId();
 
+        request = new DriverLicenseRequest(CATEGORY, VALIDATE);
+
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
     public void create() throws Exception {
-
-        request = new DriverLicenseRequest();
 
         final String content = "new";
 
@@ -123,8 +125,6 @@ public class DriverLicenseControllerTest {
     public void update() throws Exception {
 
         final String content = "update";
-
-        request = new DriverLicenseRequest();
 
         request.setId(driverLicenseId);
         request.setSpecialNotes(content);

@@ -2,7 +2,6 @@ package lych.trucks.application.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lych.trucks.application.dto.request.CompanyRequest;
-import lych.trucks.application.dto.response.CompanyResponse;
 import lych.trucks.domain.model.Company;
 import lych.trucks.domain.repository.CompanyRepository;
 import org.junit.Before;
@@ -42,13 +41,15 @@ public class CompanyControllerTest {
     @Autowired
     private CompanyRepository companyRepository;
 
-    private CompanyResponse response;
-
     private CompanyRequest request;
 
     private Integer companyId;
 
     private static final String COMPANY_NAME = "company";
+
+    private static final String ADDRESS = "address";
+
+    private static final String EMAIL = "email";
 
     @Before
     public void setUp() throws Exception {
@@ -61,13 +62,7 @@ public class CompanyControllerTest {
 
         companyId = companyRepository.save(company).getId();
 
-        request = new CompanyRequest();
-
-        request.setCompanyName("request");
-
-        response = new CompanyResponse();
-
-        response.setCompanyName("request");
+        request = new CompanyRequest(COMPANY_NAME, ADDRESS, EMAIL);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
@@ -75,13 +70,19 @@ public class CompanyControllerTest {
     @Test
     public void create() throws Exception {
 
+        final String content = "new";
+
+        request.setCompanyName(content);
+
         mockMvc.perform(request(POST, "/companies")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.companyName", is(response.getCompanyName())));
+                .andExpect(jsonPath("$.companyName", is(request.getCompanyName())))
+                .andExpect(jsonPath("$.address", is(request.getAddress())))
+                .andExpect(jsonPath("$.email", is(request.getEmail())));
     }
 
     @Test
@@ -101,15 +102,15 @@ public class CompanyControllerTest {
         request.setCompanyName("updated");
         request.setId(companyId);
 
-        response.setCompanyName("updated");
-
         mockMvc.perform(request(PUT, "/companies")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyName", is(request.getCompanyName())));
+                .andExpect(jsonPath("$.companyName", is(request.getCompanyName())))
+                .andExpect(jsonPath("$.address", is(request.getAddress())))
+                .andExpect(jsonPath("$.email", is(request.getEmail())));
     }
 
     @Test

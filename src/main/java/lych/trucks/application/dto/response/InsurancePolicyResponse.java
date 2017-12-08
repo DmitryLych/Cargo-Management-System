@@ -24,11 +24,11 @@ public class InsurancePolicyResponse implements Serializable {
     private Integer id;
 
     @JsonProperty
-    private long validate;
+    private Long validate;
 
     @JsonProperty
     private String type;
 
     @JsonProperty
-    private double cost;
+    private Double cost;
 }

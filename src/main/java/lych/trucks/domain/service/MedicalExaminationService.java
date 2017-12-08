@@ -40,5 +40,5 @@ public interface MedicalExaminationService {
      * @param validate MedicalExamination validate.
      * @return list of medical examination which found.
      */
-    List<MedicalExamination> fetchByValidate(long validate);
+    List<MedicalExamination> fetchByValidate(Long validate);
 }

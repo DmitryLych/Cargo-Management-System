@@ -52,6 +52,12 @@ public class OrderControllerTest {
 
     private static final boolean PAID = true;
 
+    private static final Double COAST = 123.0;
+
+    private static final String DOWNLOAD_PLACE = "download";
+
+    private static final String UNLOAD_PLACE = "unload";
+
     private Integer orderId;
 
     private Integer customerId;
@@ -93,6 +99,8 @@ public class OrderControllerTest {
 
         orderId = orderRepository.save(order).getOrderId();
 
+        orderRequest = new OrderRequest(COAST, DOWNLOAD_PLACE, UNLOAD_PLACE);
+
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
@@ -100,8 +108,6 @@ public class OrderControllerTest {
     public void create() throws Exception {
 
         final String content = "content";
-
-        orderRequest = new OrderRequest();
 
         orderRequest.setDownloadAddress(content);
 
@@ -118,8 +124,6 @@ public class OrderControllerTest {
     public void update() throws Exception {
 
         final String content = "update";
-
-        orderRequest = new OrderRequest();
 
         orderRequest.setOrderId(orderId);
         orderRequest.setDownloadAddress(content);

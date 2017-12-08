@@ -56,6 +56,12 @@ public class TruckControllerTest {
 
     private Integer truckId;
 
+    private static final Double WEIGHT = 12.0;
+
+    private static final String COLOR = "black";
+
+    private static final Long YEAR_OF_ISSUE = 12L;
+
     @Before
     public void setUp() throws Exception {
 
@@ -78,17 +84,20 @@ public class TruckControllerTest {
 
         truckId = truckRepository.save(truck).getId();
 
+        truckRequest = new TruckRequest(REGISTER_SIGN, BODY_NUMBER, WEIGHT, COLOR, YEAR_OF_ISSUE);
+
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
     public void create() throws Exception {
 
-        truckRequest = new TruckRequest();
+        final String registerSignContent = "createRegister";
 
-        final String content = "create";
+        final String bodyNumberContent = "createBody";
 
-        truckRequest.setRegisterSign(content);
+        truckRequest.setRegisterSign(registerSignContent);
+        truckRequest.setBodyNumber(bodyNumberContent);
 
         mockMvc.perform(request(POST, "/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/trucks")
@@ -97,13 +106,12 @@ public class TruckControllerTest {
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.registerSign", is(content)));
+                .andExpect(jsonPath("$.registerSign", is(registerSignContent)))
+                .andExpect(jsonPath("$.bodyNumber", is(bodyNumberContent)));
     }
 
     @Test
     public void update() throws Exception {
-
-        truckRequest = new TruckRequest();
 
         final String content = "update";
 

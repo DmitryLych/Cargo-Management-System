@@ -30,11 +30,11 @@ public class TruckResponse implements Serializable {
     private String bodyNumber;
 
     @JsonProperty
-    private double weight;
+    private Double weight;
 
     @JsonProperty
     private String color;
 
     @JsonProperty
-    private long yearOfIssue;
+    private Long yearOfIssue;
 }

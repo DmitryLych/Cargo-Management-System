@@ -38,13 +38,13 @@ public class Trailer implements Serializable {
     private String trailerType;
 
     @Column(name = "weight")
-    private double weight;
+    private Double weight;
 
     @Column(name = "height")
-    private double height;
+    private Double height;
 
     @Column(name = "longest")
-    private double longest;
+    private Double longest;
 
     @Column(name = "volume")
     private Integer volume;

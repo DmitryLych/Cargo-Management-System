@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lombok.NonNull;
 import lych.trucks.domain.model.MedicalExamination;
 
 import java.io.Serializable;
@@ -24,7 +25,8 @@ public class MedicalExaminationRequest implements Serializable {
     private Integer id;
 
     @JsonProperty
-    private long validate;
+    @NonNull
+    private Long validate;
 
     @JsonProperty
     private Integer medicalExaminationFk;

@@ -43,7 +43,7 @@ public class DefaultOrderService implements OrderService {
         final Order saved = orderRepository.findOne(order.getOrderId());
 
         order.setCustomer(saved.getCustomer());
-        order.setCoast(order.getCoast() == 0 ? saved.getCoast() : order.getCoast());
+        order.setCoast(order.getCoast() == null ? saved.getCoast() : order.getCoast());
         order.setDriver(order.getDriver() == null ? saved.getDriver() : order.getDriver());
         order.setCompleted(order.isCompleted() ? order.isCompleted() : saved.isCompleted());
         order.setIssued(order.isIssued() ? order.isIssued() : saved.isIssued());

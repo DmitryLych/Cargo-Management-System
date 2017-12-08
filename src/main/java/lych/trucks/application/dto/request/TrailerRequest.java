@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
+import lombok.NonNull;
 import lych.trucks.domain.model.Trailer;
 
 import java.io.Serializable;
@@ -24,28 +25,36 @@ public class TrailerRequest implements Serializable {
     private Integer id;
 
     @JsonProperty
+    @NonNull
     private String registerSign;
 
     @JsonProperty
+    @NonNull
     private String color;
 
     @JsonProperty
+    @NonNull
     private String trailerType;
 
     @JsonProperty
-    private double weight;
+    @NonNull
+    private Double weight;
 
     @JsonProperty
-    private double longest;
+    @NonNull
+    private Double longest;
 
     @JsonProperty
+    @NonNull
     private Integer volume;
 
     @JsonProperty
-    private double height;
+    @NonNull
+    private Double height;
 
     @JsonProperty
-    private long yearOfIssue;
+    @NonNull
+    private Long yearOfIssue;
 
     @JsonProperty
     private Integer trailerFk;

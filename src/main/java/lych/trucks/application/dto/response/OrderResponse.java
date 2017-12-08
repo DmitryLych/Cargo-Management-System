@@ -24,7 +24,7 @@ public class OrderResponse implements Serializable {
     private Integer orderId;
 
     @JsonProperty
-    private double coast;
+    private Double coast;
 
     @JsonProperty
     private String downloadAddress;

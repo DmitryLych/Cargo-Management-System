@@ -62,7 +62,7 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
     }
 
     @Override
-    public List<MedicalExamination> fetchByValidate(final long validate) {
+    public List<MedicalExamination> fetchByValidate(final Long validate) {
 
         log.info("Medical examination fetched by validate.");
 

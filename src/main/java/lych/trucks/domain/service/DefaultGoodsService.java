@@ -45,8 +45,8 @@ public class DefaultGoodsService implements GoodsService {
         goods.setOrder(goods.getOrder() == null ? saved.getOrder() : goods.getOrder());
         goods.setGoodsType(goods.getGoodsType() == null ? saved.getGoodsType() : goods.getGoodsType());
         goods.setName(goods.getName() == null ? saved.getName() : goods.getName());
-        goods.setVolume(goods.getVolume() == 0 ? saved.getVolume() : goods.getVolume());
-        goods.setWeight(goods.getWeight() == 0 ? saved.getWeight() : goods.getWeight());
+        goods.setVolume(goods.getVolume() == null ? saved.getVolume() : goods.getVolume());
+        goods.setWeight(goods.getWeight() == null ? saved.getWeight() : goods.getWeight());
 
         return goodsRepository.save(goods);
     }

@@ -59,6 +59,12 @@ public class DriverControllerTest {
 
     private static final String LAST_NAME = "last";
 
+    private static final Long YEAR_OF_ISSUED = 123L;
+
+    private static final String TELEPHONE_NUMBER = "number";
+
+    private static final String EMAIL = "email";
+
     @Before
     public void setUp() throws Exception {
 
@@ -77,17 +83,17 @@ public class DriverControllerTest {
 
         driverId = driverRepository.save(driver).getId();
 
+        request = new DriverRequest(LAST_NAME, FIRST_NAME, YEAR_OF_ISSUED, TELEPHONE_NUMBER, EMAIL);
+
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
     public void create() throws Exception {
 
-        request = new DriverRequest();
-
         final String content = "new";
 
-        request.setLastName(content);
+        request.setEmail(content);
 
         mockMvc.perform(request(POST, "/companies/" + companyId + "/drivers")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
@@ -95,7 +101,7 @@ public class DriverControllerTest {
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.lastName", is(content)));
+                .andExpect(jsonPath("$.email", is(content)));
     }
 
     @Test
@@ -127,8 +133,6 @@ public class DriverControllerTest {
     public void update() throws Exception {
 
         final String content = "update";
-
-        request = new DriverRequest();
 
         request.setLastName(content);
         request.setId(driverId);

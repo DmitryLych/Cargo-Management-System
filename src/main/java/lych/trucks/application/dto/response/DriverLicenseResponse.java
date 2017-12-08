@@ -27,7 +27,7 @@ public class DriverLicenseResponse implements Serializable {
     private String category;
 
     @JsonProperty
-    private long validate;
+    private Long validate;
 
     @JsonProperty
     private String specialNotes;

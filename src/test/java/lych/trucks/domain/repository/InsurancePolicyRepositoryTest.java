@@ -1,5 +1,6 @@
 package lych.trucks.domain.repository;
 
+import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.InsurancePolicy;
 import org.hamcrest.core.Is;
 import org.junit.Before;
@@ -21,7 +22,10 @@ public class InsurancePolicyRepositoryTest {
     @Autowired
     private InsurancePolicyRepository insurancePolicyRepository;
 
-    private static final Integer DRIVER_ID_CONTENT = 1;
+    @Autowired
+    private DriverRepository driverRepository;
+
+    private Integer driverIdContent;
 
     private static final Date VALIDATE_CONTENT = new Date();
 
@@ -32,9 +36,13 @@ public class InsurancePolicyRepositoryTest {
 
         final InsurancePolicy insurancePolicy = new InsurancePolicy();
 
+        final Driver driver = driverRepository.save(new Driver());
+
+        driverIdContent = driver.getId();
+
         insurancePolicy.setValidate(VALIDATE_CONTENT);
         insurancePolicy.setType(TYPE_CONTENT);
-        insurancePolicy.setCost(DRIVER_ID_CONTENT);
+        insurancePolicy.setDriver(driver);
 
         insurancePolicyRepository.save(insurancePolicy);
     }
@@ -43,10 +51,10 @@ public class InsurancePolicyRepositoryTest {
     public void findAllByDriver() {
 
         final List<InsurancePolicy> foundInsurancePolicies = insurancePolicyRepository.
-                findAllByDriver(DRIVER_ID_CONTENT);
+                findAllByDriver(driverIdContent);
 
         foundInsurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy
-                .getDriver().getId(), Is.is(DRIVER_ID_CONTENT)));
+                .getDriver().getId(), Is.is(driverIdContent)));
     }
 
     @Test
