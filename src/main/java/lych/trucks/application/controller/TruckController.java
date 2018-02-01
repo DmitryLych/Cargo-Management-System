@@ -9,16 +9,19 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Rest controller for {@link Truck}.
  */
 @RestController
+@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{driverId}/trucks")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TruckController {
 
@@ -33,8 +36,8 @@ public class TruckController {
      * @param request  TruckRequest request.
      * @return TruckResponse response mapped from created truck.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks", method = RequestMethod.POST)
-    public ResponseEntity create(@PathVariable final Integer driverId, @RequestBody final TruckRequest request) {
+    @PostMapping
+    public ResponseEntity createTruck(@PathVariable final Integer driverId, @RequestBody final TruckRequest request) {
 
         final Truck truckToCreate = dozerBeanMapper.map(request, Truck.class);
 
@@ -51,8 +54,8 @@ public class TruckController {
      * @param request TruckRequest request.
      * @return TruckResponse response mapped from updated truck.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final TruckRequest request) {
+    @PutMapping
+    public ResponseEntity updateTruck(@RequestBody final TruckRequest request) {
 
         final Truck truckToUpdate = dozerBeanMapper.map(request, Truck.class);
 
@@ -69,8 +72,8 @@ public class TruckController {
      * @param driverId Driver driverId.
      * @return TruckResponse response mapped from found truck.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks", method = RequestMethod.GET)
-    public ResponseEntity fetch(@PathVariable final Integer driverId) {
+    @GetMapping
+    public ResponseEntity fetchTruck(@PathVariable final Integer driverId) {
 
         final Truck truckToResponse = truckService.fetch(driverId);
 
@@ -85,9 +88,8 @@ public class TruckController {
      * @param registerSign {@link Truck} registerSign.
      * @return {@link TruckResponse} response mapped from truck which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/register/{registerSign}",
-            method = RequestMethod.GET)
-    public ResponseEntity fetchByRegisterSign(@PathVariable final String registerSign) {
+    @GetMapping(path = "/register/{registerSign}")
+    public ResponseEntity fetchTruckByRegisterSign(@PathVariable final String registerSign) {
 
         final Truck truckToResponse = truckService.fetchByRegisterSign(registerSign);
 
@@ -102,9 +104,8 @@ public class TruckController {
      * @param bodyNumber {@link Truck} bodyNumber.
      * @return {@link TruckResponse} response mapped from truck which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/number/{bodyNumber}",
-            method = RequestMethod.GET)
-    public ResponseEntity fetchByBodyNumber(@PathVariable final String bodyNumber) {
+    @GetMapping(path = "/number/{bodyNumber}")
+    public ResponseEntity fetchTruckByBodyNumber(@PathVariable final String bodyNumber) {
 
         final Truck truckToResponse = truckService.fetchByBodyNumber(bodyNumber);
 

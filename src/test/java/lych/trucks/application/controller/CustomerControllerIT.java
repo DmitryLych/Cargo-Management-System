@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CustomerControllerTest {
+public class CustomerControllerIT {
 
     private MockMvc mockMvc;
 
@@ -51,8 +51,10 @@ public class CustomerControllerTest {
 
     private static final String EMAIL = "email";
 
+    private static final String CUSTOMER_CONTROLLER_URL = "/cargo/v1/customers";
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         customerRepository.deleteAll();
 
@@ -74,7 +76,7 @@ public class CustomerControllerTest {
 
         request.setCustomerName(content);
 
-        mockMvc.perform(request(POST, "/customers")
+        mockMvc.perform(request(POST, CUSTOMER_CONTROLLER_URL)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -91,7 +93,7 @@ public class CustomerControllerTest {
         request.setCustomerName(content);
         request.setCustomerId(customerId);
 
-        mockMvc.perform(request(PUT, "/customers")
+        mockMvc.perform(request(PUT, CUSTOMER_CONTROLLER_URL)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -105,7 +107,7 @@ public class CustomerControllerTest {
     @Test
     public void fetch() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + customerId)
+        mockMvc.perform(request(GET, CUSTOMER_CONTROLLER_URL + "/" + customerId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -117,7 +119,7 @@ public class CustomerControllerTest {
     @Test
     public void delete() throws Exception {
 
-        mockMvc.perform(request(DELETE, "/customers/" + customerId)
+        mockMvc.perform(request(DELETE, CUSTOMER_CONTROLLER_URL + "/" + customerId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -129,7 +131,7 @@ public class CustomerControllerTest {
     @Test
     public void fetchAll() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers")
+        mockMvc.perform(request(GET, CUSTOMER_CONTROLLER_URL)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -141,7 +143,7 @@ public class CustomerControllerTest {
     @Test
     public void fetchByCustomerName() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/customerName/" + CUSTOMER_NAME)
+        mockMvc.perform(request(GET, CUSTOMER_CONTROLLER_URL + "/customerName/" + CUSTOMER_NAME)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -149,5 +151,4 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.customerId", is(customerId)))
                 .andExpect(jsonPath("$.customerName", is(CUSTOMER_NAME)));
     }
-
 }

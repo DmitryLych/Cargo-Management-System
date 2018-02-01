@@ -1,9 +1,11 @@
 package lych.trucks.application.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lych.trucks.application.dto.request.CompanyRequest;
+import lych.trucks.application.dto.request.DriverRequest;
 import lych.trucks.domain.model.Company;
+import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.repository.CompanyRepository;
+import lych.trucks.domain.repository.DriverRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.transaction.Transactional;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -28,41 +32,60 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CompanyControllerTest {
+@Transactional
+public class DriverControllerIT {
 
     private MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private DriverRepository driverRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private ObjectMapper objectMapper;
 
-    private CompanyRequest request;
+    private DriverRequest request;
+
+    private Integer driverId;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     private Integer companyId;
 
-    private static final String COMPANY_NAME = "company";
+    private static final String FIRST_NAME = "first";
 
-    private static final String ADDRESS = "address";
+    private static final String LAST_NAME = "last";
+
+    private static final Long YEAR_OF_ISSUED = 123L;
+
+    private static final String TELEPHONE_NUMBER = "number";
 
     private static final String EMAIL = "email";
 
+    private static final String COMPANY_CONTROLLER_URL = "/cargo/v1/companies";
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         companyRepository.deleteAll();
+        driverRepository.deleteAll();
 
         final Company company = new Company();
 
-        company.setCompanyName(COMPANY_NAME);
+        final Driver driver = new Driver();
+
+        driver.setFirstName(FIRST_NAME);
+        driver.setLastName(LAST_NAME);
+        driver.setCompany(company);
 
         companyId = companyRepository.save(company).getId();
 
-        request = new CompanyRequest(COMPANY_NAME, ADDRESS, EMAIL);
+        driverId = driverRepository.save(driver).getId();
+
+        request = new DriverRequest(LAST_NAME, FIRST_NAME, YEAR_OF_ISSUED, TELEPHONE_NUMBER, EMAIL);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
@@ -72,82 +95,85 @@ public class CompanyControllerTest {
 
         final String content = "new";
 
-        request.setCompanyName(content);
+        request.setEmail(content);
 
-        mockMvc.perform(request(POST, "/companies")
+        mockMvc.perform(request(POST, COMPANY_CONTROLLER_URL + "/" + companyId + "/drivers")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.companyName", is(request.getCompanyName())))
-                .andExpect(jsonPath("$.address", is(request.getAddress())))
-                .andExpect(jsonPath("$.email", is(request.getEmail())));
+                .andExpect(jsonPath("$.email", is(content)));
     }
 
     @Test
     public void fetch() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + companyId)
+        mockMvc.perform(request(GET, COMPANY_CONTROLLER_URL + "/" + companyId + "/drivers/" + driverId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyName", is(COMPANY_NAME)));
-    }
-
-    @Test
-    public void update() throws Exception {
-
-        request.setCompanyName("updated");
-        request.setId(companyId);
-
-        mockMvc.perform(request(PUT, "/companies")
-                .accept(APPLICATION_JSON_UTF8_VALUE)
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(APPLICATION_JSON_UTF8_VALUE))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.companyName", is(request.getCompanyName())))
-                .andExpect(jsonPath("$.address", is(request.getAddress())))
-                .andExpect(jsonPath("$.email", is(request.getEmail())));
+                .andExpect(jsonPath("$.id", is(driverId)))
+                .andExpect(jsonPath("$.firstName", is(FIRST_NAME)))
+                .andExpect(jsonPath("$.lastName", is(LAST_NAME)));
     }
 
     @Test
     public void delete() throws Exception {
 
-        mockMvc.perform(request(DELETE, "/companies/" + companyId)
+        mockMvc.perform(request(DELETE, COMPANY_CONTROLLER_URL + "/" + companyId + "/drivers/" + driverId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        assertThat(companyRepository.exists(companyId), is(false));
+        assertThat(driverRepository.exists(driverId), is(false));
+    }
 
+    @Test
+    public void update() throws Exception {
+
+        final String content = "update";
+
+        request.setLastName(content);
+        request.setId(driverId);
+
+        mockMvc.perform(request(PUT, COMPANY_CONTROLLER_URL + "/" + companyId + "/drivers")
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(driverId)))
+                .andExpect(jsonPath("$.lastName", is(content)));
     }
 
     @Test
     public void fetchAll() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/")
+        mockMvc.perform(request(GET, COMPANY_CONTROLLER_URL + "/" + companyId + "/drivers")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].id", is(companyId)))
-                .andExpect(jsonPath("$.[0].companyName", is(COMPANY_NAME)));
+                .andExpect(jsonPath("$.[0].id", is(driverId)))
+                .andExpect(jsonPath("$.[0].lastName", is(LAST_NAME)))
+                .andExpect(jsonPath("$.[0].firstName", is(FIRST_NAME)));
     }
 
     @Test
-    public void fetchByCompanyName() throws Exception {
+    public void fetchByLastNameAndFirstName() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/companyName/" + COMPANY_NAME)
+        mockMvc.perform(request(GET, COMPANY_CONTROLLER_URL + "/" + companyId + "/drivers/lastName/"
+                + LAST_NAME + "/firstName/"
+                + FIRST_NAME)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(companyId)))
-                .andExpect(jsonPath("$.companyName", is(COMPANY_NAME)));
+                .andExpect(jsonPath("$.[0].id", is(driverId)))
+                .andExpect(jsonPath("$.[0].lastName", is(LAST_NAME)))
+                .andExpect(jsonPath("$.[0].firstName", is(FIRST_NAME)));
     }
-
 }

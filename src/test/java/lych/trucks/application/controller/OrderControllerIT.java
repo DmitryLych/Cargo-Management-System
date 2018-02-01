@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class OrderControllerTest {
+public class OrderControllerIT {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -75,7 +75,7 @@ public class OrderControllerTest {
     private MockMvc mockMvc;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         customerRepository.deleteAll();
         driverRepository.deleteAll();
@@ -111,7 +111,7 @@ public class OrderControllerTest {
 
         orderRequest.setDownloadAddress(content);
 
-        mockMvc.perform(request(POST, "/customers/" + customerId + "/orders")
+        mockMvc.perform(request(POST, "/cargo/v1/customers/" + customerId + "/orders")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(orderRequest))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -128,7 +128,7 @@ public class OrderControllerTest {
         orderRequest.setOrderId(orderId);
         orderRequest.setDownloadAddress(content);
 
-        mockMvc.perform(request(PUT, "/customers/" + customerId + "/orders")
+        mockMvc.perform(request(PUT, "/cargo/v1/customers/" + customerId + "/orders")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(orderRequest))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -141,7 +141,7 @@ public class OrderControllerTest {
     @Test
     public void fetch() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + customerId + "/orders/" + orderId)
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + customerId + "/orders/" + orderId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -155,7 +155,7 @@ public class OrderControllerTest {
     @Test
     public void delete() throws Exception {
 
-        mockMvc.perform(request(DELETE, "/customers/" + customerId + "/orders/" + orderId)
+        mockMvc.perform(request(DELETE, "/cargo/v1/customers/" + customerId + "/orders/" + orderId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -167,7 +167,7 @@ public class OrderControllerTest {
     @Test
     public void fetchByDriver() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + customerId + "/orders/driver/" + driverId)
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + customerId + "/orders/driver/" + driverId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -181,7 +181,7 @@ public class OrderControllerTest {
     @Test
     public void fetchByCustomer() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + customerId + "/orders")
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + customerId + "/orders")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -195,7 +195,7 @@ public class OrderControllerTest {
     @Test
     public void fetchByIssuedAndCustomer() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + customerId + "/orders/issued/" + ISSUED)
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + customerId + "/orders/issued/" + ISSUED)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -209,7 +209,7 @@ public class OrderControllerTest {
     @Test
     public void fetchByCompletedAndCustomer() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + customerId + "/orders/completed/"
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + customerId + "/orders/completed/"
                 + COMPLETED)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -224,7 +224,7 @@ public class OrderControllerTest {
     @Test
     public void fetchByPaidAndCustomer() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + customerId + "/orders/paid/" + PAID)
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + customerId + "/orders/paid/" + PAID)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -234,5 +234,4 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.[0].completed", is(COMPLETED)))
                 .andExpect(jsonPath("$.[0].issued", is(ISSUED)));
     }
-
 }

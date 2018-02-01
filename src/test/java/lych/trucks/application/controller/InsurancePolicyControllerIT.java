@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class InsurancePolicyControllerTest {
+public class InsurancePolicyControllerIT {
 
     private MockMvc mockMvc;
 
@@ -65,7 +65,7 @@ public class InsurancePolicyControllerTest {
     private static final Integer COMPANY_ID = 1;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         driverRepository.deleteAll();
         insurancePolicyRepository.deleteAll();
@@ -95,7 +95,7 @@ public class InsurancePolicyControllerTest {
 
         request.setType(content);
 
-        mockMvc.perform(request(POST, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(POST, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/insurance")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
@@ -108,7 +108,7 @@ public class InsurancePolicyControllerTest {
     @Test
     public void fetchAll() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/insurance")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -122,7 +122,7 @@ public class InsurancePolicyControllerTest {
     @Test
     public void fetch() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/insurance/" + insurancePolicyId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -141,7 +141,7 @@ public class InsurancePolicyControllerTest {
         request.setId(insurancePolicyId);
         request.setType(content);
 
-        mockMvc.perform(request(PUT, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(PUT, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/insurance")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
@@ -156,7 +156,7 @@ public class InsurancePolicyControllerTest {
     @Test
     public void delete() throws Exception {
 
-        mockMvc.perform(request(DELETE, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(DELETE, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/insurance/" + insurancePolicyId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -169,7 +169,7 @@ public class InsurancePolicyControllerTest {
     @Test
     public void fetchByValidate() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/insurance/validate/" + VALIDATE.getTime())
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -183,7 +183,7 @@ public class InsurancePolicyControllerTest {
     @Test
     public void fetchByType() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/insurance/type/" + TYPE)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))

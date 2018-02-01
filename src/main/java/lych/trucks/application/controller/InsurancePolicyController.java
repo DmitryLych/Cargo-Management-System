@@ -9,19 +9,26 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Rest controller for {@link InsurancePolicy}.
  */
 @RestController
+@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{driverId}/insurance")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class InsurancePolicyController {
 
@@ -36,8 +43,9 @@ public class InsurancePolicyController {
      * @param request  InsurancePolicyRequest request.
      * @return InsurancePolicyResponse response mapped from created insurance policy.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance", method = RequestMethod.POST)
-    public ResponseEntity create(@PathVariable final Integer driverId, @RequestBody final InsurancePolicyRequest request) {
+    @PostMapping
+    public ResponseEntity createInsurancePolicy(@PathVariable final Integer driverId,
+                                                @RequestBody final InsurancePolicyRequest request) {
 
         final InsurancePolicy insurancePolicyToCreate = dozerBeanMapper.map(request, InsurancePolicy.class);
 
@@ -54,15 +62,16 @@ public class InsurancePolicyController {
      * @param driverId Driver driverId.
      * @return List of InsurancePolicyResponse response mapped from List of InsurancePolicy.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance", method = RequestMethod.GET)
-    public ResponseEntity fetchAll(@PathVariable final Integer driverId) {
-
-        final List<InsurancePolicyResponse> response = new ArrayList<>();
+    @GetMapping
+    public ResponseEntity fetchAllInsurancePolicies(@PathVariable final Integer driverId) {
 
         final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService.fetchAll(driverId);
 
-        insurancePoliciesToResponse.forEach(insurancePolicy -> response.add(dozerBeanMapper.map(insurancePolicy,
-                InsurancePolicyResponse.class)));
+        final List<InsurancePolicyResponse> response = Optional.ofNullable(insurancePoliciesToResponse)
+                .map(insurancePolicies -> insurancePolicies.stream()
+                        .map(insurancePolicy -> dozerBeanMapper.map(insurancePolicy, InsurancePolicyResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -73,8 +82,8 @@ public class InsurancePolicyController {
      * @param insuranceId InsurancePolicy insuranceId.
      * @return InsurancePolicyResponse response mapped from found insurance policy.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/{insuranceId}", method = RequestMethod.GET)
-    public ResponseEntity fetch(@PathVariable final Integer insuranceId) {
+    @GetMapping(path = "/{insuranceId}")
+    public ResponseEntity fetchInsurancePolicy(@PathVariable final Integer insuranceId) {
 
         final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.fetch(insuranceId);
 
@@ -89,8 +98,8 @@ public class InsurancePolicyController {
      * @param request InsurancePolicyRequest.
      * @return InsurancePolicyResponse response mapped from updated insurance policy.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final InsurancePolicyRequest request) {
+    @PutMapping
+    public ResponseEntity updateInsurancePolicy(@RequestBody final InsurancePolicyRequest request) {
 
         final InsurancePolicy insurancePolicyToUpdate = dozerBeanMapper.map(request, InsurancePolicy.class);
 
@@ -107,13 +116,10 @@ public class InsurancePolicyController {
      * @param insuranceId InsurancePolicy insuranceId.
      * @return InsurancePolicyResponse response mapped from deleted insurance policy.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/{insuranceId}",
-            method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable final Integer insuranceId) {
+    @DeleteMapping(path = "/{insuranceId}")
+    public ResponseEntity deleteInsurancePolicy(@PathVariable final Integer insuranceId) {
 
-        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.fetch(insuranceId);
-
-        insurancePolicyService.delete(insuranceId);
+        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.delete(insuranceId);
 
         final InsurancePolicyResponse response = dozerBeanMapper.map(insurancePolicyToResponse, InsurancePolicyResponse.class);
 
@@ -127,17 +133,17 @@ public class InsurancePolicyController {
      * @return list of {@link InsurancePolicyResponse} response mapped from list of insurance policy
      * which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/validate/{validate}",
-            method = RequestMethod.GET)
-    public ResponseEntity fetchByValidate(@PathVariable final long validate) {
+    @GetMapping(path = "/validate/{validate}")
+    public ResponseEntity fetchInsurancePoliciesByValidate(@PathVariable final long validate) {
 
         final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService
                 .fetchByValidate(validate);
 
-        final List<InsurancePolicyResponse> response = new ArrayList<>();
-
-        insurancePoliciesToResponse.forEach(insurancePolicy -> response.add(dozerBeanMapper
-                .map(insurancePolicy, InsurancePolicyResponse.class)));
+        final List<InsurancePolicyResponse> response = Optional.ofNullable(insurancePoliciesToResponse)
+                .map(insurancePolicies -> insurancePolicies.stream()
+                        .map(insurancePolicy -> dozerBeanMapper.map(insurancePolicy, InsurancePolicyResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -149,16 +155,16 @@ public class InsurancePolicyController {
      * @return list of {@link InsurancePolicyResponse} response mapped from list of insurance policy
      * which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/insurance/type/{type}",
-            method = RequestMethod.GET)
-    public ResponseEntity fetchByType(@PathVariable final String type) {
+    @GetMapping(path = "/type/{type}")
+    public ResponseEntity fetchInsurancePoliciesByType(@PathVariable final String type) {
 
         final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService.fetchByType(type);
 
-        final List<InsurancePolicyResponse> response = new ArrayList<>();
-
-        insurancePoliciesToResponse.forEach(insurancePolicy -> response.add(dozerBeanMapper
-                .map(insurancePolicy, InsurancePolicyResponse.class)));
+        final List<InsurancePolicyResponse> response = Optional.ofNullable(insurancePoliciesToResponse)
+                .map(insurancePolicies -> insurancePolicies.stream()
+                        .map(insurancePolicy -> dozerBeanMapper.map(insurancePolicy, InsurancePolicyResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }

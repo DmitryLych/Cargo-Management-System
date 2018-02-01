@@ -9,20 +9,27 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Rest controller for {@link Company}.
  */
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequestMapping("/cargo/v1/companies")
 public class CompanyController {
 
     private final CompanyService companyService;
@@ -35,8 +42,8 @@ public class CompanyController {
      * @param request CompanyRequest request.
      * @return CompanyResponse response mapped from created company.
      */
-    @RequestMapping(value = "/companies", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody final CompanyRequest request) {
+    @PostMapping
+    public ResponseEntity createCompany(@RequestBody final CompanyRequest request) {
 
         final Company companyToSave = dozerBeanMapper.map(request, Company.class);
 
@@ -53,8 +60,8 @@ public class CompanyController {
      * @param companyId Company companyId.
      * @return CompanyResponse response mapped from found company.
      */
-    @RequestMapping(value = "/companies/{companyId}", method = RequestMethod.GET)
-    public ResponseEntity fetch(@PathVariable final Integer companyId) {
+    @GetMapping(path = "/{companyId}")
+    public ResponseEntity fetchCompany(@PathVariable final Integer companyId) {
 
         final Company companyToResponse = companyService.fetch(companyId);
 
@@ -69,8 +76,8 @@ public class CompanyController {
      * @param request CompanyRequest request.
      * @return CompanyResponse response mapped from updated company.
      */
-    @RequestMapping(value = "/companies", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final CompanyRequest request) {
+    @PutMapping
+    public ResponseEntity updateCompany(@RequestBody final CompanyRequest request) {
 
         final Company companyToUpdate = dozerBeanMapper.map(request, Company.class);
 
@@ -87,8 +94,8 @@ public class CompanyController {
      * @param companyId Company companyId.
      * @return CompanyResponse response mapped from deleted company.
      */
-    @RequestMapping(value = "/companies/{companyId}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable final Integer companyId) {
+    @DeleteMapping(path = "/{companyId}")
+    public ResponseEntity deleteCompany(@PathVariable final Integer companyId) {
 
         final Company companyToResponse = companyService.delete(companyId);
 
@@ -102,15 +109,16 @@ public class CompanyController {
      *
      * @return List of found companies.
      */
-    @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ResponseEntity fetchAll() {
-
-        final List<CompanyResponse> response = new ArrayList<>();
+    @GetMapping
+    public ResponseEntity fetchAllCompanies() {
 
         final List<Company> companiesToResponse = companyService.fetchAll();
 
-        companiesToResponse.forEach(company ->
-                response.add(dozerBeanMapper.map(company, CompanyResponse.class)));
+        final List<CompanyResponse> response = Optional.ofNullable(companiesToResponse)
+                .map(companies -> companies.stream()
+                        .map(company -> dozerBeanMapper.map(company, CompanyResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -121,8 +129,8 @@ public class CompanyController {
      * @param companyName {@link Company} companyName.
      * @return {@link CompanyResponse} response mapped from company which found.
      */
-    @RequestMapping(value = "/companies/companyName/{companyName}", method = RequestMethod.GET)
-    public ResponseEntity fetchByCompanyName(@PathVariable final String companyName) {
+    @GetMapping(path = "/companyName/{companyName}")
+    public ResponseEntity fetchCompanyByName(@PathVariable final String companyName) {
 
         final Company companyToResponse = companyService.fetchByCompanyName(companyName);
 

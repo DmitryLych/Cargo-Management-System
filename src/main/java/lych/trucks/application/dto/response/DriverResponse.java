@@ -1,8 +1,6 @@
 package lych.trucks.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
 import lych.trucks.domain.model.Driver;
@@ -14,8 +12,6 @@ import java.io.Serializable;
  */
 @Data
 @JsonTypeName(value = "driver")
-@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NONE)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class DriverResponse implements Serializable {
 
     private static final long serialVersionUID = -97860262938426129L;
@@ -42,6 +38,5 @@ public class DriverResponse implements Serializable {
     private String email;
 
     @JsonProperty
-    @JsonInclude
     private boolean status;
 }

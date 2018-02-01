@@ -11,19 +11,26 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Rest controller for {@link Order}.
  */
 @RestController
+@RequestMapping("/cargo/v1/customers/{customerId}/orders")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OrderController {
 
@@ -38,8 +45,8 @@ public class OrderController {
      * @param request    {@link OrderRequest} request.
      * @return {@link OrderResponse} response mapped from created order.
      */
-    @RequestMapping(value = "/customers/{customerId}/orders", method = RequestMethod.POST)
-    public ResponseEntity create(@PathVariable final Integer customerId, @RequestBody final OrderRequest request) {
+    @PostMapping
+    public ResponseEntity createOrder(@PathVariable final Integer customerId, @RequestBody final OrderRequest request) {
 
         final Order orderToCreate = dozerBeanMapper.map(request, Order.class);
 
@@ -56,8 +63,8 @@ public class OrderController {
      * @param request {@link OrderRequest} request.
      * @return {@link OrderResponse} response mapped from updated order.
      */
-    @RequestMapping(value = "/customers/{customerId}/orders", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final OrderRequest request) {
+    @PutMapping
+    public ResponseEntity updateOrder(@RequestBody final OrderRequest request) {
 
         final Order orderToUpdate = dozerBeanMapper.map(request, Order.class);
 
@@ -74,8 +81,8 @@ public class OrderController {
      * @param orderId {@link Order} orderId.
      * @return {@link OrderResponse} response mapped from found order.
      */
-    @RequestMapping(value = "/customers/{customerId}/orders/{orderId}", method = RequestMethod.GET)
-    public ResponseEntity fetch(@PathVariable final Integer orderId) {
+    @GetMapping(path = "/{orderId}")
+    public ResponseEntity fetchOrder(@PathVariable final Integer orderId) {
 
         final Order orderToResponse = orderService.fetch(orderId);
 
@@ -90,8 +97,8 @@ public class OrderController {
      * @param orderId {@link Order} orderId.
      * @return {@link OrderResponse} response mapped from deleted order.
      */
-    @RequestMapping(value = "/customers/{customerId}/orders/{orderId}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable final Integer orderId) {
+    @DeleteMapping(path = "/{orderId}")
+    public ResponseEntity deleteOrder(@PathVariable final Integer orderId) {
 
         final Order orderToResponse = orderService.delete(orderId);
 
@@ -106,14 +113,16 @@ public class OrderController {
      * @param driverId {@link Driver}.
      * @return list of {@link OrderResponse} responses mapped from list orders which found.
      */
-    @RequestMapping(value = "/customers/{customerId}/orders/driver/{driverId}", method = RequestMethod.GET)
-    public ResponseEntity fetchByDriver(@PathVariable final Integer driverId) {
+    @GetMapping(path = "/driver/{driverId}")
+    public ResponseEntity fetchOrdersByDriver(@PathVariable final Integer driverId) {
 
         final List<Order> ordersToResponse = orderService.fetchByDriver(driverId);
 
-        final List<OrderResponse> response = new ArrayList<>();
-
-        ordersToResponse.forEach(order -> response.add(dozerBeanMapper.map(order, OrderResponse.class)));
+        final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
+                .map(orders -> orders.stream()
+                        .map(order -> dozerBeanMapper.map(order, OrderResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -124,14 +133,16 @@ public class OrderController {
      * @param customerId {@link Customer} customerId.
      * @return list of {@link OrderResponse} responses mapped from list orders which found.
      */
-    @RequestMapping(value = "/customers/{customerId}/orders", method = RequestMethod.GET)
-    public ResponseEntity fetchByCustomer(@PathVariable final Integer customerId) {
+    @GetMapping
+    public ResponseEntity fetchOrdersByCustomer(@PathVariable final Integer customerId) {
 
         final List<Order> ordersToResponse = orderService.fetchByCustomer(customerId);
 
-        final List<OrderResponse> response = new ArrayList<>();
-
-        ordersToResponse.forEach(order -> response.add(dozerBeanMapper.map(order, OrderResponse.class)));
+        final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
+                .map(orders -> orders.stream()
+                        .map(order -> dozerBeanMapper.map(order, OrderResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -143,15 +154,17 @@ public class OrderController {
      * @param customerId {@link Customer} customerId.
      * @return list of {@link OrderResponse} responses mapped from list orders which found.
      */
-    @RequestMapping(value = "/customers/{customerId}/orders/issued/{issued}", method = RequestMethod.GET)
-    public ResponseEntity fetchByIssuedAndCustomer(@PathVariable final boolean issued,
-                                                   @PathVariable final Integer customerId) {
+    @GetMapping(path = "/issued/{issued}")
+    public ResponseEntity fetchOrdersByIssuedAndCustomer(@PathVariable final boolean issued,
+                                                         @PathVariable final Integer customerId) {
 
         final List<Order> ordersToResponse = orderService.fetchByIssuedAndCustomer(issued, customerId);
 
-        final List<OrderResponse> response = new ArrayList<>();
-
-        ordersToResponse.forEach(order -> response.add(dozerBeanMapper.map(order, OrderResponse.class)));
+        final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
+                .map(orders -> orders.stream()
+                        .map(order -> dozerBeanMapper.map(order, OrderResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -163,15 +176,17 @@ public class OrderController {
      * @param customerId {@link Customer} customerId.
      * @return list of {@link OrderResponse} responses mapped from list orders which found.
      */
-    @RequestMapping(value = "/customers/{customerId}/orders/completed/{completed}", method = RequestMethod.GET)
-    public ResponseEntity fetchByCompletedAndCustomer(@PathVariable final boolean completed,
-                                                      @PathVariable final Integer customerId) {
+    @GetMapping(path = "/completed/{completed}")
+    public ResponseEntity fetchOrdersByCompletedAndCustomer(@PathVariable final boolean completed,
+                                                            @PathVariable final Integer customerId) {
 
         final List<Order> ordersToResponse = orderService.fetchByCompletedAndCustomer(completed, customerId);
 
-        final List<OrderResponse> response = new ArrayList<>();
-
-        ordersToResponse.forEach(order -> response.add(dozerBeanMapper.map(order, OrderResponse.class)));
+        final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
+                .map(orders -> orders.stream()
+                        .map(order -> dozerBeanMapper.map(order, OrderResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -183,15 +198,17 @@ public class OrderController {
      * @param customerId {@link Customer} customerId.
      * @return list of {@link OrderResponse} responses mapped from list orders which found.
      */
-    @RequestMapping(value = "/customers/{customerId}/orders/paid/{paid}", method = RequestMethod.GET)
-    public ResponseEntity fetchByPaidAndCustomer(@PathVariable final boolean paid,
-                                                 @PathVariable final Integer customerId) {
+    @GetMapping(path = "/paid/{paid}")
+    public ResponseEntity fetchOrdersByPaidAndCustomer(@PathVariable final boolean paid,
+                                                       @PathVariable final Integer customerId) {
 
         final List<Order> ordersToResponse = orderService.fetchByPaidAndCustomer(paid, customerId);
 
-        final List<OrderResponse> response = new ArrayList<>();
-
-        ordersToResponse.forEach(order -> response.add(dozerBeanMapper.map(order, OrderResponse.class)));
+        final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
+                .map(orders -> orders.stream()
+                        .map(order -> dozerBeanMapper.map(order, OrderResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
