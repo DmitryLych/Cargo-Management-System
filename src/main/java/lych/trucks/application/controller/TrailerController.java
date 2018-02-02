@@ -9,19 +9,25 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Rest controller for {@link Trailer}.
  */
 @RestController
+@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TrailerController {
 
@@ -37,10 +43,9 @@ public class TrailerController {
      * @param request  TrailerRequest request.
      * @return TrailerResponse response mapped from created trailer.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers",
-            method = RequestMethod.POST)
-    public ResponseEntity create(@PathVariable final Integer driverId,
-                                 @PathVariable final Integer truckId, @RequestBody final TrailerRequest request) {
+    @PostMapping
+    public ResponseEntity createTrailer(@PathVariable final Integer driverId,
+                                        @PathVariable final Integer truckId, @RequestBody final TrailerRequest request) {
 
         final Trailer trailerToCreate = dozerBeanMapper.map(request, Trailer.class);
 
@@ -57,9 +62,8 @@ public class TrailerController {
      * @param request TrailerRequest request.
      * @return TrailerResponse response mapped from updated trailer.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers",
-            method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final TrailerRequest request) {
+    @PutMapping
+    public ResponseEntity updateTrailer(@RequestBody final TrailerRequest request) {
 
         final Trailer trailerToUpdate = dozerBeanMapper.map(request, Trailer.class);
 
@@ -76,9 +80,8 @@ public class TrailerController {
      * @param truckId Truck truckId.
      * @return TrailerResponse response mapped from displayed trailer.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers",
-            method = RequestMethod.GET)
-    public ResponseEntity fetch(@PathVariable final Integer truckId) {
+    @GetMapping
+    public ResponseEntity fetchTrailer(@PathVariable final Integer truckId) {
 
         final Trailer trailerToResponse = trailerService.fetch(truckId);
 
@@ -93,10 +96,8 @@ public class TrailerController {
      * @param registerSign {@link Trailer} registerSign.
      * @return {@link TrailerResponse} response mapped from trailer which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers/register/"
-            + "{registerSign}",
-            method = RequestMethod.GET)
-    public ResponseEntity fetchByRegisterSign(@PathVariable final String registerSign) {
+    @GetMapping(path = "/register/{registerSign}")
+    public ResponseEntity fetchTrailerByRegisterSign(@PathVariable final String registerSign) {
 
         final Trailer trailerToResponse = trailerService.fetchByRegisterSign(registerSign);
 
@@ -111,16 +112,16 @@ public class TrailerController {
      * @param volume {@link Trailer} volume.
      * @return list of {@link TrailerResponse} response mapped from list of trailers which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers/volume/"
-            + "{volume}",
-            method = RequestMethod.GET)
-    public ResponseEntity fetchByVolume(@PathVariable final Integer volume) {
+    @GetMapping(path = "/volume/{volume}")
+    public ResponseEntity fetchTrailersByVolume(@PathVariable final Integer volume) {
 
         final List<Trailer> trailersToResponse = trailerService.fetchByVolume(volume);
 
-        final List<TrailerResponse> response = new ArrayList<>();
-
-        trailersToResponse.forEach(trailer -> response.add(dozerBeanMapper.map(trailer, TrailerResponse.class)));
+        final List<TrailerResponse> response = Optional.ofNullable(trailersToResponse)
+                .map(trailers -> trailers.stream()
+                        .map(trailer -> dozerBeanMapper.map(trailer, TrailerResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -131,16 +132,16 @@ public class TrailerController {
      * @param type {@link Trailer} trailerType.
      * @return list of {@link TrailerResponse} response mapped from list of trailers which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers/type/"
-            + "{type}",
-            method = RequestMethod.GET)
-    public ResponseEntity fetchByType(@PathVariable final String type) {
+    @GetMapping(path = "/type/{type}")
+    public ResponseEntity fetchTrailersByType(@PathVariable final String type) {
 
         final List<Trailer> trailersToResponse = trailerService.fetchByType(type);
 
-        final List<TrailerResponse> response = new ArrayList<>();
-
-        trailersToResponse.forEach(trailer -> response.add(dozerBeanMapper.map(trailer, TrailerResponse.class)));
+        final List<TrailerResponse> response = Optional.ofNullable(trailersToResponse)
+                .map(trailers -> trailers.stream()
+                        .map(trailer -> dozerBeanMapper.map(trailer, TrailerResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }

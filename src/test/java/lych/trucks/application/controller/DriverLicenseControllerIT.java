@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class DriverLicenseControllerTest {
+public class DriverLicenseControllerIT {
 
     private MockMvc mockMvc;
 
@@ -62,7 +62,7 @@ public class DriverLicenseControllerTest {
     private static final Integer COMPANY_ID = 1;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         driverRepository.deleteAll();
         driverLicenseRepository.deleteAll();
@@ -97,7 +97,7 @@ public class DriverLicenseControllerTest {
 
         request.setSpecialNotes(content);
 
-        mockMvc.perform(request(POST, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(POST, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/licenses")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
@@ -110,7 +110,7 @@ public class DriverLicenseControllerTest {
     @Test
     public void fetch() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/licenses")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -129,7 +129,7 @@ public class DriverLicenseControllerTest {
         request.setId(driverLicenseId);
         request.setSpecialNotes(content);
 
-        mockMvc.perform(request(PUT, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(PUT, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/licenses")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
@@ -144,7 +144,7 @@ public class DriverLicenseControllerTest {
     @Test
     public void fetchByCategory() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/licenses/category/" + CATEGORY)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -158,7 +158,7 @@ public class DriverLicenseControllerTest {
     @Test
     public void fetchBySpecialNotes() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/licenses/specialNotes/" + SPECIAL_NOTES)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -168,5 +168,4 @@ public class DriverLicenseControllerTest {
                 .andExpect(jsonPath("$.[0].category", is(CATEGORY)))
                 .andExpect(jsonPath("$.[0].specialNotes", is(SPECIAL_NOTES)));
     }
-
 }

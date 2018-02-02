@@ -9,19 +9,26 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Rest controller for {@link Driver}.
  */
 @RestController
+@RequestMapping("/cargo/v1/companies/{companyId}/drivers")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DriverController {
 
@@ -36,8 +43,8 @@ public class DriverController {
      * @param companyId Company companyId.
      * @return DriverResponse response mapped from created driver.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody final DriverRequest request, @PathVariable final Integer companyId) {
+    @PostMapping
+    public ResponseEntity createDriver(@RequestBody final DriverRequest request, @PathVariable final Integer companyId) {
 
         final Driver driverToSave = dozerBeanMapper.map(request, Driver.class);
 
@@ -54,8 +61,8 @@ public class DriverController {
      * @param driverId Driver driverId.
      * @return DriverResponse response mapped from found driver.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.GET)
-    public ResponseEntity fetch(@PathVariable final Integer driverId) {
+    @GetMapping(path = "/{driverId}")
+    public ResponseEntity fetchDriver(@PathVariable final Integer driverId) {
 
         final Driver driverToResponse = driverService.fetch(driverId);
 
@@ -70,8 +77,8 @@ public class DriverController {
      * @param driverId Driver driverId.
      * @return DriverResponse response mapped from deleted driver.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable final Integer driverId) {
+    @DeleteMapping(path = "/{driverId}")
+    public ResponseEntity deleteDriver(@PathVariable final Integer driverId) {
 
         final Driver driverToResponse = driverService.delete(driverId);
 
@@ -86,8 +93,8 @@ public class DriverController {
      * @param request DriverRequest request.
      * @return DriverResponse response mapped from updated driver.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final DriverRequest request) {
+    @PutMapping
+    public ResponseEntity updateDriver(@RequestBody final DriverRequest request) {
 
         final Driver driverToUpdate = dozerBeanMapper.map(request, Driver.class);
 
@@ -104,15 +111,16 @@ public class DriverController {
      * @param companyId Company companyId.
      * @return List of DriverResponse response mapped from found drivers.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers", method = RequestMethod.GET)
-    public ResponseEntity fetchAll(@PathVariable final Integer companyId) {
-
-        final List<DriverResponse> response = new ArrayList<>();
+    @GetMapping
+    public ResponseEntity fetchAllDrivers(@PathVariable final Integer companyId) {
 
         final List<Driver> driversToResponse = driverService.fetchAll(companyId);
 
-        driversToResponse.forEach(driver ->
-                response.add(dozerBeanMapper.map(driver, DriverResponse.class)));
+        final List<DriverResponse> response = Optional.ofNullable(driversToResponse)
+                .map(drivers -> drivers.stream()
+                        .map(driver -> dozerBeanMapper.map(driver, DriverResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -124,16 +132,17 @@ public class DriverController {
      * @param firstName {@link Driver} firstName.
      * @return list of {@link DriverResponse} response mapped from list of drivers which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/lastName/{lastName}/firstName/{firstName}",
-            method = RequestMethod.GET)
+    @GetMapping(path = "/lastName/{lastName}/firstName/{firstName}")
     public ResponseEntity fetchByLastNameAndFirstName(@PathVariable final String lastName,
                                                       @PathVariable final String firstName) {
 
-        final List<DriverResponse> response = new ArrayList<>();
-
         final List<Driver> driversToResponse = driverService.fetchByLastNameAndFirstName(lastName, firstName);
 
-        driversToResponse.forEach(driver -> response.add(dozerBeanMapper.map(driver, DriverResponse.class)));
+        final List<DriverResponse> response = Optional.ofNullable(driversToResponse)
+                .map(drivers -> drivers.stream()
+                        .map(driver -> dozerBeanMapper.map(driver, DriverResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }

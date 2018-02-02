@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MedicalExaminationControllerTest {
+public class MedicalExaminationControllerIT {
 
     private MockMvc mockMvc;
 
@@ -57,7 +57,7 @@ public class MedicalExaminationControllerTest {
     private Integer driverId;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         driverRepository.deleteAll();
         medicalExaminationRepository.deleteAll();
@@ -89,7 +89,7 @@ public class MedicalExaminationControllerTest {
 
         request.setValidate(content);
 
-        mockMvc.perform(request(POST, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(POST, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/medical")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
@@ -107,7 +107,7 @@ public class MedicalExaminationControllerTest {
         request.setId(medicalExaminationId);
         request.setValidate(content);
 
-        mockMvc.perform(request(PUT, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(PUT, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/medical")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
@@ -121,7 +121,7 @@ public class MedicalExaminationControllerTest {
     @Test
     public void fetch() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/medical")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -134,7 +134,7 @@ public class MedicalExaminationControllerTest {
     @Test
     public void fetchByValidate() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/medical/validate/" + VALIDATE.getTime())
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -143,5 +143,4 @@ public class MedicalExaminationControllerTest {
                 .andExpect(jsonPath("$.[0].id", is(medicalExaminationId)))
                 .andExpect(jsonPath("$.[0].validate", is(VALIDATE.getTime())));
     }
-
 }

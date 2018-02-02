@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CustomerControllerTest {
+public class CustomerControllerIT {
 
     private MockMvc mockMvc;
 
@@ -52,7 +52,7 @@ public class CustomerControllerTest {
     private static final String EMAIL = "email";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         customerRepository.deleteAll();
 
@@ -74,7 +74,7 @@ public class CustomerControllerTest {
 
         request.setCustomerName(content);
 
-        mockMvc.perform(request(POST, "/customers")
+        mockMvc.perform(request(POST, "/cargo/v1/customers")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -91,7 +91,7 @@ public class CustomerControllerTest {
         request.setCustomerName(content);
         request.setCustomerId(customerId);
 
-        mockMvc.perform(request(PUT, "/customers")
+        mockMvc.perform(request(PUT, "/cargo/v1/customers")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -105,7 +105,7 @@ public class CustomerControllerTest {
     @Test
     public void fetch() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + customerId)
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + customerId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -117,7 +117,7 @@ public class CustomerControllerTest {
     @Test
     public void delete() throws Exception {
 
-        mockMvc.perform(request(DELETE, "/customers/" + customerId)
+        mockMvc.perform(request(DELETE, "/cargo/v1/customers/" + customerId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -129,7 +129,7 @@ public class CustomerControllerTest {
     @Test
     public void fetchAll() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers")
+        mockMvc.perform(request(GET, "/cargo/v1/customers")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -141,7 +141,7 @@ public class CustomerControllerTest {
     @Test
     public void fetchByCustomerName() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/customerName/" + CUSTOMER_NAME)
+        mockMvc.perform(request(GET, "/cargo/v1/customers/customerName/" + CUSTOMER_NAME)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -149,5 +149,4 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.customerId", is(customerId)))
                 .andExpect(jsonPath("$.customerName", is(CUSTOMER_NAME)));
     }
-
 }

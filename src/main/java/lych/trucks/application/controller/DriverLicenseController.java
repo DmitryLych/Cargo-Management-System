@@ -9,19 +9,25 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Rest controller for {@link DriverLicense}.
  */
 @RestController
+@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{driverId}/licenses")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DriverLicenseController {
 
@@ -36,9 +42,9 @@ public class DriverLicenseController {
      * @param request  DriverLicenseRequest.
      * @return DriverLicenseResponse response mapped from created driver license.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses", method = RequestMethod.POST)
-    public ResponseEntity create(@PathVariable final Integer driverId,
-                                 @RequestBody final DriverLicenseRequest request) {
+    @PostMapping
+    public ResponseEntity createDriverLicense(@PathVariable final Integer driverId,
+                                              @RequestBody final DriverLicenseRequest request) {
 
         final DriverLicense driverLicenseToCreate = dozerBeanMapper.map(request, DriverLicense.class);
 
@@ -56,8 +62,8 @@ public class DriverLicenseController {
      * @param driverId Driver driverId.
      * @return DriverLicenseResponse response mapped from found driver license.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses", method = RequestMethod.GET)
-    public ResponseEntity fetch(@PathVariable final Integer driverId) {
+    @GetMapping
+    public ResponseEntity fetchDriverLicense(@PathVariable final Integer driverId) {
 
         final DriverLicense driverLicenseToResponse = driverLicenseService.fetch(driverId);
 
@@ -73,8 +79,8 @@ public class DriverLicenseController {
      * @param request DriverLicenseRequest request.
      * @return DriverLicenseResponse response mapped from updated driver license.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody final DriverLicenseRequest request) {
+    @PutMapping
+    public ResponseEntity updateDriverLicense(@RequestBody final DriverLicenseRequest request) {
 
         final DriverLicense driverLicenseToUpdate = dozerBeanMapper.map(request, DriverLicense.class);
 
@@ -91,16 +97,16 @@ public class DriverLicenseController {
      * @param category {@link DriverLicense} category.
      * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses/category/{category}",
-            method = RequestMethod.GET)
-    public ResponseEntity fetchByCategory(@PathVariable final String category) {
+    @GetMapping(path = "/category/{category}")
+    public ResponseEntity fetchDriverLicensesByCategory(@PathVariable final String category) {
 
         final List<DriverLicense> driverLicensesToResponse = driverLicenseService.fetchByCategory(category);
 
-        final List<DriverLicenseResponse> response = new ArrayList<>();
-
-        driverLicensesToResponse.forEach(driverLicense -> response.add(dozerBeanMapper.map(driverLicense,
-                DriverLicenseResponse.class)));
+        final List<DriverLicenseResponse> response = Optional.ofNullable(driverLicensesToResponse)
+                .map(driverLicenses -> driverLicenses.stream()
+                        .map(driverLicense -> dozerBeanMapper.map(driverLicense, DriverLicenseResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }
@@ -111,17 +117,17 @@ public class DriverLicenseController {
      * @param specialNotes {@link DriverLicense} specialNotes.
      * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
      */
-    @RequestMapping(value = "/companies/{companyId}/drivers/{driverId}/licenses/specialNotes/{specialNotes}",
-            method = RequestMethod.GET)
-    public ResponseEntity fetchBySpecialNotes(@PathVariable final String specialNotes) {
+    @GetMapping(path = "/specialNotes/{specialNotes}")
+    public ResponseEntity fetchDriverLicensesBySpecialNotes(@PathVariable final String specialNotes) {
 
         final List<DriverLicense> driverLicensesToResponse = driverLicenseService
                 .fetchBySpecialNotes(specialNotes);
 
-        final List<DriverLicenseResponse> response = new ArrayList<>();
-
-        driverLicensesToResponse.forEach(driverLicense -> response.add(dozerBeanMapper.map(driverLicense,
-                DriverLicenseResponse.class)));
+        final List<DriverLicenseResponse> response = Optional.ofNullable(driverLicensesToResponse)
+                .map(driverLicenses -> driverLicenses.stream()
+                        .map(driverLicense -> dozerBeanMapper.map(driverLicense, DriverLicenseResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
 
         return ResponseEntity.ok().body(response);
     }

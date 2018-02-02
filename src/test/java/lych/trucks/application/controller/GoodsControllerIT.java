@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class GoodsControllerTest {
+public class GoodsControllerIT {
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -66,7 +66,7 @@ public class GoodsControllerTest {
     private static final Integer CUSTOMER_ID = 1;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         orderRepository.deleteAll();
         goodsRepository.deleteAll();
@@ -95,7 +95,7 @@ public class GoodsControllerTest {
 
         request.setName(content);
 
-        mockMvc.perform(request(POST, "/customers/" + CUSTOMER_ID + "/orders/" + orderId + "/goods")
+        mockMvc.perform(request(POST, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/" + orderId + "/goods")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -112,7 +112,7 @@ public class GoodsControllerTest {
         request.setName(content);
         request.setGoodsId(goodsId);
 
-        mockMvc.perform(request(PUT, "/customers/" + CUSTOMER_ID + "/orders/"
+        mockMvc.perform(request(PUT, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
                 + orderId + "/goods")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(request))
@@ -126,7 +126,7 @@ public class GoodsControllerTest {
     @Test
     public void delete() throws Exception {
 
-        mockMvc.perform(request(DELETE, "/customers/" + CUSTOMER_ID + "/orders/"
+        mockMvc.perform(request(DELETE, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
                 + orderId + "/goods/" + goodsId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -139,7 +139,7 @@ public class GoodsControllerTest {
     @Test
     public void fetchAll() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + CUSTOMER_ID + "/orders/" + orderId + "/goods")
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/" + orderId + "/goods")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
@@ -152,7 +152,7 @@ public class GoodsControllerTest {
     @Test
     public void fetch() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + CUSTOMER_ID + "/orders/"
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
                 + orderId + "/goods/" + goodsId)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -166,7 +166,7 @@ public class GoodsControllerTest {
     @Test
     public void fetchByType() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + CUSTOMER_ID + "/orders/"
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
                 + orderId + "/goods/type/" + TYPE)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -179,7 +179,7 @@ public class GoodsControllerTest {
     @Test
     public void fetchByName() throws Exception {
 
-        mockMvc.perform(request(GET, "/customers/" + CUSTOMER_ID + "/orders/"
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
                 + orderId + "/goods/name/" + NAME)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -188,5 +188,4 @@ public class GoodsControllerTest {
                 .andExpect(jsonPath("$.[0].goodsId", is(goodsId)))
                 .andExpect(jsonPath("$.[0].name", is(NAME)));
     }
-
 }

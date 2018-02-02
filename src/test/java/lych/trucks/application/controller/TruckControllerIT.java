@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TruckControllerTest {
+public class TruckControllerIT {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -63,7 +63,7 @@ public class TruckControllerTest {
     private static final Long YEAR_OF_ISSUE = 12L;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         driverRepository.deleteAll();
         truckRepository.deleteAll();
@@ -99,7 +99,7 @@ public class TruckControllerTest {
         truckRequest.setRegisterSign(registerSignContent);
         truckRequest.setBodyNumber(bodyNumberContent);
 
-        mockMvc.perform(request(POST, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(POST, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/trucks")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(truckRequest))
@@ -118,7 +118,7 @@ public class TruckControllerTest {
         truckRequest.setRegisterSign(content);
         truckRequest.setId(truckId);
 
-        mockMvc.perform(request(PUT, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(PUT, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/trucks")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(truckRequest))
@@ -131,7 +131,7 @@ public class TruckControllerTest {
     @Test
     public void fetch() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/trucks")
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -145,7 +145,7 @@ public class TruckControllerTest {
     @Test
     public void fetchByRegisterSign() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/trucks/register/" + REGISTER_SIGN)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -159,7 +159,7 @@ public class TruckControllerTest {
     @Test
     public void fetchByBodyNumber() throws Exception {
 
-        mockMvc.perform(request(GET, "/companies/" + COMPANY_ID + "/drivers/"
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
                 + driverId + "/trucks/number/" + BODY_NUMBER)
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
@@ -169,5 +169,4 @@ public class TruckControllerTest {
                 .andExpect(jsonPath("$.registerSign", is(REGISTER_SIGN)))
                 .andExpect(jsonPath("$.bodyNumber", is(BODY_NUMBER)));
     }
-
 }
