@@ -20,7 +20,7 @@ public class DefaultCompanyService implements CompanyService {
     private final CompanyRepository companyRepository;
 
     @Override
-    public List<Company> fetchAll() {
+    public List<Company> fetchAllCompanies() {
 
         log.info("All companies displayed.");
 

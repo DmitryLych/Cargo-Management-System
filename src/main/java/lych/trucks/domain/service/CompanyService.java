@@ -14,7 +14,7 @@ public interface CompanyService {
      *
      * @return list of companies.
      */
-    List<Company> fetchAll();
+    List<Company> fetchAllCompanies();
 
     /**
      * Method for create company.
