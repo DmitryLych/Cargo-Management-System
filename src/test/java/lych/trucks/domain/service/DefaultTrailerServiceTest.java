@@ -84,7 +84,7 @@ public class DefaultTrailerServiceTest {
 
         final Integer newId;
 
-        newId = trailerService.create(driverIdContent, truckIdContent, trailer).getId();
+        newId = trailerService.createTrailer(driverIdContent, truckIdContent, trailer).getId();
 
         assertThat(trailerRepository.findOne(newId).getTrailerType(), is(content));
     }
@@ -92,7 +92,7 @@ public class DefaultTrailerServiceTest {
     @Test
     public void fetch() {
 
-        assertThat(trailerService.fetch(truckIdContent).getVolume(), is(VOLUME_CONTENT));
+        assertThat(trailerService.fetchTrailer(truckIdContent).getVolume(), is(VOLUME_CONTENT));
     }
 
 
@@ -105,7 +105,7 @@ public class DefaultTrailerServiceTest {
 
         trailer.setRegisterSign(content);
 
-        trailerService.update(trailer);
+        trailerService.updateTrailer(trailer);
 
         assertThat(trailerRepository.findOne(trailerIdContent).getRegisterSign(), is(content));
     }
@@ -113,14 +113,14 @@ public class DefaultTrailerServiceTest {
     @Test
     public void fetchByRegisterSign() {
 
-        assertThat(trailerService.fetchByRegisterSign(REGISTER_SIGN_CONTENT).getRegisterSign(),
+        assertThat(trailerService.fetchTrailerByRegisterSign(REGISTER_SIGN_CONTENT).getRegisterSign(),
                 is(REGISTER_SIGN_CONTENT));
     }
 
     @Test
     public void fetchByVolume() {
 
-        final List<Trailer> trailers = trailerService.fetchByVolume(VOLUME_CONTENT);
+        final List<Trailer> trailers = trailerService.fetchTrailersByVolume(VOLUME_CONTENT);
 
         trailers.forEach(trailer -> assertThat(trailer.getVolume(), is(VOLUME_CONTENT)));
     }
@@ -128,7 +128,7 @@ public class DefaultTrailerServiceTest {
     @Test
     public void fetchByType() {
 
-        final List<Trailer> trailers = trailerService.fetchByType(TYPE_CONTENT);
+        final List<Trailer> trailers = trailerService.fetchTrailersByType(TYPE_CONTENT);
 
         trailers.forEach(trailer -> assertThat(trailer.getTrailerType(), is(TYPE_CONTENT)));
     }

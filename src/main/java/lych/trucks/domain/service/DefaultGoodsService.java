@@ -23,11 +23,11 @@ public class DefaultGoodsService implements GoodsService {
     private final OrderService orderService;
 
     @Override
-    public Goods create(final Integer orderId, final Goods goods) {
+    public Goods createGoods(final Integer orderId, final Goods goods) {
 
         log.info("Goods created.");
 
-        final Order order = orderService.fetch(orderId);
+        final Order order = orderService.fetchOrder(orderId);
 
         goods.setOrder(order);
 
@@ -36,7 +36,7 @@ public class DefaultGoodsService implements GoodsService {
 
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
-    public Goods update(final Goods goods) {
+    public Goods updateGoods(final Goods goods) {
 
         log.info("Goods updated.");
 
@@ -52,7 +52,7 @@ public class DefaultGoodsService implements GoodsService {
     }
 
     @Override
-    public Goods delete(final Integer goodsId) {
+    public Goods deleteGoods(final Integer goodsId) {
 
         log.info("Goods deleted.");
 
@@ -64,7 +64,7 @@ public class DefaultGoodsService implements GoodsService {
     }
 
     @Override
-    public List<Goods> fetchAll(final Integer orderId) {
+    public List<Goods> fetchAllGoods(final Integer orderId) {
 
         log.info("All goods found.");
 
@@ -72,7 +72,7 @@ public class DefaultGoodsService implements GoodsService {
     }
 
     @Override
-    public Goods fetch(final Integer goodsId) {
+    public Goods fetchGoods(final Integer goodsId) {
 
         log.info("Goods found.");
 
@@ -80,7 +80,7 @@ public class DefaultGoodsService implements GoodsService {
     }
 
     @Override
-    public List<Goods> fetchByType(final String goodsType) {
+    public List<Goods> fetchGoodsByType(final String goodsType) {
 
         log.info("Goods fetch by type.");
 
@@ -88,7 +88,7 @@ public class DefaultGoodsService implements GoodsService {
     }
 
     @Override
-    public List<Goods> fetchByName(final String name) {
+    public List<Goods> fetchGoodsByName(final String name) {
 
         log.info("Goods fetch by name.");
 

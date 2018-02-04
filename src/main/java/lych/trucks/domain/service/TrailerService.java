@@ -17,7 +17,7 @@ public interface TrailerService {
      * @param trailer  Trailer trailer.
      * @return created trailer.
      */
-    Trailer create(Integer driverId, Integer truckId, Trailer trailer);
+    Trailer createTrailer(Integer driverId, Integer truckId, Trailer trailer);
 
     /**
      * Method for find trailer.
@@ -25,7 +25,7 @@ public interface TrailerService {
      * @param truckId Truck truckId.
      * @return trailer which found.
      */
-    Trailer fetch(Integer truckId);
+    Trailer fetchTrailer(Integer truckId);
 
     /**
      * Method for update trailer.
@@ -33,7 +33,7 @@ public interface TrailerService {
      * @param trailer Trailer trailer.
      * @return updated trailer.
      */
-    Trailer update(Trailer trailer);
+    Trailer updateTrailer(Trailer trailer);
 
     /**
      * Method for fetch trailer by register sign.
@@ -41,7 +41,7 @@ public interface TrailerService {
      * @param registerSign Trailer registerSign.
      * @return trailer which found.
      */
-    Trailer fetchByRegisterSign(String registerSign);
+    Trailer fetchTrailerByRegisterSign(String registerSign);
 
     /**
      * Method for fetch trailer by volume.
@@ -49,7 +49,7 @@ public interface TrailerService {
      * @param volume Trailer volume.
      * @return list of trailers which found.
      */
-    List<Trailer> fetchByVolume(Integer volume);
+    List<Trailer> fetchTrailersByVolume(Integer volume);
 
     /**
      * Method for fetch trailers by type.
@@ -57,5 +57,5 @@ public interface TrailerService {
      * @param type Trailer type.
      * @return list of trailers which found.
      */
-    List<Trailer> fetchByType(String type);
+    List<Trailer> fetchTrailersByType(String type);
 }

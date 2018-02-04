@@ -66,7 +66,7 @@ public class DefaultGoodsServiceTest {
 
         final Integer newId;
 
-        newId = goodsService.create(orderIdContent, goods).getGoodsId();
+        newId = goodsService.createGoods(orderIdContent, goods).getGoodsId();
 
         assertThat(goodsRepository.findOne(newId).getName(), Is.is(content));
     }
@@ -80,7 +80,7 @@ public class DefaultGoodsServiceTest {
 
         goods.setName(content);
 
-        goodsService.update(goods);
+        goodsService.updateGoods(goods);
 
         assertThat(goodsRepository.findOne(goodsIdContent).getName(), Is.is(content));
     }
@@ -88,7 +88,7 @@ public class DefaultGoodsServiceTest {
     @Test
     public void delete() {
 
-        goodsService.delete(goodsIdContent);
+        goodsService.deleteGoods(goodsIdContent);
 
         assertThat(goodsRepository.exists(goodsIdContent), Is.is(false));
     }
@@ -96,7 +96,7 @@ public class DefaultGoodsServiceTest {
     @Test
     public void fetchAll() {
 
-        final List<Goods> goods = goodsService.fetchAll(orderIdContent);
+        final List<Goods> goods = goodsService.fetchAllGoods(orderIdContent);
 
         goods.forEach(value -> assertThat(value.getName(), Is.is(NAME_CONTENT)));
     }
@@ -104,13 +104,13 @@ public class DefaultGoodsServiceTest {
     @Test
     public void fetch() {
 
-        assertThat(goodsService.fetch(goodsIdContent).getName(), Is.is(NAME_CONTENT));
+        assertThat(goodsService.fetchGoods(goodsIdContent).getName(), Is.is(NAME_CONTENT));
     }
 
     @Test
     public void fetchByType() {
 
-        final List<Goods> goodsList = goodsService.fetchByType(TYPE_CONTENT);
+        final List<Goods> goodsList = goodsService.fetchGoodsByType(TYPE_CONTENT);
 
         goodsList.forEach(goods -> assertThat(goods.getGoodsType(), Is.is(TYPE_CONTENT)));
 
@@ -119,7 +119,7 @@ public class DefaultGoodsServiceTest {
     @Test
     public void fetchByName() {
 
-        final List<Goods> goodsList = goodsService.fetchByName(NAME_CONTENT);
+        final List<Goods> goodsList = goodsService.fetchGoodsByName(NAME_CONTENT);
 
         goodsList.forEach(goods -> assertThat(goods.getName(), Is.is(NAME_CONTENT)));
     }

@@ -17,7 +17,7 @@ public interface GoodsService {
      * @param goods   Goods goods.
      * @return created goods.
      */
-    Goods create(Integer orderId, Goods goods);
+    Goods createGoods(Integer orderId, Goods goods);
 
     /**
      * Method for update goods.
@@ -25,7 +25,7 @@ public interface GoodsService {
      * @param goods Goods goods.
      * @return updated goods.
      */
-    Goods update(Goods goods);
+    Goods updateGoods(Goods goods);
 
     /**
      * Method for delete goods.
@@ -33,7 +33,7 @@ public interface GoodsService {
      * @param goodsId Goods goodsId.
      * @return deleted goods.
      */
-    Goods delete(Integer goodsId);
+    Goods deleteGoods(Integer goodsId);
 
     /**
      * Method for fetch all goods.
@@ -41,7 +41,7 @@ public interface GoodsService {
      * @param orderId {@link Order} orderId.
      * @return list of goods which found.
      */
-    List<Goods> fetchAll(Integer orderId);
+    List<Goods> fetchAllGoods(Integer orderId);
 
     /**
      * Method for fetch some goods by id.
@@ -49,7 +49,7 @@ public interface GoodsService {
      * @param goodsId Goods goodsId.
      * @return goods which found.
      */
-    Goods fetch(Integer goodsId);
+    Goods fetchGoods(Integer goodsId);
 
     /**
      * Method for fetch goods by type.
@@ -57,7 +57,7 @@ public interface GoodsService {
      * @param goodsType Goods goodsType.
      * @return list of goods which found.
      */
-    List<Goods> fetchByType(String goodsType);
+    List<Goods> fetchGoodsByType(String goodsType);
 
     /**
      * Method for fethc goods by name.
@@ -65,5 +65,5 @@ public interface GoodsService {
      * @param name Goods name.
      * @return list of goods which found.
      */
-    List<Goods> fetchByName(String name);
+    List<Goods> fetchGoodsByName(String name);
 }

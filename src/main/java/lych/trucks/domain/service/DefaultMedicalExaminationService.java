@@ -24,23 +24,23 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
     private final DriverService driverService;
 
     @Override
-    public MedicalExamination create(final Integer driverId, final MedicalExamination medicalExamination) {
+    public MedicalExamination createMedicalExamination(final Integer driverId, final MedicalExamination medicalExamination) {
 
         log.info("Medical examination created.");
 
-        final Driver driver = driverService.fetch(driverId);
+        final Driver driver = driverService.fetchDriver(driverId);
 
         medicalExamination.setMedicalExaminationFk(driverId);
 
         driver.setMedicalExamination(medicalExamination);
 
-        driverService.update(driver);
+        driverService.updateDriver(driver);
 
         return medicalExaminationRepository.save(medicalExamination);
     }
 
     @Override
-    public MedicalExamination fetch(final Integer driverId) {
+    public MedicalExamination fetchMedicalExamination(final Integer driverId) {
 
         log.info("Medical examination displayed.");
 
@@ -48,7 +48,7 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
     }
 
     @Override
-    public MedicalExamination update(final MedicalExamination medicalExamination) {
+    public MedicalExamination updateMedicalExamination(final MedicalExamination medicalExamination) {
 
         log.info("Medical examination updated.");
 
@@ -62,7 +62,7 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
     }
 
     @Override
-    public List<MedicalExamination> fetchByValidate(final Long validate) {
+    public List<MedicalExamination> fetchMedicalExaminationByValidate(final Long validate) {
 
         log.info("Medical examination fetched by validate.");
 

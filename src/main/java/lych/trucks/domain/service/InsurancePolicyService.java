@@ -16,7 +16,7 @@ public interface InsurancePolicyService {
      * @param driverId Driver driverId.
      * @return List of insurance polices.
      */
-    List<InsurancePolicy> fetchAll(Integer driverId);
+    List<InsurancePolicy> fetchAllInsurancePolicies(Integer driverId);
 
     /**
      * Method for create Insurance policy.
@@ -25,7 +25,7 @@ public interface InsurancePolicyService {
      * @param insurancePolicy InsurancePolicy insurancePolicy.
      * @return created insurance policy.
      */
-    InsurancePolicy create(Integer driverId, InsurancePolicy insurancePolicy);
+    InsurancePolicy createInsurancePolicy(Integer driverId, InsurancePolicy insurancePolicy);
 
     /**
      * Method for display some insurance policy.
@@ -33,7 +33,7 @@ public interface InsurancePolicyService {
      * @param id InsurancePolicy id.
      * @return found insurance policy.
      */
-    InsurancePolicy fetch(Integer id);
+    InsurancePolicy fetchInsurancePolicy(Integer id);
 
     /**
      * Method for delete insurance policy.
@@ -41,7 +41,7 @@ public interface InsurancePolicyService {
      * @param id InsurancePolicy id.
      * @return deleted insurance policy.
      */
-    InsurancePolicy delete(Integer id);
+    InsurancePolicy deleteInsurancePolicy(Integer id);
 
     /**
      * Method for update insurance policy.
@@ -49,7 +49,7 @@ public interface InsurancePolicyService {
      * @param insurancePolicy InsurancePolicy insurancePolicy.
      * @return updated insurance policy.
      */
-    InsurancePolicy update(InsurancePolicy insurancePolicy);
+    InsurancePolicy updateInsurancePolicy(InsurancePolicy insurancePolicy);
 
     /**
      * Method for fetch insurance policies by validate.
@@ -57,7 +57,7 @@ public interface InsurancePolicyService {
      * @param validate {@link InsurancePolicy} validate.
      * @return list of {@link InsurancePolicyResponse} mapped from list of insurance policies which found.
      */
-    List<InsurancePolicy> fetchByValidate(Long validate);
+    List<InsurancePolicy> fetchInsurancePoliciesByValidate(Long validate);
 
     /**
      * Method for fetch insurance policies by type.
@@ -65,5 +65,5 @@ public interface InsurancePolicyService {
      * @param type {@link InsurancePolicy} type.
      * @return list of {@link InsurancePolicyResponse} mapped from list of insurance policies which found.
      */
-    List<InsurancePolicy> fetchByType(String type);
+    List<InsurancePolicy> fetchInsurancePoliciesByType(String type);
 }

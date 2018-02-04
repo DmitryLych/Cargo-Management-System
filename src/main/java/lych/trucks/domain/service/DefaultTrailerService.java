@@ -23,23 +23,23 @@ public class DefaultTrailerService implements TrailerService {
     private final TruckService truckService;
 
     @Override
-    public Trailer create(final Integer driverId, final Integer truckId, final Trailer trailer) {
+    public Trailer createTrailer(final Integer driverId, final Integer truckId, final Trailer trailer) {
 
         log.info("Trailer created.");
 
-        final Truck truck = truckService.fetch(driverId);
+        final Truck truck = truckService.fetchTruck(driverId);
 
         trailer.setTrailerFk(truckId);
 
         truck.setTrailer(trailer);
 
-        truckService.update(truck);
+        truckService.updateTruck(truck);
 
         return trailerRepository.save(trailer);
     }
 
     @Override
-    public Trailer fetch(final Integer truckId) {
+    public Trailer fetchTrailer(final Integer truckId) {
 
         log.info("Trailer found.");
 
@@ -47,7 +47,7 @@ public class DefaultTrailerService implements TrailerService {
     }
 
     @Override
-    public Trailer update(final Trailer trailer) {
+    public Trailer updateTrailer(final Trailer trailer) {
 
         log.info("Trailer updated.");
 
@@ -68,7 +68,7 @@ public class DefaultTrailerService implements TrailerService {
     }
 
     @Override
-    public Trailer fetchByRegisterSign(final String registerSign) {
+    public Trailer fetchTrailerByRegisterSign(final String registerSign) {
 
         log.info("Trailer fetched by register sign.");
 
@@ -76,7 +76,7 @@ public class DefaultTrailerService implements TrailerService {
     }
 
     @Override
-    public List<Trailer> fetchByVolume(final Integer volume) {
+    public List<Trailer> fetchTrailersByVolume(final Integer volume) {
 
         log.info("Trailer fetched by volume");
 
@@ -84,7 +84,7 @@ public class DefaultTrailerService implements TrailerService {
     }
 
     @Override
-    public List<Trailer> fetchByType(final String type) {
+    public List<Trailer> fetchTrailersByType(final String type) {
 
         log.info("Trailer fetched by type.");
 

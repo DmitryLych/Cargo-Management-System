@@ -16,7 +16,7 @@ public interface DriverLicenseService {
      * @param driverLicense DriverLicense driverLicense.
      * @return created DriverLicense driverLicense.
      */
-    DriverLicense create(Integer driverId, DriverLicense driverLicense);
+    DriverLicense createDriverLicense(Integer driverId, DriverLicense driverLicense);
 
     /**
      * Method for fetch Driver license by id.
@@ -24,7 +24,7 @@ public interface DriverLicenseService {
      * @param driverId Driver driverId.
      * @return found DriverLicense response.
      */
-    DriverLicense fetch(Integer driverId);
+    DriverLicense fetchDriverLicense(Integer driverId);
 
     /**
      * Method for update Driver license.
@@ -32,7 +32,7 @@ public interface DriverLicenseService {
      * @param driverLicense DriverLicense driverLicense.
      * @return updated DriverLicense driverLicense.
      */
-    DriverLicense update(DriverLicense driverLicense);
+    DriverLicense updateDriverLicense(DriverLicense driverLicense);
 
     /**
      * Method for fetch driver licenses by category.
@@ -40,7 +40,7 @@ public interface DriverLicenseService {
      * @param category DriverLicense category.
      * @return list of driver licenses which found.
      */
-    List<DriverLicense> fetchByCategory(String category);
+    List<DriverLicense> fetchDriverLicensesByCategory(String category);
 
     /**
      * Method for fetch driver license by special notes.
@@ -48,5 +48,5 @@ public interface DriverLicenseService {
      * @param specialNotes DriverLicense specialNotes.
      * @return list of driver license which found.
      */
-    List<DriverLicense> fetchBySpecialNotes(String specialNotes);
+    List<DriverLicense> fetchDriverLicensesBySpecialNotes(String specialNotes);
 }

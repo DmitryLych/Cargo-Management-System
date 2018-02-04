@@ -47,7 +47,7 @@ public class CustomerController {
 
         final Customer customerToSave = dozerBeanMapper.map(request, Customer.class);
 
-        final Customer customerToResponse = customerService.create(customerToSave);
+        final Customer customerToResponse = customerService.createCustomer(customerToSave);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
 
@@ -65,7 +65,7 @@ public class CustomerController {
 
         final Customer customerToUpdate = dozerBeanMapper.map(request, Customer.class);
 
-        final Customer customerToResponse = customerService.update(customerToUpdate);
+        final Customer customerToResponse = customerService.updateCustomer(customerToUpdate);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
 
@@ -81,7 +81,7 @@ public class CustomerController {
     @GetMapping(path = "/{customerId}")
     public ResponseEntity fetchCustomer(@PathVariable final Integer customerId) {
 
-        final Customer customerToResponse = customerService.fetch(customerId);
+        final Customer customerToResponse = customerService.fetchCustomer(customerId);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
 
@@ -97,7 +97,7 @@ public class CustomerController {
     @DeleteMapping(path = "/{customerId}")
     public ResponseEntity deleteCustomer(@PathVariable final Integer customerId) {
 
-        final Customer customerToResponse = customerService.delete(customerId);
+        final Customer customerToResponse = customerService.deleteCustomer(customerId);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
 
@@ -112,7 +112,7 @@ public class CustomerController {
     @GetMapping
     public ResponseEntity fetchAllCustomers() {
 
-        final List<Customer> customersToResponse = customerService.fetchAll();
+        final List<Customer> customersToResponse = customerService.fetchAllCustomers();
 
         final List<CustomerResponse> response = Optional.ofNullable(customersToResponse)
                 .map(customers -> customers.stream()
@@ -132,7 +132,7 @@ public class CustomerController {
     @GetMapping(path = "/customerName/{customerName}")
     public ResponseEntity fetchCustomerByCustomerName(@PathVariable final String customerName) {
 
-        final Customer customerToResponse = customerService.fetchByCustomerName(customerName);
+        final Customer customerToResponse = customerService.fetchCustomerByCustomerName(customerName);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
 

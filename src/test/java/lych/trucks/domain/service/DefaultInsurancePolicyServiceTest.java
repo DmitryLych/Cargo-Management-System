@@ -64,7 +64,7 @@ public class DefaultInsurancePolicyServiceTest {
     @Test
     public void fetchAll() {
 
-        final List<InsurancePolicy> insurancePolicies = insurancePolicyService.fetchAll(driverIdContent);
+        final List<InsurancePolicy> insurancePolicies = insurancePolicyService.fetchAllInsurancePolicies(driverIdContent);
 
         insurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getType(), Is.is(TYPE_CONTENT)));
     }
@@ -78,7 +78,7 @@ public class DefaultInsurancePolicyServiceTest {
 
         insurancePolicy.setType(content);
 
-        final Integer newId = insurancePolicyService.create(driverIdContent, insurancePolicy).getId();
+        final Integer newId = insurancePolicyService.createInsurancePolicy(driverIdContent, insurancePolicy).getId();
 
         assertThat(insurancePolicyRepository.findOne(newId).getType(), Is.is(content));
     }
@@ -86,13 +86,13 @@ public class DefaultInsurancePolicyServiceTest {
     @Test
     public void fetch() {
 
-        assertThat(insurancePolicyService.fetch(insurancePolicyIdContent).getType(), Is.is(TYPE_CONTENT));
+        assertThat(insurancePolicyService.fetchInsurancePolicy(insurancePolicyIdContent).getType(), Is.is(TYPE_CONTENT));
     }
 
     @Test
     public void delete() {
 
-        insurancePolicyService.delete(insurancePolicyIdContent);
+        insurancePolicyService.deleteInsurancePolicy(insurancePolicyIdContent);
 
         assertThat(insurancePolicyRepository.exists(insurancePolicyIdContent), Is.is(false));
     }
@@ -106,7 +106,7 @@ public class DefaultInsurancePolicyServiceTest {
 
         insurancePolicy.setType(content);
 
-        insurancePolicyService.update(insurancePolicy);
+        insurancePolicyService.updateInsurancePolicy(insurancePolicy);
 
         assertThat(insurancePolicyRepository.findOne(insurancePolicyIdContent).getType(), Is.is(content));
     }
@@ -114,7 +114,7 @@ public class DefaultInsurancePolicyServiceTest {
     @Test
     public void fetchByValidate() {
 
-        final List<InsurancePolicy> insurancePolicies = insurancePolicyService.fetchByValidate(VALIDATE_CONTENT);
+        final List<InsurancePolicy> insurancePolicies = insurancePolicyService.fetchInsurancePoliciesByValidate(VALIDATE_CONTENT);
 
         insurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getValidate().getTime(),
                 Is.is(VALIDATE_CONTENT)));
@@ -123,7 +123,7 @@ public class DefaultInsurancePolicyServiceTest {
     @Test
     public void findByType() {
 
-        final List<InsurancePolicy> insurancePolicies = insurancePolicyService.fetchByType(TYPE_CONTENT);
+        final List<InsurancePolicy> insurancePolicies = insurancePolicyService.fetchInsurancePoliciesByType(TYPE_CONTENT);
 
         insurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getType(), Is.is(TYPE_CONTENT)));
     }

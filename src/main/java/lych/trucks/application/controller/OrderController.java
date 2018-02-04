@@ -50,7 +50,7 @@ public class OrderController {
 
         final Order orderToCreate = dozerBeanMapper.map(request, Order.class);
 
-        final Order orderToResponse = orderService.create(customerId, orderToCreate);
+        final Order orderToResponse = orderService.createOrder(customerId, orderToCreate);
 
         final OrderResponse response = dozerBeanMapper.map(orderToResponse, OrderResponse.class);
 
@@ -68,7 +68,7 @@ public class OrderController {
 
         final Order orderToUpdate = dozerBeanMapper.map(request, Order.class);
 
-        final Order orderToResponse = orderService.update(orderToUpdate);
+        final Order orderToResponse = orderService.updateOrder(orderToUpdate);
 
         final OrderResponse response = dozerBeanMapper.map(orderToResponse, OrderResponse.class);
 
@@ -84,7 +84,7 @@ public class OrderController {
     @GetMapping(path = "/{orderId}")
     public ResponseEntity fetchOrder(@PathVariable final Integer orderId) {
 
-        final Order orderToResponse = orderService.fetch(orderId);
+        final Order orderToResponse = orderService.fetchOrder(orderId);
 
         final OrderResponse response = dozerBeanMapper.map(orderToResponse, OrderResponse.class);
 
@@ -100,7 +100,7 @@ public class OrderController {
     @DeleteMapping(path = "/{orderId}")
     public ResponseEntity deleteOrder(@PathVariable final Integer orderId) {
 
-        final Order orderToResponse = orderService.delete(orderId);
+        final Order orderToResponse = orderService.deleteOrder(orderId);
 
         final OrderResponse response = dozerBeanMapper.map(orderToResponse, OrderResponse.class);
 
@@ -116,7 +116,7 @@ public class OrderController {
     @RequestMapping(path = "/driver/{driverId}")
     public ResponseEntity fetchOrdersByDriver(@PathVariable final Integer driverId) {
 
-        final List<Order> ordersToResponse = orderService.fetchByDriver(driverId);
+        final List<Order> ordersToResponse = orderService.fetchOrdersByDriver(driverId);
 
         final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
                 .map(orders -> orders.stream()
@@ -136,7 +136,7 @@ public class OrderController {
     @GetMapping
     public ResponseEntity fetchOrdersByCustomer(@PathVariable final Integer customerId) {
 
-        final List<Order> ordersToResponse = orderService.fetchByCustomer(customerId);
+        final List<Order> ordersToResponse = orderService.fetchOrdersByCustomer(customerId);
 
         final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
                 .map(orders -> orders.stream()
@@ -158,7 +158,7 @@ public class OrderController {
     public ResponseEntity fetchOrdersByIssuedAndCustomer(@PathVariable final boolean issued,
                                                          @PathVariable final Integer customerId) {
 
-        final List<Order> ordersToResponse = orderService.fetchByIssuedAndCustomer(issued, customerId);
+        final List<Order> ordersToResponse = orderService.fetchOrdersByIssuedAndCustomer(issued, customerId);
 
         final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
                 .map(orders -> orders.stream()
@@ -180,7 +180,7 @@ public class OrderController {
     public ResponseEntity fetchOrdersByCompletedAndCustomer(@PathVariable final boolean completed,
                                                             @PathVariable final Integer customerId) {
 
-        final List<Order> ordersToResponse = orderService.fetchByCompletedAndCustomer(completed, customerId);
+        final List<Order> ordersToResponse = orderService.fetchOrdersByCompletedAndCustomer(completed, customerId);
 
         final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
                 .map(orders -> orders.stream()
@@ -202,7 +202,7 @@ public class OrderController {
     public ResponseEntity fetchByPaidAndCustomer(@PathVariable final boolean paid,
                                                  @PathVariable final Integer customerId) {
 
-        final List<Order> ordersToResponse = orderService.fetchByPaidAndCustomer(paid, customerId);
+        final List<Order> ordersToResponse = orderService.fetchOrdersByPaidAndCustomer(paid, customerId);
 
         final List<OrderResponse> response = Optional.ofNullable(ordersToResponse)
                 .map(orders -> orders.stream()

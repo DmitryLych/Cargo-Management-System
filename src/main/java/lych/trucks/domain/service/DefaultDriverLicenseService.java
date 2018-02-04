@@ -23,23 +23,23 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
     private final DriverService driverService;
 
     @Override
-    public DriverLicense create(final Integer driverId, final DriverLicense driverLicense) {
+    public DriverLicense createDriverLicense(final Integer driverId, final DriverLicense driverLicense) {
 
         log.info("Driver license created.");
 
         driverLicense.setDriverLicenseFk(driverId);
 
-        final Driver driver = driverService.fetch(driverId);
+        final Driver driver = driverService.fetchDriver(driverId);
 
         driver.setDriverLicense(driverLicense);
 
-        driverService.update(driver);
+        driverService.updateDriver(driver);
 
         return driverLicenseRepository.save(driverLicense);
     }
 
     @Override
-    public DriverLicense fetch(final Integer driverId) {
+    public DriverLicense fetchDriverLicense(final Integer driverId) {
 
         log.info("Driver license displayed.");
 
@@ -48,7 +48,7 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
 
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
-    public DriverLicense update(final DriverLicense driverLicense) {
+    public DriverLicense updateDriverLicense(final DriverLicense driverLicense) {
 
         log.info("Driver license updated.");
 
@@ -67,7 +67,7 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
     }
 
     @Override
-    public List<DriverLicense> fetchByCategory(final String category) {
+    public List<DriverLicense> fetchDriverLicensesByCategory(final String category) {
 
         log.info("Driver licenses found by category.");
 
@@ -75,7 +75,7 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
     }
 
     @Override
-    public List<DriverLicense> fetchBySpecialNotes(final String specialNotes) {
+    public List<DriverLicense> fetchDriverLicensesBySpecialNotes(final String specialNotes) {
 
         log.info("Driver licenses found by special notes.");
 

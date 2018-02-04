@@ -25,7 +25,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     private final DriverService driverService;
 
     @Override
-    public List<InsurancePolicy> fetchAll(final Integer driverId) {
+    public List<InsurancePolicy> fetchAllInsurancePolicies(final Integer driverId) {
 
         log.info("Insurance policies displayed.");
 
@@ -33,11 +33,11 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     }
 
     @Override
-    public InsurancePolicy create(final Integer driverId, final InsurancePolicy insurancePolicy) {
+    public InsurancePolicy createInsurancePolicy(final Integer driverId, final InsurancePolicy insurancePolicy) {
 
         log.info("Insurance policy updated.");
 
-        final Driver driver = driverService.fetch(driverId);
+        final Driver driver = driverService.fetchDriver(driverId);
 
         insurancePolicy.setDriver(driver);
 
@@ -45,7 +45,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     }
 
     @Override
-    public InsurancePolicy fetch(final Integer id) {
+    public InsurancePolicy fetchInsurancePolicy(final Integer id) {
 
         log.info("Insurance policy displayed.");
 
@@ -53,7 +53,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     }
 
     @Override
-    public InsurancePolicy delete(final Integer id) {
+    public InsurancePolicy deleteInsurancePolicy(final Integer id) {
 
         log.info("Insurance policy deleted.");
 
@@ -65,7 +65,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     }
 
     @Override
-    public InsurancePolicy update(final InsurancePolicy insurancePolicy) {
+    public InsurancePolicy updateInsurancePolicy(final InsurancePolicy insurancePolicy) {
 
         log.info("Insurance policy updated.");
 
@@ -82,7 +82,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     }
 
     @Override
-    public List<InsurancePolicy> fetchByValidate(final Long validate) {
+    public List<InsurancePolicy> fetchInsurancePoliciesByValidate(final Long validate) {
 
         log.info("Insurance policy fetched by validate.");
 
@@ -94,7 +94,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     }
 
     @Override
-    public List<InsurancePolicy> fetchByType(final String type) {
+    public List<InsurancePolicy> fetchInsurancePoliciesByType(final String type) {
 
         log.info("Insurance policy fetched by type.");
 

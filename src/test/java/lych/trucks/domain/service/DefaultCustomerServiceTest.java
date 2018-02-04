@@ -47,19 +47,19 @@ public class DefaultCustomerServiceTest {
 
         customer.setCustomerName(content);
 
-        assertThat(customerService.create(customer).getCustomerName(), Is.is(content));
+        assertThat(customerService.createCustomer(customer).getCustomerName(), Is.is(content));
     }
 
     @Test
     public void fetch() {
 
-        assertThat(customerService.fetch(customerIdContent).getCustomerName(), Is.is(CUSTOMER_NAME_CONTENT));
+        assertThat(customerService.fetchCustomer(customerIdContent).getCustomerName(), Is.is(CUSTOMER_NAME_CONTENT));
     }
 
     @Test
     public void delete() {
 
-        customerService.delete(customerIdContent);
+        customerService.deleteCustomer(customerIdContent);
 
         assertThat(customerRepository.exists(customerIdContent), Is.is(false));
     }
@@ -73,7 +73,7 @@ public class DefaultCustomerServiceTest {
 
         customer.setAddress(content);
 
-        customerService.update(customer);
+        customerService.updateCustomer(customer);
 
         assertThat(customerRepository.findOne(customerIdContent).getAddress(), Is.is(content));
     }
@@ -81,7 +81,7 @@ public class DefaultCustomerServiceTest {
     @Test
     public void fetchByCustomerName() {
 
-        assertThat(customerService.fetchByCustomerName(CUSTOMER_NAME_CONTENT).getCustomerName(), Is.is(CUSTOMER_NAME_CONTENT));
+        assertThat(customerService.fetchCustomerByCustomerName(CUSTOMER_NAME_CONTENT).getCustomerName(), Is.is(CUSTOMER_NAME_CONTENT));
     }
 
 }

@@ -49,7 +49,7 @@ public class TrailerController {
 
         final Trailer trailerToCreate = dozerBeanMapper.map(request, Trailer.class);
 
-        final Trailer trailerToResponse = trailerService.create(driverId, truckId, trailerToCreate);
+        final Trailer trailerToResponse = trailerService.createTrailer(driverId, truckId, trailerToCreate);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
 
@@ -67,7 +67,7 @@ public class TrailerController {
 
         final Trailer trailerToUpdate = dozerBeanMapper.map(request, Trailer.class);
 
-        final Trailer trailerToResponse = trailerService.update(trailerToUpdate);
+        final Trailer trailerToResponse = trailerService.updateTrailer(trailerToUpdate);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
 
@@ -83,7 +83,7 @@ public class TrailerController {
     @GetMapping
     public ResponseEntity fetchTrailer(@PathVariable final Integer truckId) {
 
-        final Trailer trailerToResponse = trailerService.fetch(truckId);
+        final Trailer trailerToResponse = trailerService.fetchTrailer(truckId);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
 
@@ -99,7 +99,7 @@ public class TrailerController {
     @GetMapping(path = "/register/{registerSign}")
     public ResponseEntity fetchTrailerByRegisterSign(@PathVariable final String registerSign) {
 
-        final Trailer trailerToResponse = trailerService.fetchByRegisterSign(registerSign);
+        final Trailer trailerToResponse = trailerService.fetchTrailerByRegisterSign(registerSign);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
 
@@ -115,7 +115,7 @@ public class TrailerController {
     @GetMapping(path = "/volume/{volume}")
     public ResponseEntity fetchTrailersByVolume(@PathVariable final Integer volume) {
 
-        final List<Trailer> trailersToResponse = trailerService.fetchByVolume(volume);
+        final List<Trailer> trailersToResponse = trailerService.fetchTrailersByVolume(volume);
 
         final List<TrailerResponse> response = Optional.ofNullable(trailersToResponse)
                 .map(trailers -> trailers.stream()
@@ -135,7 +135,7 @@ public class TrailerController {
     @GetMapping(path = "/type/{type}")
     public ResponseEntity fetchTrailersByType(@PathVariable final String type) {
 
-        final List<Trailer> trailersToResponse = trailerService.fetchByType(type);
+        final List<Trailer> trailersToResponse = trailerService.fetchTrailersByType(type);
 
         final List<TrailerResponse> response = Optional.ofNullable(trailersToResponse)
                 .map(trailers -> trailers.stream()

@@ -79,7 +79,7 @@ public class DefaultOrderServiceTest {
 
         order.setDownloadAddress(content);
 
-        final Integer newId = orderService.create(customerIdContent, order).getOrderId();
+        final Integer newId = orderService.createOrder(customerIdContent, order).getOrderId();
 
         assertThat(orderRepository.findOne(newId).getDownloadAddress(), is(content));
     }
@@ -93,7 +93,7 @@ public class DefaultOrderServiceTest {
 
         order.setDownloadAddress(content);
 
-        orderService.update(order);
+        orderService.updateOrder(order);
 
         assertThat(orderRepository.findOne(orderIdContent).getDownloadAddress(), is(content));
     }
@@ -101,13 +101,13 @@ public class DefaultOrderServiceTest {
     @Test
     public void fetch() {
 
-        assertThat(orderService.fetch(orderIdContent).isCompleted(), is(COMPLETED_CONTENT));
+        assertThat(orderService.fetchOrder(orderIdContent).isCompleted(), is(COMPLETED_CONTENT));
     }
 
     @Test
     public void delete() {
 
-        orderService.delete(orderIdContent);
+        orderService.deleteOrder(orderIdContent);
 
         assertThat(orderRepository.exists(orderIdContent), is(false));
     }
@@ -115,7 +115,7 @@ public class DefaultOrderServiceTest {
     @Test
     public void fetchByDriver() {
 
-        final List<Order> orders = orderService.fetchByDriver(driverIdContent);
+        final List<Order> orders = orderService.fetchOrdersByDriver(driverIdContent);
 
         orders.forEach(order -> assertThat(order.getDriver().getId(), is(driverIdContent)));
     }
@@ -123,7 +123,7 @@ public class DefaultOrderServiceTest {
     @Test
     public void fetchByCustomer() {
 
-        final List<Order> orders = orderService.fetchByCustomer(customerIdContent);
+        final List<Order> orders = orderService.fetchOrdersByCustomer(customerIdContent);
 
         orders.forEach(order -> assertThat(order.getCustomer().getCustomerId(), is(customerIdContent)));
     }
@@ -131,7 +131,7 @@ public class DefaultOrderServiceTest {
     @Test
     public void fetchByIssuedAndCustomer() {
 
-        final List<Order> orders = orderService.fetchByIssuedAndCustomer(ISSUED_CONTENT, customerIdContent);
+        final List<Order> orders = orderService.fetchOrdersByIssuedAndCustomer(ISSUED_CONTENT, customerIdContent);
 
         orders.forEach(order -> assertThat(order.isIssued(), is(ISSUED_CONTENT)));
     }
@@ -139,7 +139,7 @@ public class DefaultOrderServiceTest {
     @Test
     public void fetchByCompletedAndCustomer() {
 
-        final List<Order> orders = orderService.fetchByCompletedAndCustomer(COMPLETED_CONTENT, customerIdContent);
+        final List<Order> orders = orderService.fetchOrdersByCompletedAndCustomer(COMPLETED_CONTENT, customerIdContent);
 
         orders.forEach(order -> assertThat(order.isCompleted(), is(COMPLETED_CONTENT)));
     }
@@ -147,7 +147,7 @@ public class DefaultOrderServiceTest {
     @Test
     public void fetchByPaidAndCustomer() {
 
-        final List<Order> orders = orderService.fetchByPaidAndCustomer(PAID_CONTENT, customerIdContent);
+        final List<Order> orders = orderService.fetchOrdersByPaidAndCustomer(PAID_CONTENT, customerIdContent);
 
         orders.forEach(order -> assertThat(order.isPaid(), is(PAID_CONTENT)));
     }

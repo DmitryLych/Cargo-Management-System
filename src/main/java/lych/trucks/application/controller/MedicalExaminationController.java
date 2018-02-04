@@ -48,7 +48,7 @@ public class MedicalExaminationController {
 
         final MedicalExamination medicalExaminationToCreate = dozerBeanMapper.map(request, MedicalExamination.class);
 
-        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.create(driverId, medicalExaminationToCreate);
+        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.createMedicalExamination(driverId, medicalExaminationToCreate);
 
         final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse, MedicalExaminationResponse.class);
 
@@ -66,7 +66,7 @@ public class MedicalExaminationController {
 
         final MedicalExamination medicalExaminationToUpdate = dozerBeanMapper.map(request, MedicalExamination.class);
 
-        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.update(medicalExaminationToUpdate);
+        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.updateMedicalExamination(medicalExaminationToUpdate);
 
         final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse, MedicalExaminationResponse.class);
 
@@ -82,7 +82,7 @@ public class MedicalExaminationController {
     @GetMapping
     public ResponseEntity fetchMedicalExamination(@PathVariable final Integer driverId) {
 
-        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.fetch(driverId);
+        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.fetchMedicalExamination(driverId);
 
         final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse, MedicalExaminationResponse.class);
 
@@ -100,7 +100,7 @@ public class MedicalExaminationController {
     public ResponseEntity fetchMedicalExaminationsByValidate(@PathVariable final long validate) {
 
         final List<MedicalExamination> medicalExaminationsToResponse = medicalExaminationService
-                .fetchByValidate(validate);
+                .fetchMedicalExaminationByValidate(validate);
 
         final List<MedicalExaminationResponse> response = Optional.ofNullable(medicalExaminationsToResponse)
                 .map(medicalExaminations -> medicalExaminations.stream()

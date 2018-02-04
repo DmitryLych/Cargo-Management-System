@@ -20,7 +20,7 @@ public class DefaultCustomerService implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Override
-    public List<Customer> fetchAll() {
+    public List<Customer> fetchAllCustomers() {
 
         log.info("Customers displayed.");
 
@@ -28,7 +28,7 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     @Override
-    public Customer create(final Customer customer) {
+    public Customer createCustomer(final Customer customer) {
 
         log.info("Customer created.");
 
@@ -36,7 +36,7 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     @Override
-    public Customer fetch(final Integer customerId) {
+    public Customer fetchCustomer(final Integer customerId) {
 
         log.info("Customer displayed.");
 
@@ -44,7 +44,7 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     @Override
-    public Customer delete(final Integer customerId) {
+    public Customer deleteCustomer(final Integer customerId) {
 
         log.info("Customer deleted.");
 
@@ -57,7 +57,7 @@ public class DefaultCustomerService implements CustomerService {
 
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
-    public Customer update(final Customer customer) {
+    public Customer updateCustomer(final Customer customer) {
 
         log.info("Customer updated");
 
@@ -77,7 +77,7 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     @Override
-    public Customer fetchByCustomerName(final String customerName) {
+    public Customer fetchCustomerByCustomerName(final String customerName) {
 
         log.info("Customer found by customer name.");
 

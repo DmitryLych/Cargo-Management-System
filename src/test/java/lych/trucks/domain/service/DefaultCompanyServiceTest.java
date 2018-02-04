@@ -47,19 +47,19 @@ public class DefaultCompanyServiceTest {
 
         company.setCompanyName(content);
 
-        assertThat(companyService.create(company).getCompanyName(), Is.is(content));
+        assertThat(companyService.createCompany(company).getCompanyName(), Is.is(content));
     }
 
     @Test
     public void fetch() {
 
-        assertThat(companyService.fetch(companyIdContent).getCompanyName(), Is.is(COMPANY_NAME_CONTENT));
+        assertThat(companyService.fetchCompany(companyIdContent).getCompanyName(), Is.is(COMPANY_NAME_CONTENT));
     }
 
     @Test
     public void delete() {
 
-        companyService.delete(companyIdContent);
+        companyService.deleteCompany(companyIdContent);
 
         assertThat(companyRepository.exists(companyIdContent), Is.is(false));
     }
@@ -73,12 +73,12 @@ public class DefaultCompanyServiceTest {
 
         companyToUpdate.setEmail(content);
 
-        assertThat(companyService.update(companyToUpdate).getEmail(), Is.is(content));
+        assertThat(companyService.updateCompany(companyToUpdate).getEmail(), Is.is(content));
     }
 
     @Test
     public void fetchByCompanyName() {
 
-        assertThat(companyService.fetchByCompanyName(COMPANY_NAME_CONTENT).getCompanyName(), Is.is(COMPANY_NAME_CONTENT));
+        assertThat(companyService.fetchCompanyByCompanyName(COMPANY_NAME_CONTENT).getCompanyName(), Is.is(COMPANY_NAME_CONTENT));
     }
 }

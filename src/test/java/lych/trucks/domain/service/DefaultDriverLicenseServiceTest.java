@@ -62,7 +62,7 @@ public class DefaultDriverLicenseServiceTest {
 
         driverLicense.setCategory(content);
 
-        final Integer savedId = driverLicenseService.create(driverIdContent, driverLicense).getId();
+        final Integer savedId = driverLicenseService.createDriverLicense(driverIdContent, driverLicense).getId();
 
         assertThat(driverLicenseRepository.findOne(savedId).getCategory(), Is.is(content));
     }
@@ -70,7 +70,7 @@ public class DefaultDriverLicenseServiceTest {
     @Test
     public void fetch() {
 
-        assertThat(driverLicenseService.fetch(driverIdContent).getCategory(), Is.is(CATEGORY_CONTENT));
+        assertThat(driverLicenseService.fetchDriverLicense(driverIdContent).getCategory(), Is.is(CATEGORY_CONTENT));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class DefaultDriverLicenseServiceTest {
 
         driverLicense.setCategory(content);
 
-        driverLicenseService.update(driverLicense);
+        driverLicenseService.updateDriverLicense(driverLicense);
 
         assertThat(driverLicenseRepository.findOne(driverLicenseIdContent).getCategory(), Is.is(content));
     }
@@ -90,7 +90,7 @@ public class DefaultDriverLicenseServiceTest {
     @Test
     public void fetchByCategory() {
 
-        final List<DriverLicense> driverLicenses = driverLicenseService.fetchByCategory(CATEGORY_CONTENT);
+        final List<DriverLicense> driverLicenses = driverLicenseService.fetchDriverLicensesByCategory(CATEGORY_CONTENT);
 
         driverLicenses.forEach(driverLicense -> assertThat(driverLicense.getCategory(), Is.is(CATEGORY_CONTENT)));
     }
@@ -98,7 +98,7 @@ public class DefaultDriverLicenseServiceTest {
     @Test
     public void fetchBySpecialNotes() {
 
-        final List<DriverLicense> driverLicenses = driverLicenseService.fetchBySpecialNotes(SPECIAL_NOTES_CONTENT);
+        final List<DriverLicense> driverLicenses = driverLicenseService.fetchDriverLicensesBySpecialNotes(SPECIAL_NOTES_CONTENT);
 
         driverLicenses.forEach(driverLicense -> assertThat(driverLicense.getSpecialNotes(), Is.is(SPECIAL_NOTES_CONTENT)));
     }

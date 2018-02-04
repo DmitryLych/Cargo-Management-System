@@ -14,7 +14,7 @@ public interface CustomerService {
      *
      * @return list of customers.
      */
-    List<Customer> fetchAll();
+    List<Customer> fetchAllCustomers();
 
     /**
      * Method for create customer.
@@ -22,7 +22,7 @@ public interface CustomerService {
      * @param customer Customer customer.
      * @return created customer.
      */
-    Customer create(Customer customer);
+    Customer createCustomer(Customer customer);
 
     /**
      * Method for fetch some customer.
@@ -30,7 +30,7 @@ public interface CustomerService {
      * @param customerId Customer customerId.
      * @return customer which found.
      */
-    Customer fetch(Integer customerId);
+    Customer fetchCustomer(Integer customerId);
 
     /**
      * Method for delete some customer.
@@ -38,7 +38,7 @@ public interface CustomerService {
      * @param customerId Customer customerId.
      * @return deleted customer.
      */
-    Customer delete(Integer customerId);
+    Customer deleteCustomer(Integer customerId);
 
     /**
      * Method for update some customer.
@@ -46,7 +46,7 @@ public interface CustomerService {
      * @param customer Customer customer.
      * @return updated customer.
      */
-    Customer update(Customer customer);
+    Customer updateCustomer(Customer customer);
 
     /**
      * Method for fetch customer by name.
@@ -54,5 +54,5 @@ public interface CustomerService {
      * @param customerName Customer customerName.
      * @return customer which found.
      */
-    Customer fetchByCustomerName(String customerName);
+    Customer fetchCustomerByCustomerName(String customerName);
 }

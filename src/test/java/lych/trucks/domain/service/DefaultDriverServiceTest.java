@@ -62,7 +62,7 @@ public class DefaultDriverServiceTest {
     @Test
     public void fetchAll() {
 
-        final List<Driver> drivers = driverService.fetchAll(companyIdContent);
+        final List<Driver> drivers = driverService.fetchAllDrivers(companyIdContent);
 
         drivers.forEach(driver -> assertThat(driver.getCompany().getId(), Is.is(companyIdContent)));
     }
@@ -76,7 +76,7 @@ public class DefaultDriverServiceTest {
 
         driver.setLastName(content);
 
-        final Integer newId = driverService.create(companyIdContent, driver).getId();
+        final Integer newId = driverService.createDriver(companyIdContent, driver).getId();
 
         assertThat(driverRepository.findOne(newId).getLastName(), Is.is(content));
     }
@@ -84,13 +84,13 @@ public class DefaultDriverServiceTest {
     @Test
     public void fetch() {
 
-        assertThat(driverService.fetch(driverIdContent).getLastName(), Is.is(LAST_NAME_CONTENT));
+        assertThat(driverService.fetchDriver(driverIdContent).getLastName(), Is.is(LAST_NAME_CONTENT));
     }
 
     @Test
     public void delete() {
 
-        driverService.delete(driverIdContent);
+        driverService.deleteDriver(driverIdContent);
 
         assertThat(driverRepository.exists(driverIdContent), Is.is(false));
     }
@@ -104,7 +104,7 @@ public class DefaultDriverServiceTest {
 
         driver.setLastName(content);
 
-        driverService.update(driver);
+        driverService.updateDriver(driver);
 
         assertThat(driverRepository.findOne(driverIdContent).getLastName(), Is.is(content));
     }
@@ -112,7 +112,7 @@ public class DefaultDriverServiceTest {
     @Test
     public void fetchByLastNameAndFirstName() {
 
-        final List<Driver> drivers = driverService.fetchByLastNameAndFirstName(LAST_NAME_CONTENT, FIRST_NAME_CONTENT);
+        final List<Driver> drivers = driverService.fetchDriversByLastNameAndFirstName(LAST_NAME_CONTENT, FIRST_NAME_CONTENT);
 
         drivers.forEach(driver -> assertThat(driver.getLastName(), Is.is(LAST_NAME_CONTENT)));
     }
@@ -120,7 +120,7 @@ public class DefaultDriverServiceTest {
     @Test
     public void fetchByStatus() {
 
-        final List<Driver> drivers = driverService.fetchByStatus(STATUS_CONTENT);
+        final List<Driver> drivers = driverService.fetchDriversByStatus(STATUS_CONTENT);
 
         drivers.forEach(driver -> assertThat(driver.isStatus(), Is.is(true)));
     }

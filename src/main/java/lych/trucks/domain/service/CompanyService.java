@@ -22,7 +22,7 @@ public interface CompanyService {
      * @param company Company company.
      * @return created Company company.
      */
-    Company create(Company company);
+    Company createCompany(Company company);
 
     /**
      * Method for fetch company by id.
@@ -30,7 +30,7 @@ public interface CompanyService {
      * @param id Company id.
      * @return Company company.
      */
-    Company fetch(Integer id);
+    Company fetchCompany(Integer id);
 
     /**
      * Method for delete company by id.
@@ -38,7 +38,7 @@ public interface CompanyService {
      * @param id Company id.
      * @return deleted company.
      */
-    Company delete(Integer id);
+    Company deleteCompany(Integer id);
 
     /**
      * Method for update company.
@@ -46,7 +46,7 @@ public interface CompanyService {
      * @param company Company company.
      * @return updated Company company.
      */
-    Company update(Company company);
+    Company updateCompany(Company company);
 
     /**
      * Method for fetch company by company name.
@@ -54,5 +54,5 @@ public interface CompanyService {
      * @param companyName Company companyName.
      * @return company which found.
      */
-    Company fetchByCompanyName(String companyName);
+    Company fetchCompanyByCompanyName(String companyName);
 }

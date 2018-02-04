@@ -48,7 +48,7 @@ public class DriverLicenseController {
 
         final DriverLicense driverLicenseToCreate = dozerBeanMapper.map(request, DriverLicense.class);
 
-        final DriverLicense driverLicenseToResponse = driverLicenseService.create(driverId, driverLicenseToCreate);
+        final DriverLicense driverLicenseToResponse = driverLicenseService.createDriverLicense(driverId, driverLicenseToCreate);
 
         final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse,
                 DriverLicenseResponse.class);
@@ -65,7 +65,7 @@ public class DriverLicenseController {
     @GetMapping
     public ResponseEntity fetchDriverLicense(@PathVariable final Integer driverId) {
 
-        final DriverLicense driverLicenseToResponse = driverLicenseService.fetch(driverId);
+        final DriverLicense driverLicenseToResponse = driverLicenseService.fetchDriverLicense(driverId);
 
         final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse,
                 DriverLicenseResponse.class);
@@ -84,7 +84,7 @@ public class DriverLicenseController {
 
         final DriverLicense driverLicenseToUpdate = dozerBeanMapper.map(request, DriverLicense.class);
 
-        final DriverLicense driverLicenseToResponse = driverLicenseService.update(driverLicenseToUpdate);
+        final DriverLicense driverLicenseToResponse = driverLicenseService.updateDriverLicense(driverLicenseToUpdate);
 
         final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse, DriverLicenseResponse.class);
 
@@ -100,7 +100,7 @@ public class DriverLicenseController {
     @GetMapping(path = "/category/{category}")
     public ResponseEntity fetchDriverLicensesByCategory(@PathVariable final String category) {
 
-        final List<DriverLicense> driverLicensesToResponse = driverLicenseService.fetchByCategory(category);
+        final List<DriverLicense> driverLicensesToResponse = driverLicenseService.fetchDriverLicensesByCategory(category);
 
         final List<DriverLicenseResponse> response = Optional.ofNullable(driverLicensesToResponse)
                 .map(driverLicenses -> driverLicenses.stream()
@@ -121,7 +121,7 @@ public class DriverLicenseController {
     public ResponseEntity fetchDriverLicensesBySpecialNotes(@PathVariable final String specialNotes) {
 
         final List<DriverLicense> driverLicensesToResponse = driverLicenseService
-                .fetchBySpecialNotes(specialNotes);
+                .fetchDriverLicensesBySpecialNotes(specialNotes);
 
         final List<DriverLicenseResponse> response = Optional.ofNullable(driverLicensesToResponse)
                 .map(driverLicenses -> driverLicenses.stream()

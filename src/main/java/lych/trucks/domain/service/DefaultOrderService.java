@@ -23,11 +23,11 @@ public class DefaultOrderService implements OrderService {
     private final CustomerService customerService;
 
     @Override
-    public Order create(final Integer customerId, final Order order) {
+    public Order createOrder(final Integer customerId, final Order order) {
 
         log.info("Order created.");
 
-        final Customer customer = customerService.fetch(customerId);
+        final Customer customer = customerService.fetchCustomer(customerId);
 
         order.setCustomer(customer);
 
@@ -36,7 +36,7 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
-    public Order update(final Order order) {
+    public Order updateOrder(final Order order) {
 
         log.info("Order updated.");
 
@@ -58,7 +58,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public Order fetch(final Integer orderId) {
+    public Order fetchOrder(final Integer orderId) {
 
         log.info("Order fetched.");
 
@@ -66,7 +66,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public Order delete(final Integer orderId) {
+    public Order deleteOrder(final Integer orderId) {
 
         log.info("Order deleted.");
 
@@ -78,7 +78,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> fetchByDriver(final Integer driverId) {
+    public List<Order> fetchOrdersByDriver(final Integer driverId) {
 
         log.info("Order fetched by driver.");
 
@@ -86,7 +86,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> fetchByCustomer(final Integer customerId) {
+    public List<Order> fetchOrdersByCustomer(final Integer customerId) {
 
         log.info("Order fetched by customer.");
 
@@ -94,7 +94,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> fetchByIssuedAndCustomer(final boolean issued, final Integer customerId) {
+    public List<Order> fetchOrdersByIssuedAndCustomer(final boolean issued, final Integer customerId) {
 
         log.info("Fetched issued orders.");
 
@@ -102,7 +102,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> fetchByCompletedAndCustomer(final boolean completed, final Integer customerId) {
+    public List<Order> fetchOrdersByCompletedAndCustomer(final boolean completed, final Integer customerId) {
 
         log.info("Fetched completed orders.");
 
@@ -110,7 +110,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> fetchByPaidAndCustomer(final boolean paid, final Integer customerId) {
+    public List<Order> fetchOrdersByPaidAndCustomer(final boolean paid, final Integer customerId) {
 
         log.info("Fetched paid orders.");
 

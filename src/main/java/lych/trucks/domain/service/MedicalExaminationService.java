@@ -16,7 +16,7 @@ public interface MedicalExaminationService {
      * @param medicalExamination MedicalExamination medicalExamination.
      * @return created medical examination.
      */
-    MedicalExamination create(Integer driverId, MedicalExamination medicalExamination);
+    MedicalExamination createMedicalExamination(Integer driverId, MedicalExamination medicalExamination);
 
     /**
      * Method for find medical examination.
@@ -24,7 +24,7 @@ public interface MedicalExaminationService {
      * @param driverId Driver driverId.
      * @return medical examination which found.
      */
-    MedicalExamination fetch(Integer driverId);
+    MedicalExamination fetchMedicalExamination(Integer driverId);
 
     /**
      * Method for update medical examination.
@@ -32,7 +32,7 @@ public interface MedicalExaminationService {
      * @param medicalExamination MedicalExamination medicalExamination.
      * @return updated medical examination.
      */
-    MedicalExamination update(MedicalExamination medicalExamination);
+    MedicalExamination updateMedicalExamination(MedicalExamination medicalExamination);
 
     /**
      * Method for fetch medical examination by validate.
@@ -40,5 +40,5 @@ public interface MedicalExaminationService {
      * @param validate MedicalExamination validate.
      * @return list of medical examination which found.
      */
-    List<MedicalExamination> fetchByValidate(Long validate);
+    List<MedicalExamination> fetchMedicalExaminationByValidate(Long validate);
 }

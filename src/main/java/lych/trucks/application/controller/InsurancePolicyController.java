@@ -48,7 +48,7 @@ public class InsurancePolicyController {
 
         final InsurancePolicy insurancePolicyToCreate = dozerBeanMapper.map(request, InsurancePolicy.class);
 
-        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.create(driverId, insurancePolicyToCreate);
+        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.createInsurancePolicy(driverId, insurancePolicyToCreate);
 
         final InsurancePolicyResponse response = dozerBeanMapper.map(insurancePolicyToResponse, InsurancePolicyResponse.class);
 
@@ -64,7 +64,7 @@ public class InsurancePolicyController {
     @GetMapping
     public ResponseEntity fetchAllInsurancePolicies(@PathVariable final Integer driverId) {
 
-        final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService.fetchAll(driverId);
+        final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService.fetchAllInsurancePolicies(driverId);
 
         final List<InsurancePolicyResponse> response = Optional.ofNullable(insurancePoliciesToResponse)
                 .map(insurancePolicies -> insurancePolicies.stream()
@@ -84,7 +84,7 @@ public class InsurancePolicyController {
     @GetMapping(path = "/{insuranceId}")
     public ResponseEntity fetchInsurancePolicy(@PathVariable final Integer insuranceId) {
 
-        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.fetch(insuranceId);
+        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.fetchInsurancePolicy(insuranceId);
 
         final InsurancePolicyResponse response = dozerBeanMapper.map(insurancePolicyToResponse, InsurancePolicyResponse.class);
 
@@ -102,7 +102,7 @@ public class InsurancePolicyController {
 
         final InsurancePolicy insurancePolicyToUpdate = dozerBeanMapper.map(request, InsurancePolicy.class);
 
-        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.update(insurancePolicyToUpdate);
+        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.updateInsurancePolicy(insurancePolicyToUpdate);
 
         final InsurancePolicyResponse response = dozerBeanMapper.map(insurancePolicyToResponse, InsurancePolicyResponse.class);
 
@@ -118,7 +118,7 @@ public class InsurancePolicyController {
     @DeleteMapping(path = "/{insuranceId}")
     public ResponseEntity deleteInsurancePolicy(@PathVariable final Integer insuranceId) {
 
-        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.delete(insuranceId);
+        final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.deleteInsurancePolicy(insuranceId);
 
         final InsurancePolicyResponse response = dozerBeanMapper.map(insurancePolicyToResponse, InsurancePolicyResponse.class);
 
@@ -136,7 +136,7 @@ public class InsurancePolicyController {
     public ResponseEntity fetchInsurancePoliciesByValidate(@PathVariable final long validate) {
 
         final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService
-                .fetchByValidate(validate);
+                .fetchInsurancePoliciesByValidate(validate);
 
         final List<InsurancePolicyResponse> response = Optional.ofNullable(insurancePoliciesToResponse)
                 .map(insurancePolicies -> insurancePolicies.stream()
@@ -157,7 +157,7 @@ public class InsurancePolicyController {
     @GetMapping(path = "/type/{type}")
     public ResponseEntity fetchInsurancePoliciesByType(@PathVariable final String type) {
 
-        final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService.fetchByType(type);
+        final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService.fetchInsurancePoliciesByType(type);
 
         final List<InsurancePolicyResponse> response = Optional.ofNullable(insurancePoliciesToResponse)
                 .map(insurancePolicies -> insurancePolicies.stream()

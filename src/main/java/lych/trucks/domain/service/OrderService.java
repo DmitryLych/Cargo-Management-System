@@ -18,7 +18,7 @@ public interface OrderService {
      * @param order      Order order.
      * @return created order.
      */
-    Order create(Integer customerId, Order order);
+    Order createOrder(Integer customerId, Order order);
 
     /**
      * Method for update some order.
@@ -26,7 +26,7 @@ public interface OrderService {
      * @param order Order order.
      * @return updated order.
      */
-    Order update(Order order);
+    Order updateOrder(Order order);
 
     /**
      * Method for fetch some order by id.
@@ -34,7 +34,7 @@ public interface OrderService {
      * @param orderId Order orderId.
      * @return order which found.
      */
-    Order fetch(Integer orderId);
+    Order fetchOrder(Integer orderId);
 
     /**
      * Method for delete order by id.
@@ -42,7 +42,7 @@ public interface OrderService {
      * @param orderId Order orderId.
      * @return deleted order.
      */
-    Order delete(Integer orderId);
+    Order deleteOrder(Integer orderId);
 
     /**
      * Method for fetch orders by driver.
@@ -50,7 +50,7 @@ public interface OrderService {
      * @param driverId {@link Driver} driverId.
      * @return list of orders which found.
      */
-    List<Order> fetchByDriver(Integer driverId);
+    List<Order> fetchOrdersByDriver(Integer driverId);
 
     /**
      * Method for fetch orders by customer.
@@ -58,7 +58,7 @@ public interface OrderService {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    List<Order> fetchByCustomer(Integer customerId);
+    List<Order> fetchOrdersByCustomer(Integer customerId);
 
     /**
      * Method for fetch orders by issued and customer.
@@ -67,7 +67,7 @@ public interface OrderService {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    List<Order> fetchByIssuedAndCustomer(boolean issued, Integer customerId);
+    List<Order> fetchOrdersByIssuedAndCustomer(boolean issued, Integer customerId);
 
     /**
      * Method for fetch by completed and customer.
@@ -76,7 +76,7 @@ public interface OrderService {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    List<Order> fetchByCompletedAndCustomer(boolean completed, Integer customerId);
+    List<Order> fetchOrdersByCompletedAndCustomer(boolean completed, Integer customerId);
 
     /**
      * Method for fetch orders by paid and customer.
@@ -85,5 +85,5 @@ public interface OrderService {
      * @param customerId {@link Customer} customerId.
      * @return list of orders which found.
      */
-    List<Order> fetchByPaidAndCustomer(boolean paid, Integer customerId);
+    List<Order> fetchOrdersByPaidAndCustomer(boolean paid, Integer customerId);
 }

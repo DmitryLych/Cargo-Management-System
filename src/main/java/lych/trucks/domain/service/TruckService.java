@@ -14,7 +14,7 @@ public interface TruckService {
      * @param truck    Truck truck.
      * @return created truck.
      */
-    Truck create(Integer driverId, Truck truck);
+    Truck createTruck(Integer driverId, Truck truck);
 
     /**
      * Method for find truck.
@@ -22,7 +22,7 @@ public interface TruckService {
      * @param driverId Driver driverId.
      * @return truck which found.
      */
-    Truck fetch(Integer driverId);
+    Truck fetchTruck(Integer driverId);
 
     /**
      * Method for update truck.
@@ -30,7 +30,7 @@ public interface TruckService {
      * @param truck Truck truck.
      * @return updated truck.
      */
-    Truck update(Truck truck);
+    Truck updateTruck(Truck truck);
 
     /**
      * Method for fetch truck by register sign.
@@ -38,7 +38,7 @@ public interface TruckService {
      * @param registerSign Truck registerSign.
      * @return truck which found.
      */
-    Truck fetchByRegisterSign(String registerSign);
+    Truck fetchTruckByRegisterSign(String registerSign);
 
     /**
      * Method for fetch truck by body number.
@@ -46,5 +46,5 @@ public interface TruckService {
      * @param bodyNumber Truck bodyNumber.
      * @return truck which found.
      */
-    Truck fetchByBodyNumber(String bodyNumber);
+    Truck fetchTruckByBodyNumber(String bodyNumber);
 }

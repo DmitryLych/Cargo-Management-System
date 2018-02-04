@@ -48,7 +48,7 @@ public class DriverController {
 
         final Driver driverToSave = dozerBeanMapper.map(request, Driver.class);
 
-        final Driver driverToResponse = driverService.create(companyId, driverToSave);
+        final Driver driverToResponse = driverService.createDriver(companyId, driverToSave);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
@@ -64,7 +64,7 @@ public class DriverController {
     @GetMapping(path = "/{driverId}")
     public ResponseEntity fetchDriver(@PathVariable final Integer driverId) {
 
-        final Driver driverToResponse = driverService.fetch(driverId);
+        final Driver driverToResponse = driverService.fetchDriver(driverId);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
@@ -80,7 +80,7 @@ public class DriverController {
     @DeleteMapping(path = "/{driverId}")
     public ResponseEntity deleteDriver(@PathVariable final Integer driverId) {
 
-        final Driver driverToResponse = driverService.delete(driverId);
+        final Driver driverToResponse = driverService.deleteDriver(driverId);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
@@ -98,7 +98,7 @@ public class DriverController {
 
         final Driver driverToUpdate = dozerBeanMapper.map(request, Driver.class);
 
-        final Driver driverToResponse = driverService.update(driverToUpdate);
+        final Driver driverToResponse = driverService.updateDriver(driverToUpdate);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 
@@ -114,7 +114,7 @@ public class DriverController {
     @GetMapping
     public ResponseEntity fetchAllDrivers(@PathVariable final Integer companyId) {
 
-        final List<Driver> driversToResponse = driverService.fetchAll(companyId);
+        final List<Driver> driversToResponse = driverService.fetchAllDrivers(companyId);
 
         final List<DriverResponse> response = Optional.ofNullable(driversToResponse)
                 .map(drivers -> drivers.stream()
@@ -136,7 +136,7 @@ public class DriverController {
     public ResponseEntity fetchByLastNameAndFirstName(@PathVariable final String lastName,
                                                       @PathVariable final String firstName) {
 
-        final List<Driver> driversToResponse = driverService.fetchByLastNameAndFirstName(lastName, firstName);
+        final List<Driver> driversToResponse = driverService.fetchDriversByLastNameAndFirstName(lastName, firstName);
 
         final List<DriverResponse> response = Optional.ofNullable(driversToResponse)
                 .map(drivers -> drivers.stream()

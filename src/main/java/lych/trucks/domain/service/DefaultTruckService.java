@@ -22,23 +22,23 @@ public class DefaultTruckService implements TruckService {
     private final DriverService driverService;
 
     @Override
-    public Truck create(final Integer driverId, final Truck truck) {
+    public Truck createTruck(final Integer driverId, final Truck truck) {
 
         log.info("Truck created");
 
-        final Driver driver = driverService.fetch(driverId);
+        final Driver driver = driverService.fetchDriver(driverId);
 
         driver.setTruck(truck);
 
         truck.setTruckFk(driverId);
 
-        driverService.update(driver);
+        driverService.updateDriver(driver);
 
         return truckRepository.save(truck);
     }
 
     @Override
-    public Truck fetch(final Integer driverId) {
+    public Truck fetchTruck(final Integer driverId) {
 
         log.info("Truck displayed.");
 
@@ -46,7 +46,7 @@ public class DefaultTruckService implements TruckService {
     }
 
     @Override
-    public Truck update(final Truck truck) {
+    public Truck updateTruck(final Truck truck) {
 
         log.info("Truck updated.");
 
@@ -65,7 +65,7 @@ public class DefaultTruckService implements TruckService {
     }
 
     @Override
-    public Truck fetchByRegisterSign(final String registerSign) {
+    public Truck fetchTruckByRegisterSign(final String registerSign) {
 
         log.info("Truck fetched by register sign.");
 
@@ -73,7 +73,7 @@ public class DefaultTruckService implements TruckService {
     }
 
     @Override
-    public Truck fetchByBodyNumber(final String bodyNumber) {
+    public Truck fetchTruckByBodyNumber(final String bodyNumber) {
 
         log.info("Truck fetched by body number.");
 

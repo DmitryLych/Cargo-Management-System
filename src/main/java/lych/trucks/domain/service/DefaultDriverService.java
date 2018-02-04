@@ -24,7 +24,7 @@ public class DefaultDriverService implements DriverService {
     private final CompanyService companyService;
 
     @Override
-    public List<Driver> fetchAll(final Integer companyId) {
+    public List<Driver> fetchAllDrivers(final Integer companyId) {
 
         log.info("Drivers displayed.");
 
@@ -32,11 +32,11 @@ public class DefaultDriverService implements DriverService {
     }
 
     @Override
-    public Driver create(final Integer companyId, final Driver driver) {
+    public Driver createDriver(final Integer companyId, final Driver driver) {
 
         log.info("Driver added.");
 
-        final Company company = companyService.fetch(companyId);
+        final Company company = companyService.fetchCompany(companyId);
 
         driver.setCompany(company);
 
@@ -44,7 +44,7 @@ public class DefaultDriverService implements DriverService {
     }
 
     @Override
-    public Driver fetch(final Integer id) {
+    public Driver fetchDriver(final Integer id) {
 
         log.info("Driver displayed.");
 
@@ -52,7 +52,7 @@ public class DefaultDriverService implements DriverService {
     }
 
     @Override
-    public Driver delete(final Integer id) {
+    public Driver deleteDriver(final Integer id) {
 
         log.info("Driver deleted.");
 
@@ -64,7 +64,7 @@ public class DefaultDriverService implements DriverService {
     }
 
     @Override
-    public Driver update(final Driver driver) {
+    public Driver updateDriver(final Driver driver) {
 
         log.info("Driver updated.");
 
@@ -92,7 +92,7 @@ public class DefaultDriverService implements DriverService {
     }
 
     @Override
-    public List<Driver> fetchByLastNameAndFirstName(final String lastName, final String firstName) {
+    public List<Driver> fetchDriversByLastNameAndFirstName(final String lastName, final String firstName) {
 
         log.info("Drivers fetch by last name and first name.");
 
@@ -100,7 +100,7 @@ public class DefaultDriverService implements DriverService {
     }
 
     @Override
-    public List<Driver> fetchByStatus(final boolean status) {
+    public List<Driver> fetchDriversByStatus(final boolean status) {
 
         log.info("Drivers fetch by status.");
 

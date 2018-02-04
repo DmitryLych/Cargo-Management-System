@@ -62,7 +62,7 @@ public class DefaultTruckServiceTest {
 
         truck.setRegisterSign(content);
 
-        final Integer newTruckId = truckService.create(driverIdContent, truck).getId();
+        final Integer newTruckId = truckService.createTruck(driverIdContent, truck).getId();
 
         assertThat(truckRepository.findOne(newTruckId).getRegisterSign(), is(content));
     }
@@ -70,7 +70,7 @@ public class DefaultTruckServiceTest {
     @Test
     public void fetch() {
 
-        assertThat(truckService.fetch(driverIdContent).getBodyNumber(), is(BODY_NUMBER_CONTENT));
+        assertThat(truckService.fetchTruck(driverIdContent).getBodyNumber(), is(BODY_NUMBER_CONTENT));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class DefaultTruckServiceTest {
 
         truck.setRegisterSign(content);
 
-        truckService.update(truck);
+        truckService.updateTruck(truck);
 
         assertThat(truckRepository.findByTruckFk(driverIdContent).getRegisterSign(), is(content));
     }
@@ -90,14 +90,14 @@ public class DefaultTruckServiceTest {
     @Test
     public void fetchByRegisterSign() {
 
-        assertThat(truckService.fetchByRegisterSign(REGISTER_SIGN_CONTENT).getRegisterSign(),
+        assertThat(truckService.fetchTruckByRegisterSign(REGISTER_SIGN_CONTENT).getRegisterSign(),
                 is(REGISTER_SIGN_CONTENT));
     }
 
     @Test
     public void fetchByBodyNumber() {
 
-        assertThat(truckService.fetchByBodyNumber(BODY_NUMBER_CONTENT).getBodyNumber(),
+        assertThat(truckService.fetchTruckByBodyNumber(BODY_NUMBER_CONTENT).getBodyNumber(),
                 is(BODY_NUMBER_CONTENT));
     }
 

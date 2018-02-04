@@ -49,7 +49,7 @@ public class GoodsController {
 
         final Goods goodsToCreate = dozerBeanMapper.map(request, Goods.class);
 
-        final Goods goodsToResponse = goodsService.create(orderId, goodsToCreate);
+        final Goods goodsToResponse = goodsService.createGoods(orderId, goodsToCreate);
 
         final GoodsResponse response = dozerBeanMapper.map(goodsToResponse, GoodsResponse.class);
 
@@ -67,7 +67,7 @@ public class GoodsController {
 
         final Goods goodsToUpdate = dozerBeanMapper.map(request, Goods.class);
 
-        final Goods goodsToResponse = goodsService.update(goodsToUpdate);
+        final Goods goodsToResponse = goodsService.updateGoods(goodsToUpdate);
 
         final GoodsResponse response = dozerBeanMapper.map(goodsToResponse, GoodsResponse.class);
 
@@ -83,7 +83,7 @@ public class GoodsController {
     @DeleteMapping(path = "/{goodsId}")
     public ResponseEntity deleteGoods(@PathVariable final Integer goodsId) {
 
-        final Goods goodsToResponse = goodsService.delete(goodsId);
+        final Goods goodsToResponse = goodsService.deleteGoods(goodsId);
 
         final GoodsResponse response = dozerBeanMapper.map(goodsToResponse, GoodsResponse.class);
 
@@ -99,7 +99,7 @@ public class GoodsController {
     @GetMapping
     public ResponseEntity fetchAllGoods(@PathVariable final Integer orderId) {
 
-        final List<Goods> goodsToResponse = goodsService.fetchAll(orderId);
+        final List<Goods> goodsToResponse = goodsService.fetchAllGoods(orderId);
 
         final List<GoodsResponse> response = Optional.ofNullable(goodsToResponse)
                 .map(goods -> goods.stream()
@@ -119,7 +119,7 @@ public class GoodsController {
     @GetMapping(path = "/{goodsId}")
     public ResponseEntity fetchGoods(@PathVariable final Integer goodsId) {
 
-        final Goods goodsToResponse = goodsService.fetch(goodsId);
+        final Goods goodsToResponse = goodsService.fetchGoods(goodsId);
 
         final GoodsResponse response = dozerBeanMapper.map(goodsToResponse, GoodsResponse.class);
 
@@ -135,7 +135,7 @@ public class GoodsController {
     @GetMapping(path = "/type/{goodsType}")
     public ResponseEntity fetchGoodsByType(@PathVariable final String goodsType) {
 
-        final List<Goods> goodsToResponse = goodsService.fetchByType(goodsType);
+        final List<Goods> goodsToResponse = goodsService.fetchGoodsByType(goodsType);
 
         final List<GoodsResponse> response = Optional.ofNullable(goodsToResponse)
                 .map(goods -> goods.stream()
@@ -155,7 +155,7 @@ public class GoodsController {
     @GetMapping(path = "/name/{goodsName}")
     public ResponseEntity fetchByName(@PathVariable final String goodsName) {
 
-        final List<Goods> goodsToResponse = goodsService.fetchByName(goodsName);
+        final List<Goods> goodsToResponse = goodsService.fetchGoodsByName(goodsName);
 
         final List<GoodsResponse> response = Optional.ofNullable(goodsToResponse)
                 .map(goods -> goods.stream()

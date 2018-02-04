@@ -47,7 +47,7 @@ public class CompanyController {
 
         final Company companyToSave = dozerBeanMapper.map(request, Company.class);
 
-        final Company companyToResponse = companyService.create(companyToSave);
+        final Company companyToResponse = companyService.createCompany(companyToSave);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
@@ -63,7 +63,7 @@ public class CompanyController {
     @GetMapping(path = "/{companyId}")
     public ResponseEntity fetchCompany(@PathVariable final Integer companyId) {
 
-        final Company companyToResponse = companyService.fetch(companyId);
+        final Company companyToResponse = companyService.fetchCompany(companyId);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
@@ -81,7 +81,7 @@ public class CompanyController {
 
         final Company companyToUpdate = dozerBeanMapper.map(request, Company.class);
 
-        final Company companyToResponse = companyService.update(companyToUpdate);
+        final Company companyToResponse = companyService.updateCompany(companyToUpdate);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
@@ -97,7 +97,7 @@ public class CompanyController {
     @DeleteMapping(path = "/{companyId}")
     public ResponseEntity deleteCompany(@PathVariable final Integer companyId) {
 
-        final Company companyToResponse = companyService.delete(companyId);
+        final Company companyToResponse = companyService.deleteCompany(companyId);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 
@@ -112,7 +112,7 @@ public class CompanyController {
     @GetMapping
     public ResponseEntity fetchAllCompanies() {
 
-        final List<Company> companiesToResponse = companyService.fetchAll();
+        final List<Company> companiesToResponse = companyService.fetchAllCompanies();
 
         final List<CompanyResponse> response = Optional.ofNullable(companiesToResponse)
                 .map(companies -> companies.stream()
@@ -131,7 +131,7 @@ public class CompanyController {
     @GetMapping(path = "/companyName/{companyName}")
     public ResponseEntity fetchCompanyByCompanyName(@PathVariable final String companyName) {
 
-        final Company companyToResponse = companyService.fetchByCompanyName(companyName);
+        final Company companyToResponse = companyService.fetchCompanyByCompanyName(companyName);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 

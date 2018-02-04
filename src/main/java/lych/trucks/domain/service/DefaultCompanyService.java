@@ -28,7 +28,7 @@ public class DefaultCompanyService implements CompanyService {
     }
 
     @Override
-    public Company create(final Company company) {
+    public Company createCompany(final Company company) {
 
         log.info("Company created.");
 
@@ -36,7 +36,7 @@ public class DefaultCompanyService implements CompanyService {
     }
 
     @Override
-    public Company fetch(final Integer id) {
+    public Company fetchCompany(final Integer id) {
 
         log.info("Company displayed.");
 
@@ -44,7 +44,7 @@ public class DefaultCompanyService implements CompanyService {
     }
 
     @Override
-    public Company delete(final Integer id) {
+    public Company deleteCompany(final Integer id) {
 
         log.info("Company deleted.");
 
@@ -57,7 +57,7 @@ public class DefaultCompanyService implements CompanyService {
 
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
-    public Company update(final Company company) {
+    public Company updateCompany(final Company company) {
 
         log.info("Company updated.");
 
@@ -74,7 +74,7 @@ public class DefaultCompanyService implements CompanyService {
     }
 
     @Override
-    public Company fetchByCompanyName(final String companyName) {
+    public Company fetchCompanyByCompanyName(final String companyName) {
 
         log.info("Company found by company name.");
 

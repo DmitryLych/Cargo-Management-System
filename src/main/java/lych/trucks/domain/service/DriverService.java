@@ -15,7 +15,7 @@ public interface DriverService {
      * @param companyId Company companyId.
      * @return List of drivers.
      */
-    List<Driver> fetchAll(Integer companyId);
+    List<Driver> fetchAllDrivers(Integer companyId);
 
     /**
      * Method for create driver.
@@ -24,7 +24,7 @@ public interface DriverService {
      * @param driver    Driver driver.
      * @return created driver.
      */
-    Driver create(Integer companyId, Driver driver);
+    Driver createDriver(Integer companyId, Driver driver);
 
     /**
      * Method for find some driver.
@@ -32,7 +32,7 @@ public interface DriverService {
      * @param id Driver id.
      * @return found driver.
      */
-    Driver fetch(Integer id);
+    Driver fetchDriver(Integer id);
 
     /**
      * Method for delete some driver.
@@ -40,7 +40,7 @@ public interface DriverService {
      * @param id Driver id.
      * @return deleted driver.
      */
-    Driver delete(Integer id);
+    Driver deleteDriver(Integer id);
 
     /**
      * Method for update Driver.
@@ -48,7 +48,7 @@ public interface DriverService {
      * @param driver Driver driver.
      * @return updated driver.
      */
-    Driver update(Driver driver);
+    Driver updateDriver(Driver driver);
 
     /**
      * Method for fetch drivers by last name and first name.
@@ -57,7 +57,7 @@ public interface DriverService {
      * @param firstName Driver firstName.
      * @return list of drivers which found.
      */
-    List<Driver> fetchByLastNameAndFirstName(String lastName, String firstName);
+    List<Driver> fetchDriversByLastNameAndFirstName(String lastName, String firstName);
 
     /**
      * Method for fetch drivers by status.
@@ -65,5 +65,5 @@ public interface DriverService {
      * @param status Driver status.
      * @return list of drivers which found.
      */
-    List<Driver> fetchByStatus(boolean status);
+    List<Driver> fetchDriversByStatus(boolean status);
 }

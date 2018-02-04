@@ -41,7 +41,7 @@ public class TruckController {
 
         final Truck truckToCreate = dozerBeanMapper.map(request, Truck.class);
 
-        final Truck truckToResponse = truckService.create(driverId, truckToCreate);
+        final Truck truckToResponse = truckService.createTruck(driverId, truckToCreate);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
 
@@ -59,7 +59,7 @@ public class TruckController {
 
         final Truck truckToUpdate = dozerBeanMapper.map(request, Truck.class);
 
-        final Truck truckToResponse = truckService.update(truckToUpdate);
+        final Truck truckToResponse = truckService.updateTruck(truckToUpdate);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
 
@@ -75,7 +75,7 @@ public class TruckController {
     @GetMapping
     public ResponseEntity fetchTrucks(@PathVariable final Integer driverId) {
 
-        final Truck truckToResponse = truckService.fetch(driverId);
+        final Truck truckToResponse = truckService.fetchTruck(driverId);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
 
@@ -91,7 +91,7 @@ public class TruckController {
     @GetMapping(path = "/register/{registerSign}")
     public ResponseEntity fetchTrucksByRegisterSign(@PathVariable final String registerSign) {
 
-        final Truck truckToResponse = truckService.fetchByRegisterSign(registerSign);
+        final Truck truckToResponse = truckService.fetchTruckByRegisterSign(registerSign);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
 
@@ -107,7 +107,7 @@ public class TruckController {
     @GetMapping(path = "/number/{bodyNumber}")
     public ResponseEntity fetchTrucksByBodyNumber(@PathVariable final String bodyNumber) {
 
-        final Truck truckToResponse = truckService.fetchByBodyNumber(bodyNumber);
+        final Truck truckToResponse = truckService.fetchTruckByBodyNumber(bodyNumber);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
 

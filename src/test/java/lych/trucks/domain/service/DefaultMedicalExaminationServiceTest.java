@@ -65,7 +65,7 @@ public class DefaultMedicalExaminationServiceTest {
 
         final Integer newId;
 
-        newId = medicalExaminationService.create(driverIdContent, medicalExamination).getId();
+        newId = medicalExaminationService.createMedicalExamination(driverIdContent, medicalExamination).getId();
 
         assertThat(medicalExaminationRepository.findOne(newId).getValidate().getTime(),
                 Is.is(newValidate.getTime()));
@@ -74,7 +74,7 @@ public class DefaultMedicalExaminationServiceTest {
     @Test
     public void fetch() {
 
-        assertThat(medicalExaminationService.fetch(driverIdContent).getValidate().getTime(),
+        assertThat(medicalExaminationService.fetchMedicalExamination(driverIdContent).getValidate().getTime(),
                 Is.is(VALIDATE_CONTENT));
     }
 
@@ -89,7 +89,7 @@ public class DefaultMedicalExaminationServiceTest {
 
         medicalExamination.setValidate(newDate);
 
-        medicalExaminationService.update(medicalExamination);
+        medicalExaminationService.updateMedicalExamination(medicalExamination);
 
         assertThat(medicalExaminationRepository.findOne(medicalExaminationIdContent)
                         .getValidate().getTime(),
@@ -100,7 +100,7 @@ public class DefaultMedicalExaminationServiceTest {
     public void fetchByValidate() {
 
         final List<MedicalExamination> medicalExaminations = medicalExaminationService
-                .fetchByValidate(VALIDATE_CONTENT);
+                .fetchMedicalExaminationByValidate(VALIDATE_CONTENT);
 
         medicalExaminations.forEach(medicalExamination -> assertThat(medicalExamination.getValidate().getTime(),
                 Is.is(VALIDATE_CONTENT)));
