@@ -1,7 +1,6 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.Customer;
 import lych.trucks.domain.model.Order;
 import lych.trucks.domain.repository.OrderRepository;
@@ -14,7 +13,6 @@ import java.util.List;
  * Implementation of {@link OrderService}.
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultOrderService implements OrderService {
 
@@ -24,8 +22,6 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public Order createOrder(final Integer customerId, final Order order) {
-
-        log.info("Order created.");
 
         final Customer customer = customerService.fetchCustomer(customerId);
 
@@ -37,8 +33,6 @@ public class DefaultOrderService implements OrderService {
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
     public Order updateOrder(final Order order) {
-
-        log.info("Order updated.");
 
         final Order saved = orderRepository.findOne(order.getOrderId());
 
@@ -59,16 +53,11 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public Order fetchOrder(final Integer orderId) {
-
-        log.info("Order fetched.");
-
         return orderRepository.findOne(orderId);
     }
 
     @Override
     public Order deleteOrder(final Integer orderId) {
-
-        log.info("Order deleted.");
 
         final Order order = orderRepository.findOne(orderId);
 
@@ -79,41 +68,26 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public List<Order> fetchOrdersByDriver(final Integer driverId) {
-
-        log.info("Order fetched by driver.");
-
         return orderRepository.findByDriver(driverId);
     }
 
     @Override
     public List<Order> fetchOrdersByCustomer(final Integer customerId) {
-
-        log.info("Order fetched by customer.");
-
         return orderRepository.findByCustomer(customerId);
     }
 
     @Override
     public List<Order> fetchOrdersByIssuedAndCustomer(final boolean issued, final Integer customerId) {
-
-        log.info("Fetched issued orders.");
-
         return orderRepository.findByIssuedAndCustomer(issued, customerId);
     }
 
     @Override
     public List<Order> fetchOrdersByCompletedAndCustomer(final boolean completed, final Integer customerId) {
-
-        log.info("Fetched completed orders.");
-
         return orderRepository.findByCompletedAndCustomer(completed, customerId);
     }
 
     @Override
     public List<Order> fetchOrdersByPaidAndCustomer(final boolean paid, final Integer customerId) {
-
-        log.info("Fetched paid orders.");
-
         return orderRepository.findByPaidAndCustomer(paid, customerId);
     }
 }

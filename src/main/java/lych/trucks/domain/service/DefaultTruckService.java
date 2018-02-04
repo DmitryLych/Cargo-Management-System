@@ -1,7 +1,6 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.Truck;
 import lych.trucks.domain.repository.TruckRepository;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
  * Implementation of {@link TruckService}.
  */
 @Service
-@Slf4j
 @SuppressWarnings("PMD")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultTruckService implements TruckService {
@@ -23,8 +21,6 @@ public class DefaultTruckService implements TruckService {
 
     @Override
     public Truck createTruck(final Integer driverId, final Truck truck) {
-
-        log.info("Truck created");
 
         final Driver driver = driverService.fetchDriver(driverId);
 
@@ -39,16 +35,11 @@ public class DefaultTruckService implements TruckService {
 
     @Override
     public Truck fetchTruck(final Integer driverId) {
-
-        log.info("Truck displayed.");
-
         return truckRepository.findByTruckFk(driverId);
     }
 
     @Override
     public Truck updateTruck(final Truck truck) {
-
-        log.info("Truck updated.");
 
         final Truck saved = truckRepository.findOne(truck.getId());
 
@@ -66,17 +57,11 @@ public class DefaultTruckService implements TruckService {
 
     @Override
     public Truck fetchTruckByRegisterSign(final String registerSign) {
-
-        log.info("Truck fetched by register sign.");
-
         return truckRepository.findByRegisterSign(registerSign);
     }
 
     @Override
     public Truck fetchTruckByBodyNumber(final String bodyNumber) {
-
-        log.info("Truck fetched by body number.");
-
         return truckRepository.findByBodyNumber(bodyNumber);
     }
 }

@@ -1,7 +1,6 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.Goods;
 import lych.trucks.domain.model.Order;
 import lych.trucks.domain.repository.GoodsRepository;
@@ -14,7 +13,6 @@ import java.util.List;
  * Implementation of {@link GoodsService}.
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultGoodsService implements GoodsService {
 
@@ -24,8 +22,6 @@ public class DefaultGoodsService implements GoodsService {
 
     @Override
     public Goods createGoods(final Integer orderId, final Goods goods) {
-
-        log.info("Goods created.");
 
         final Order order = orderService.fetchOrder(orderId);
 
@@ -37,8 +33,6 @@ public class DefaultGoodsService implements GoodsService {
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
     public Goods updateGoods(final Goods goods) {
-
-        log.info("Goods updated.");
 
         final Goods saved = goodsRepository.findOne(goods.getGoodsId());
 
@@ -54,8 +48,6 @@ public class DefaultGoodsService implements GoodsService {
     @Override
     public Goods deleteGoods(final Integer goodsId) {
 
-        log.info("Goods deleted.");
-
         final Goods goodsToDelete = goodsRepository.findOne(goodsId);
 
         goodsRepository.delete(goodsId);
@@ -65,33 +57,21 @@ public class DefaultGoodsService implements GoodsService {
 
     @Override
     public List<Goods> fetchAllGoods(final Integer orderId) {
-
-        log.info("All goods found.");
-
         return goodsRepository.findAllByOrder(orderId);
     }
 
     @Override
     public Goods fetchGoods(final Integer goodsId) {
-
-        log.info("Goods found.");
-
         return goodsRepository.findOne(goodsId);
     }
 
     @Override
     public List<Goods> fetchGoodsByType(final String goodsType) {
-
-        log.info("Goods fetch by type.");
-
         return goodsRepository.findByType(goodsType);
     }
 
     @Override
     public List<Goods> fetchGoodsByName(final String name) {
-
-        log.info("Goods fetch by name.");
-
         return goodsRepository.findByName(name);
     }
 }

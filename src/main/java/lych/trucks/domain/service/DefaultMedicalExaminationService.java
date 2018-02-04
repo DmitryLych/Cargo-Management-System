@@ -1,7 +1,6 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.MedicalExamination;
 import lych.trucks.domain.repository.MedicalExaminationRepository;
@@ -15,7 +14,6 @@ import java.util.List;
  * Implementation of {@link MedicalExaminationService}.
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultMedicalExaminationService implements MedicalExaminationService {
 
@@ -25,8 +23,6 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
 
     @Override
     public MedicalExamination createMedicalExamination(final Integer driverId, final MedicalExamination medicalExamination) {
-
-        log.info("Medical examination created.");
 
         final Driver driver = driverService.fetchDriver(driverId);
 
@@ -41,16 +37,11 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
 
     @Override
     public MedicalExamination fetchMedicalExamination(final Integer driverId) {
-
-        log.info("Medical examination displayed.");
-
         return medicalExaminationRepository.findByMedicalExaminationFk(driverId);
     }
 
     @Override
     public MedicalExamination updateMedicalExamination(final MedicalExamination medicalExamination) {
-
-        log.info("Medical examination updated.");
 
         final MedicalExamination saved = medicalExaminationRepository.findOne(medicalExamination.getId());
 
@@ -63,8 +54,6 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
 
     @Override
     public List<MedicalExamination> fetchMedicalExaminationByValidate(final Long validate) {
-
-        log.info("Medical examination fetched by validate.");
 
         final Date date = new Date();
 

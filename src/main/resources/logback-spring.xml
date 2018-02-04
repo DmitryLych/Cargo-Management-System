@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <file>${LOG_PATH:-logs}/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- hourly rollover -->
+            <fileNamePattern>${LOG_PATH:-logs}/debug.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <!-- keep 30 hours' worth of history capped at 5MB total size -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>5MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <file>${LOG_PATH:-logs}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- hourly rollover -->
+            <fileNamePattern>${LOG_PATH:-logs}/error.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <!-- keep 30 hours' worth of history capped at 5MB total size -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>5MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="lych.trucks" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE_AUDIT" />
+    </logger>
+
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE_AUDIT" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE_AUDIT" />
+    </root>
+
+    <root level="ERROR">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE_ERROR" />
+    </root>
+</configuration>

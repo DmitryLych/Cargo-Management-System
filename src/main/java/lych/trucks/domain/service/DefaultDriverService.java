@@ -1,7 +1,6 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.Company;
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.repository.DriverRepository;
@@ -14,7 +13,6 @@ import java.util.List;
  * Implementation of {@link DriverService}.
  */
 @Service
-@Slf4j
 @SuppressWarnings("PMD")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultDriverService implements DriverService {
@@ -25,16 +23,11 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public List<Driver> fetchAllDrivers(final Integer companyId) {
-
-        log.info("Drivers displayed.");
-
         return driverRepository.findAllByCompany(companyId);
     }
 
     @Override
     public Driver createDriver(final Integer companyId, final Driver driver) {
-
-        log.info("Driver added.");
 
         final Company company = companyService.fetchCompany(companyId);
 
@@ -45,16 +38,11 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public Driver fetchDriver(final Integer id) {
-
-        log.info("Driver displayed.");
-
         return driverRepository.findOne(id);
     }
 
     @Override
     public Driver deleteDriver(final Integer id) {
-
-        log.info("Driver deleted.");
 
         final Driver driver = driverRepository.findOne(id);
 
@@ -65,8 +53,6 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public Driver updateDriver(final Driver driver) {
-
-        log.info("Driver updated.");
 
         final Driver saved = driverRepository.findOne(driver.getId());
 
@@ -93,17 +79,11 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public List<Driver> fetchDriversByLastNameAndFirstName(final String lastName, final String firstName) {
-
-        log.info("Drivers fetch by last name and first name.");
-
         return driverRepository.findByLastNameAndFirstName(lastName, firstName);
     }
 
     @Override
     public List<Driver> fetchDriversByStatus(final boolean status) {
-
-        log.info("Drivers fetch by status.");
-
         return driverRepository.findByStatus(status);
     }
 }

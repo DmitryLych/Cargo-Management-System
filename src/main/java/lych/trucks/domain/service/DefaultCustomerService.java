@@ -1,7 +1,6 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.model.Customer;
 import lych.trucks.domain.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import java.util.List;
  * Implementation of {@link CustomerService}.
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultCustomerService implements CustomerService {
 
@@ -21,32 +19,21 @@ public class DefaultCustomerService implements CustomerService {
 
     @Override
     public List<Customer> fetchAllCustomers() {
-
-        log.info("Customers displayed.");
-
         return customerRepository.findAll();
     }
 
     @Override
     public Customer createCustomer(final Customer customer) {
-
-        log.info("Customer created.");
-
         return customerRepository.save(customer);
     }
 
     @Override
     public Customer fetchCustomer(final Integer customerId) {
-
-        log.info("Customer displayed.");
-
         return customerRepository.findOne(customerId);
     }
 
     @Override
     public Customer deleteCustomer(final Integer customerId) {
-
-        log.info("Customer deleted.");
 
         final Customer customer = customerRepository.findOne(customerId);
 
@@ -58,8 +45,6 @@ public class DefaultCustomerService implements CustomerService {
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
     public Customer updateCustomer(final Customer customer) {
-
-        log.info("Customer updated");
 
         final Customer saved = customerRepository.findOne(customer.getCustomerId());
 
@@ -78,8 +63,6 @@ public class DefaultCustomerService implements CustomerService {
 
     @Override
     public Customer fetchCustomerByCustomerName(final String customerName) {
-
-        log.info("Customer found by customer name.");
 
         return customerRepository.findByCustomerName(customerName);
     }
