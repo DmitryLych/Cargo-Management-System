@@ -24,7 +24,7 @@ public class DriverLicense implements Serializable {
     private static final long serialVersionUID = -6976625888749317669L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "driver_license_id")
     private Integer id;
 

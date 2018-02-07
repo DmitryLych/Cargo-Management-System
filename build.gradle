@@ -13,13 +13,15 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+
 apply from: 'quality/checkstyle/checkstyle.gradle'
 apply from: 'quality/pmd/pmd.gradle'
 apply from: 'quality/findbugs/findbugs.gradle'
 apply from: 'quality/codecoverage/jacoco.gradle'
 
-group = 'lych'
+group = 'lych.trucks'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
@@ -31,12 +33,17 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
+
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile('org.springframework:spring-aspects')
+
 	compile('org.postgresql:postgresql')
 	compile('org.projectlombok:lombok')
 	compile("net.sf.dozer:dozer:$dozerVersion")
 	compile("org.flywaydb:flyway-core")
+
 	testCompile("com.h2database:h2")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

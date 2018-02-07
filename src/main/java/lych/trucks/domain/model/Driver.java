@@ -32,7 +32,7 @@ public class Driver implements Serializable {
 
     @Id
     @Column(name = "driver_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "last_name")

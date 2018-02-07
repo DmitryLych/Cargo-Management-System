@@ -1,12 +1,15 @@
+server:
+  port: 9090
+
 #DataBase
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/Trucks
-    username: dmitry
-    password: dmitry
+    url: jdbc:postgresql://localhost:5432/Cargo_Managament_System_DB
+    username: Dmitry
+    password: Dmitry
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
 
 #Flyway
 flyway:
