@@ -1,0 +1,1 @@
+INSERT INTO companies VALUES (1,'address','company','email','123')

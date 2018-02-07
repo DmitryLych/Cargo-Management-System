@@ -5,6 +5,12 @@ spring:
     username: dmitry
     password: dmitry
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+
+#Flyway
+flyway:
+  enabled: true
+  locations: classpath:db/migration
+  check-location: true
+  baseline-on-migrate: true
