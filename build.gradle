@@ -37,6 +37,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile("com.github.jsimone:webapp-runner:8.5.27.0")
 	compile('org.springframework:spring-aspects')
 
 	compile('org.postgresql:postgresql')
