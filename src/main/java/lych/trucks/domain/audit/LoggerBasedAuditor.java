@@ -25,6 +25,7 @@ public class LoggerBasedAuditor implements Auditing {
 
     @Override
     public void logHandle(final String methodName, final String args) {
+
         methodNameValidate(methodName);
 
         log.info("Audit Log from Handle method: {} - Args: {} ", methodName, args);
