@@ -7,6 +7,8 @@ import lych.trucks.domain.repository.TruckRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Implementation of {@link TruckService}.
  */
@@ -21,6 +23,7 @@ public class DefaultTruckService implements TruckService {
 
     @Override
     public Truck createTruck(final Integer driverId, final Truck truck) {
+        validateTruck(truck);
 
         final Driver driver = driverService.fetchDriver(driverId);
 
@@ -35,13 +38,19 @@ public class DefaultTruckService implements TruckService {
 
     @Override
     public Truck fetchTruck(final Integer driverId) {
-        return truckRepository.findByTruckFk(driverId);
+
+        return Optional.ofNullable(truckRepository.findByTruckFk(driverId))
+                .orElseThrow(() -> new IllegalArgumentException("Truck not found. "
+                        + "Driver with Id: '" + driverId + "' don`t have truck."));
     }
 
     @Override
     public Truck updateTruck(final Truck truck) {
+        validateTruck(truck);
 
-        final Truck saved = truckRepository.findOne(truck.getId());
+        final Truck saved = Optional.ofNullable(truckRepository.findOne(truck.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("Truck not found. "
+                        + "Truck with Id: '" + truck.getId() + "' not exists."));
 
         truck.setBodyNumber(saved.getBodyNumber());
         truck.setTruckFk(truck.getTruckFk() == null ? saved.getTruckFk()
@@ -57,11 +66,22 @@ public class DefaultTruckService implements TruckService {
 
     @Override
     public Truck fetchTruckByRegisterSign(final String registerSign) {
-        return truckRepository.findByRegisterSign(registerSign);
+        return Optional.ofNullable(truckRepository.findByRegisterSign(registerSign))
+                .orElseThrow(() -> new IllegalArgumentException("Truck not found. "
+                        + "Truck with register sign: '" + registerSign + "' not exists."));
     }
 
     @Override
     public Truck fetchTruckByBodyNumber(final String bodyNumber) {
-        return truckRepository.findByBodyNumber(bodyNumber);
+        return Optional.ofNullable(truckRepository.findByBodyNumber(bodyNumber))
+                .orElseThrow(() -> new IllegalArgumentException("Truck not found. "
+                        + "Truck with body number: '" + bodyNumber + "' not exist."));
+    }
+
+    private static void validateTruck(final Truck truck) {
+
+        if (truck == null) {
+            throw new IllegalArgumentException("Truck can`t be null.");
+        }
     }
 }

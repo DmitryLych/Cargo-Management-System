@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of {@link InsurancePolicyService}.
@@ -29,6 +30,7 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
     @Override
     public InsurancePolicy createInsurancePolicy(final Integer driverId, final InsurancePolicy insurancePolicy) {
+        validateInsurancePolicy(insurancePolicy);
 
         final Driver driver = driverService.fetchDriver(driverId);
 
@@ -39,13 +41,16 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
     @Override
     public InsurancePolicy fetchInsurancePolicy(final Integer id) {
-        return insurancePolicyRepository.findOne(id);
+
+        return Optional.ofNullable(insurancePolicyRepository.findOne(id))
+                .orElseThrow(() -> new IllegalArgumentException("Insurance policy not found. "
+                        + "Insurance policy with this Id: '" + id + "' not exists."));
     }
 
     @Override
     public InsurancePolicy deleteInsurancePolicy(final Integer id) {
 
-        final InsurancePolicy insurancePolicy = insurancePolicyRepository.findOne(id);
+        final InsurancePolicy insurancePolicy = fetchInsurancePolicy(id);
 
         insurancePolicyRepository.delete(id);
 
@@ -54,8 +59,9 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
     @Override
     public InsurancePolicy updateInsurancePolicy(final InsurancePolicy insurancePolicy) {
+        validateInsurancePolicy(insurancePolicy);
 
-        final InsurancePolicy saved = insurancePolicyRepository.findOne(insurancePolicy.getId());
+        final InsurancePolicy saved = fetchInsurancePolicy(insurancePolicy.getId());
 
         insurancePolicy.setDriver(insurancePolicy.getDriver() == null ? saved.getDriver()
                 : insurancePolicy.getDriver());
@@ -70,15 +76,26 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
     @Override
     public List<InsurancePolicy> fetchInsurancePoliciesByValidate(final Long validate) {
 
-        final Date date = new Date();
+        final Date validateTime = new Date();
 
-        date.setTime(validate);
+        validateTime.setTime(Optional.of(validate)
+                .orElseThrow(() -> new IllegalArgumentException("Date can`t be null.")));
 
-        return insurancePolicyRepository.findByValidate(date);
+        return Optional.ofNullable(insurancePolicyRepository.findByValidate(validateTime))
+                .orElseThrow(() -> new IllegalArgumentException("Insurance policies not found. "
+                        + "Insurance policies with this validate time: '" + validateTime + "' not exists."));
     }
 
     @Override
     public List<InsurancePolicy> fetchInsurancePoliciesByType(final String type) {
-        return insurancePolicyRepository.findByType(type);
+        return Optional.ofNullable(insurancePolicyRepository.findByType(type))
+                .orElseThrow(() -> new IllegalArgumentException("Insurance policies not found. "
+                        + "Insurance policies with this type: '" + type + "'not exists."));
+    }
+
+    private static void validateInsurancePolicy(final InsurancePolicy insurancePolicy) {
+        if (insurancePolicy == null) {
+            throw new IllegalArgumentException("Insurance policy can`t be null.");
+        }
     }
 }

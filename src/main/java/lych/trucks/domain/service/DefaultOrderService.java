@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of {@link OrderService}.
@@ -22,6 +23,7 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public Order createOrder(final Integer customerId, final Order order) {
+        validateOrder(order);
 
         final Customer customer = customerService.fetchCustomer(customerId);
 
@@ -33,8 +35,9 @@ public class DefaultOrderService implements OrderService {
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
     public Order updateOrder(final Order order) {
+        validateOrder(order);
 
-        final Order saved = orderRepository.findOne(order.getOrderId());
+        final Order saved = fetchOrder(order.getOrderId());
 
         order.setCustomer(saved.getCustomer());
         order.setCoast(order.getCoast() == null ? saved.getCoast() : order.getCoast());
@@ -53,13 +56,15 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public Order fetchOrder(final Integer orderId) {
-        return orderRepository.findOne(orderId);
+        return Optional.ofNullable(orderRepository.findOne(orderId))
+                .orElseThrow(() -> new IllegalArgumentException("Order not found. "
+                        + "Order with this Id: '" + orderId + "' not exists."));
     }
 
     @Override
     public Order deleteOrder(final Integer orderId) {
 
-        final Order order = orderRepository.findOne(orderId);
+        final Order order = fetchOrder(orderId);
 
         orderRepository.delete(orderId);
 
@@ -68,26 +73,43 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public List<Order> fetchOrdersByDriver(final Integer driverId) {
-        return orderRepository.findByDriver(driverId);
+        return Optional.ofNullable(orderRepository.findByDriver(driverId))
+                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
+                        + "Driver with Id: '" + driverId + "' don`t have orders."));
     }
 
     @Override
     public List<Order> fetchOrdersByCustomer(final Integer customerId) {
-        return orderRepository.findByCustomer(customerId);
+        return Optional.ofNullable(orderRepository.findByCustomer(customerId))
+                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
+                        + "Customer with Id: '" + customerId + "' don`t have orders."));
     }
 
     @Override
     public List<Order> fetchOrdersByIssuedAndCustomer(final boolean issued, final Integer customerId) {
-        return orderRepository.findByIssuedAndCustomer(issued, customerId);
+        return Optional.ofNullable(orderRepository.findByIssuedAndCustomer(issued, customerId))
+                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
+                        + "Customer with Id: '" + customerId + "' don`t have orders with issued status: '" + issued + "'"));
     }
 
     @Override
     public List<Order> fetchOrdersByCompletedAndCustomer(final boolean completed, final Integer customerId) {
-        return orderRepository.findByCompletedAndCustomer(completed, customerId);
+        return Optional.ofNullable(orderRepository.findByCompletedAndCustomer(completed, customerId))
+                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
+                        + "Customer with Id: '" + customerId + "' don`t have orders with completed status: '" + completed + "'"));
     }
 
     @Override
     public List<Order> fetchOrdersByPaidAndCustomer(final boolean paid, final Integer customerId) {
-        return orderRepository.findByPaidAndCustomer(paid, customerId);
+        return Optional.ofNullable(orderRepository.findByPaidAndCustomer(paid, customerId))
+                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
+                        + "Customer with Id: '" + customerId + "' don`t have orders with paid status: '" + paid + "'"));
+    }
+
+    private static void validateOrder(final Order order) {
+
+        if (order == null) {
+            throw new IllegalArgumentException("Order can`t be null.");
+        }
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of {@link CustomerService}.
@@ -24,18 +25,22 @@ public class DefaultCustomerService implements CustomerService {
 
     @Override
     public Customer createCustomer(final Customer customer) {
+        validateCustomer(customer);
+
         return customerRepository.save(customer);
     }
 
     @Override
     public Customer fetchCustomer(final Integer customerId) {
-        return customerRepository.findOne(customerId);
+        return Optional.ofNullable(customerRepository.findOne(customerId))
+                .orElseThrow(() -> new IllegalArgumentException("Can`t find Customer by Id. Customer with this"
+                        + " Id: '" + customerId + "' not exist."));
     }
 
     @Override
     public Customer deleteCustomer(final Integer customerId) {
 
-        final Customer customer = customerRepository.findOne(customerId);
+        final Customer customer = fetchCustomer(customerId);
 
         customerRepository.delete(customerId);
 
@@ -45,8 +50,9 @@ public class DefaultCustomerService implements CustomerService {
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
     public Customer updateCustomer(final Customer customer) {
+        validateCustomer(customer);
 
-        final Customer saved = customerRepository.findOne(customer.getCustomerId());
+        final Customer saved = fetchCustomer(customer.getCustomerId());
 
         customer.setAddress(customer.getAddress() == null ? saved.getAddress() : customer.getAddress());
         customer.setCustomerName(customer.getCustomerName() == null ? saved.getCustomerName()
@@ -58,12 +64,20 @@ public class DefaultCustomerService implements CustomerService {
                 ? saved.getMobileTelephoneNumber() : customer.getMobileTelephoneNumber());
         customer.setOrders(customer.getOrders() == null ? saved.getOrders() : customer.getOrders());
 
-        return customerRepository.save(customer);
+        return createCustomer(customer);
     }
 
     @Override
     public Customer fetchCustomerByCustomerName(final String customerName) {
+        return Optional.ofNullable(customerRepository.findByCustomerName(customerName))
+                .orElseThrow(() -> new IllegalArgumentException("Customer can`t find by Customer name. Customer with "
+                        + "Customer name: '" + customerName + "' not exist."));
+    }
 
-        return customerRepository.findByCustomerName(customerName);
+    private static void validateCustomer(final Customer customer) {
+
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer can`t be null.");
+        }
     }
 }

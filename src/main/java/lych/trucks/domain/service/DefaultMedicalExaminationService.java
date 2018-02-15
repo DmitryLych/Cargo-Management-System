@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of {@link MedicalExaminationService}.
@@ -23,6 +24,7 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
 
     @Override
     public MedicalExamination createMedicalExamination(final Integer driverId, final MedicalExamination medicalExamination) {
+        validateMedicalExamination(medicalExamination);
 
         final Driver driver = driverService.fetchDriver(driverId);
 
@@ -37,11 +39,14 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
 
     @Override
     public MedicalExamination fetchMedicalExamination(final Integer driverId) {
-        return medicalExaminationRepository.findByMedicalExaminationFk(driverId);
+        return Optional.ofNullable(medicalExaminationRepository.findByMedicalExaminationFk(driverId))
+                .orElseThrow(() -> new IllegalArgumentException("Medical examination not found. "
+                        + "Driver with this Id: '" + driverId + "' don`t have medical examination."));
     }
 
     @Override
     public MedicalExamination updateMedicalExamination(final MedicalExamination medicalExamination) {
+        validateMedicalExamination(medicalExamination);
 
         final MedicalExamination saved = medicalExaminationRepository.findOne(medicalExamination.getId());
 
@@ -55,10 +60,20 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
     @Override
     public List<MedicalExamination> fetchMedicalExaminationByValidate(final Long validate) {
 
-        final Date date = new Date();
+        final Date validateTime = new Date();
 
-        date.setTime(validate);
+        validateTime.setTime(Optional.of(validate)
+                .orElseThrow(() -> new IllegalArgumentException("Incorrect validate")));
 
-        return medicalExaminationRepository.findByValidate(date);
+        return Optional.ofNullable(medicalExaminationRepository.findByValidate(validateTime))
+                .orElseThrow(() -> new IllegalArgumentException("Medical examinations not found. "
+                        + "Medical examination with this validate time: '" + validateTime + "' not exists."));
+    }
+
+    private static void validateMedicalExamination(final MedicalExamination medicalExamination) {
+
+        if (medicalExamination == null) {
+            throw new IllegalArgumentException("Medical examination can`t be null.");
+        }
     }
 }

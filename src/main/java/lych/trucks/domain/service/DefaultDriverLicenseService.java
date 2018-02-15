@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of {@link DriverLicenseService}.
@@ -22,6 +23,7 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
 
     @Override
     public DriverLicense createDriverLicense(final Integer driverId, final DriverLicense driverLicense) {
+        validateDriverLicense(driverLicense);
 
         driverLicense.setDriverLicenseFk(driverId);
 
@@ -36,14 +38,19 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
 
     @Override
     public DriverLicense fetchDriverLicense(final Integer driverId) {
-        return driverLicenseRepository.findByDriverLicenseFk(driverId);
+        return Optional.ofNullable(driverLicenseRepository.findByDriverLicenseFk(driverId))
+                .orElseThrow(() -> new IllegalArgumentException("Can`t find Driver License. Driver License with this"
+                        + " driver Id: '" + driverId + "' not exist."));
     }
 
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
     public DriverLicense updateDriverLicense(final DriverLicense driverLicense) {
+        validateDriverLicense(driverLicense);
 
-        final DriverLicense saved = driverLicenseRepository.findOne(driverLicense.getId());
+        final DriverLicense saved = Optional.ofNullable(driverLicenseRepository.findOne(driverLicense.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("Driver License can`t find. Driver License with"
+                        + " this Id: '" + driverLicense.getId() + "' not exist."));
 
         driverLicense.setCategory(driverLicense.getCategory() == null ? saved.getCategory()
                 : driverLicense.getCategory());
@@ -59,11 +66,22 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
 
     @Override
     public List<DriverLicense> fetchDriverLicensesByCategory(final String category) {
-        return driverLicenseRepository.findByCategory(category);
+        return Optional.ofNullable(driverLicenseRepository.findByCategory(category))
+                .orElseThrow(() -> new IllegalArgumentException("Driver Licenses can`t find. Driver Licenses with"
+                        + " this category: '" + category + "' not exist."));
     }
 
     @Override
     public List<DriverLicense> fetchDriverLicensesBySpecialNotes(final String specialNotes) {
-        return driverLicenseRepository.findBySpecialNotes(specialNotes);
+        return Optional.ofNullable(driverLicenseRepository.findBySpecialNotes(specialNotes))
+                .orElseThrow(() -> new IllegalArgumentException("Driver Licenses can`t find. Driver Licenses with"
+                        + "this special notes: '" + specialNotes + "' not exist."));
+    }
+
+    private static void validateDriverLicense(final DriverLicense driverLicense) {
+
+        if (driverLicense == null) {
+            throw new IllegalArgumentException("Driver License can`t be null.");
+        }
     }
 }

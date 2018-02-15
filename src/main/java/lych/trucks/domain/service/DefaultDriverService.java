@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of {@link DriverService}.
@@ -23,11 +24,14 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public List<Driver> fetchAllDrivers(final Integer companyId) {
-        return driverRepository.findAllByCompany(companyId);
+        return Optional.ofNullable(driverRepository.findAllByCompany(companyId))
+                .orElseThrow(() -> new IllegalArgumentException("Drivers not found. Drivers in company "
+                        + "with Id: '" + companyId + "' not exists."));
     }
 
     @Override
     public Driver createDriver(final Integer companyId, final Driver driver) {
+        validateDriver(driver);
 
         final Company company = companyService.fetchCompany(companyId);
 
@@ -38,13 +42,15 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public Driver fetchDriver(final Integer id) {
-        return driverRepository.findOne(id);
+        return Optional.ofNullable(driverRepository.findOne(id))
+                .orElseThrow(() -> new IllegalArgumentException("Driver not found. Driver with"
+                        + " this Id: '" + id + "' not exists."));
     }
 
     @Override
     public Driver deleteDriver(final Integer id) {
 
-        final Driver driver = driverRepository.findOne(id);
+        final Driver driver = fetchDriver(id);
 
         driverRepository.delete(id);
 
@@ -53,8 +59,9 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public Driver updateDriver(final Driver driver) {
+        validateDriver(driver);
 
-        final Driver saved = driverRepository.findOne(driver.getId());
+        final Driver saved = fetchDriver(driver.getId());
 
         driver.setCompany(driver.getCompany() == null ? saved.getCompany() : driver.getCompany());
         driver.setAddress(driver.getAddress() == null ? saved.getAddress() : driver.getAddress());
@@ -79,11 +86,21 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public List<Driver> fetchDriversByLastNameAndFirstName(final String lastName, final String firstName) {
-        return driverRepository.findByLastNameAndFirstName(lastName, firstName);
+        return Optional.ofNullable(driverRepository.findByLastNameAndFirstName(lastName, firstName))
+                .orElseThrow(() -> new IllegalArgumentException("Drivers not found."
+                        + " Drivers with this last name: '" + lastName + "' and first name: '" + firstName + "' not exists."));
     }
 
     @Override
     public List<Driver> fetchDriversByStatus(final boolean status) {
         return driverRepository.findByStatus(status);
     }
+
+    private static void validateDriver(final Driver driver) {
+        if (driver == null) {
+            throw new IllegalArgumentException("Driver can`t be null.");
+        }
+    }
 }
+
+
