@@ -75,7 +75,7 @@ public class DefaultCompanyService implements CompanyService {
 
     private static void validateCompany(final Company company) {
         if (company == null) {
-            throw new IllegalArgumentException("Company can`t be null.");
+            throw new IllegalStateException("Company can`t be null.");
         }
     }
 }

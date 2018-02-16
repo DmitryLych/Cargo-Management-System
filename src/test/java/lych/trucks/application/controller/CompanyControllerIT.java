@@ -14,6 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static lych.trucks.domain.http.HttpStatusCode.BAD_REQUEST;
+import static lych.trucks.domain.http.HttpStatusCode.CREATED;
+import static lych.trucks.domain.http.HttpStatusCode.OK;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -51,6 +54,8 @@ public class CompanyControllerIT {
 
     private static final String EMAIL = "email";
 
+    private static final Integer INCORRECT_ID = 150;
+
     @Before
     public void setUp() {
 
@@ -79,7 +84,7 @@ public class CompanyControllerIT {
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
-                .andExpect(status().isCreated())
+                .andExpect(status().is(CREATED))
                 .andExpect(jsonPath("$.companyName", is(request.getCompanyName())))
                 .andExpect(jsonPath("$.address", is(request.getAddress())))
                 .andExpect(jsonPath("$.email", is(request.getEmail())));
@@ -92,8 +97,20 @@ public class CompanyControllerIT {
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().is(OK))
                 .andExpect(jsonPath("$.companyName", is(COMPANY_NAME)));
+    }
+
+    @Test
+    public void fetchCompany_callIncorrectId_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + INCORRECT_ID)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().is(BAD_REQUEST))
+                .andExpect(jsonPath("$.message", is("Can`t find Company by Id. Company with this Id: '150' not exist.")))
+        .andExpect(jsonPath("$.errorId",is("")));
     }
 
     @Test

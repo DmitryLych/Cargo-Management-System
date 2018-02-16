@@ -1,11 +1,10 @@
 package lych.trucks.application.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import lych.trucks.domain.exception.ExceptionResponse;
 import org.dozer.MappingException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -13,7 +12,6 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 
 /**
  * Exception handling controller.
@@ -33,30 +31,25 @@ public class GlobalExceptionHandler {
 
         final UUID errorUUID = UUID.randomUUID();
 
-        log.error("Error-Id: {} - {}", errorUUID, exception.getMessage(), exception);
+        final String exceptionMessage = exception.getMessage();
 
-        final String content = exception.getMessage() + " Error-Id: " + errorUUID;
+        log.error("Error-Id: {} - {}", errorUUID, exceptionMessage, exception);
 
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(content);
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(ExceptionResponse
+                .anExceptionResponse(exceptionMessage, errorUUID.toString()));
     }
 
-    /**
-     * Method for handling no such method exception.
-     *
-     * @param exception HttpRequestMethodNotSupportedException exception.
-     * @return Exception message with UUID.
-     */
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity noSuchMethodException(final HttpRequestMethodNotSupportedException exception) {
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public ResponseEntity illegalArgumentOrStateException(final RuntimeException exception) {
 
         final UUID errorUUID = UUID.randomUUID();
 
-        log.error("Error-Id: {} - {}", errorUUID, exception.getMessage(), exception);
+        final String exceptionMessage = exception.getMessage();
 
-        final String content = "Incorrect method!!! Error message: " + exception.getMessage()
-                + " Error-Id: " + errorUUID;
+        log.error("Error-Id: {} - {}", errorUUID, exceptionMessage, exception);
 
-        return ResponseEntity.status(METHOD_NOT_ALLOWED).body(content);
+        return ResponseEntity.status(BAD_REQUEST).body(ExceptionResponse
+                .anExceptionResponse(exceptionMessage, errorUUID.toString()));
     }
 
     /**
@@ -75,23 +68,5 @@ public class GlobalExceptionHandler {
         final String content = "Object does not exist!!! Error-Id: " + errorUUID;
 
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(content);
-    }
-
-    /**
-     * Method for handling.
-     *
-     * @param exception httpMessageNotReadableException exception.
-     * @return Exception message with UUID.
-     */
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity httpMessageNotReadableException(final HttpMessageNotReadableException exception) {
-
-        final UUID errorUUID = UUID.randomUUID();
-
-        log.error("Error-Id: {} - {}", errorUUID, exception.getMessage(), exception);
-
-        final String content = "Fields can not be empty!!! Error-Id: " + errorUUID;
-
-        return ResponseEntity.status(BAD_REQUEST).body(content);
     }
 }
