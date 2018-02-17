@@ -18,7 +18,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Date;
 
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -56,8 +55,6 @@ public class MedicalExaminationControllerIT {
     private MedicalExaminationRequest request;
 
     private Integer driverId;
-
-    private static final Long INCORRECT_VALIDATE = 7575L;
 
     @Before
     public void setUp() {
@@ -145,19 +142,5 @@ public class MedicalExaminationControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id", is(medicalExaminationId)))
                 .andExpect(jsonPath("$.[0].validate", is(VALIDATE.getTime())));
-    }
-
-    @Test
-    public void fetchByValidate_call_incorrectValidate_expect_IllegalArgument() throws Exception {
-
-        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
-                + driverId + "/medical/validate/" + INCORRECT_VALIDATE)
-                .accept(APPLICATION_JSON_UTF8_VALUE)
-                .contentType(APPLICATION_JSON_UTF8_VALUE))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", is("Medical examinations not found."
-                        + " Medical examination with this validate time: 'Thu Jan 01 03:00:07 MSK 1970' not exists.")))
-                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 }

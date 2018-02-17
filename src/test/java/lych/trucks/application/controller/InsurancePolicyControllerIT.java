@@ -67,8 +67,6 @@ public class InsurancePolicyControllerIT {
 
     private static final Integer INCORRECT_DRIVER_ID = 123;
 
-    private static final Long INCORRECT_VALIDATE = 444L;
-
     private static final String INCORRECT_TYPE = "wrong";
 
     private static final Integer INCORRECT_ID = 32;
@@ -215,20 +213,6 @@ public class InsurancePolicyControllerIT {
                 .andExpect(jsonPath("$.[0].validate", is(VALIDATE.getTime())))
                 .andExpect(jsonPath("$.[0].type", is(TYPE)));
 
-    }
-
-    @Test
-    public void fetchByValidate_call_wrongValidate_expect_IllegalArgument() throws Exception {
-
-        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
-                + driverId + "/insurance/validate/" + INCORRECT_VALIDATE)
-                .accept(APPLICATION_JSON_UTF8_VALUE)
-                .contentType(APPLICATION_JSON_UTF8_VALUE))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", is("Insurance policies not found."
-                        + " Insurance policies with this validate time: 'Thu Jan 01 03:00:00 MSK 1970' not exists.")))
-                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 
     @Test
