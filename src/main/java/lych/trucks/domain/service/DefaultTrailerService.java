@@ -75,17 +75,27 @@ public class DefaultTrailerService implements TrailerService {
     @Override
     public List<Trailer> fetchTrailersByVolume(final Integer volume) {
 
-        return Optional.ofNullable(trailerRepository.findByVolume(volume))
-                .orElseThrow(() -> new IllegalArgumentException("Trailers not found. "
-                        + "Trailers with volume: '" + volume + "' not exists."));
+        final List<Trailer> trailers = trailerRepository.findByVolume(volume);
+
+        if (trailers == null || trailers.isEmpty()) {
+            throw new IllegalArgumentException("Trailers not found. "
+                    + "Trailers with volume: '" + volume + "' not exists.");
+        }
+
+        return trailers;
     }
 
     @Override
     public List<Trailer> fetchTrailersByType(final String type) {
 
-        return Optional.ofNullable(trailerRepository.findByType(type))
-                .orElseThrow(() -> new IllegalArgumentException("Trailers not found. "
-                        + "Trailers with type: '" + type + "' not exist."));
+        final List<Trailer> trailers = trailerRepository.findByType(type);
+
+        if (trailers == null || trailers.isEmpty()) {
+            throw new IllegalArgumentException("Trailers not found. "
+                    + "Trailers with type: '" + type + "' not exist.");
+        }
+
+        return trailers;
     }
 
     private static void validateTrailer(final Trailer trailer) {

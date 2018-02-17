@@ -2,66 +2,91 @@ package lych.trucks.domain.service;
 
 import lych.trucks.domain.model.Customer;
 import lych.trucks.domain.repository.CustomerRepository;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class DefaultCustomerServiceTest {
 
-    @Autowired
+    @Mock
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private CustomerService customerService;
+    @InjectMocks
+    private DefaultCustomerService customerService;
+
+    private Customer customer;
 
     private static final String CUSTOMER_NAME_CONTENT = "customer name";
 
-    private Integer customerIdContent;
+    private static final Integer CUSTOMER_ID = 1;
 
     @Before
     public void setUp() {
-
-        customerRepository.deleteAll();
-
-        final Customer customer = new Customer();
+        customer = new Customer();
 
         customer.setCustomerName(CUSTOMER_NAME_CONTENT);
-
-        customerIdContent = customerRepository.save(customer).getCustomerId();
+        customer.setCustomerId(CUSTOMER_ID);
     }
 
     @Test
     public void create() {
 
-        final Customer customer = new Customer();
+        when(customerRepository.save(customer)).thenReturn(customer);
 
-        final String content = "new";
+        final Customer saved = customerService.createCustomer(customer);
 
-        customer.setCustomerName(content);
+        verify(customerRepository).save(customer);
 
-        assertThat(customerService.createCustomer(customer).getCustomerName(), Is.is(content));
+        assertThat(saved.getCustomerName(), is(CUSTOMER_NAME_CONTENT));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void createCustomer_call_nullCustomer_expect_IllegalArgument() {
+        customerService.createCustomer(null);
     }
 
     @Test
     public void fetch() {
 
-        assertThat(customerService.fetchCustomer(customerIdContent).getCustomerName(), Is.is(CUSTOMER_NAME_CONTENT));
+        when(customerRepository.findOne(CUSTOMER_ID)).thenReturn(customer);
+
+        final Customer fetchedCustomer = customerService.fetchCustomer(CUSTOMER_ID);
+
+        verify(customerRepository).findOne(CUSTOMER_ID);
+
+        assertThat(fetchedCustomer.getCustomerName(), is(CUSTOMER_NAME_CONTENT));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void fetchCustomer_call_incorrectId_expect_IllegalArgument() {
+        customerService.fetchCustomer(CUSTOMER_ID);
     }
 
     @Test
     public void delete() {
 
-        customerService.deleteCustomer(customerIdContent);
+        when(customerRepository.findOne(CUSTOMER_ID)).thenReturn(customer);
 
-        assertThat(customerRepository.exists(customerIdContent), Is.is(false));
+        final Customer deletedCustomer = customerService.deleteCustomer(CUSTOMER_ID);
+
+        verify(customerRepository).findOne(CUSTOMER_ID);
+        verify(customerRepository).delete(CUSTOMER_ID);
+
+        assertThat(deletedCustomer.getCustomerName(), is(CUSTOMER_NAME_CONTENT));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void deleteCustomer_call_incorrectId_expect_IllegalArgument() {
+        customerService.deleteCustomer(CUSTOMER_ID);
     }
 
     @Test
@@ -69,19 +94,39 @@ public class DefaultCustomerServiceTest {
 
         final String content = "update";
 
-        final Customer customer = customerRepository.findOne(customerIdContent);
+        when(customerRepository.findOne(CUSTOMER_ID)).thenReturn(customer);
 
-        customer.setAddress(content);
+        customer.setCustomerName(content);
 
-        customerService.updateCustomer(customer);
+        when(customerRepository.save(customer)).thenReturn(customer);
 
-        assertThat(customerRepository.findOne(customerIdContent).getAddress(), Is.is(content));
+        final Customer updated = customerService.updateCustomer(customer);
+
+        verify(customerRepository).findOne(CUSTOMER_ID);
+        verify(customerRepository).save(customer);
+
+        assertThat(updated.getCustomerName(), is(content));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void updateCustomer_call_nullCustomer_expect_IllegalState() {
+        customerService.updateCustomer(null);
     }
 
     @Test
     public void fetchByCustomerName() {
 
-        assertThat(customerService.fetchCustomerByCustomerName(CUSTOMER_NAME_CONTENT).getCustomerName(), Is.is(CUSTOMER_NAME_CONTENT));
+        when(customerRepository.findByCustomerName(CUSTOMER_NAME_CONTENT)).thenReturn(customer);
+
+        final Customer fetchedCustomer = customerService.fetchCustomerByCustomerName(CUSTOMER_NAME_CONTENT);
+
+        verify(customerRepository).findByCustomerName(CUSTOMER_NAME_CONTENT);
+
+        assertThat(fetchedCustomer.getCustomerName(), is(CUSTOMER_NAME_CONTENT));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void fetchByCustomerName_call_incorrectName_expect_IllegalArgument() {
+        customerService.fetchCustomerByCustomerName(CUSTOMER_NAME_CONTENT);
+    }
 }

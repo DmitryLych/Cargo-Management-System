@@ -65,9 +65,14 @@ public class DefaultMedicalExaminationService implements MedicalExaminationServi
         validateTime.setTime(Optional.of(validate)
                 .orElseThrow(() -> new IllegalArgumentException("Incorrect validate")));
 
-        return Optional.ofNullable(medicalExaminationRepository.findByValidate(validateTime))
-                .orElseThrow(() -> new IllegalArgumentException("Medical examinations not found. "
-                        + "Medical examination with this validate time: '" + validateTime + "' not exists."));
+        final List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findByValidate(validateTime);
+
+        if (medicalExaminations == null || medicalExaminations.isEmpty()) {
+            throw new IllegalArgumentException("Medical examinations not found. "
+                    + "Medical examination with this validate time: '" + validateTime + "' not exists.");
+        }
+
+        return medicalExaminations;
     }
 
     private static void validateMedicalExamination(final MedicalExamination medicalExamination) {

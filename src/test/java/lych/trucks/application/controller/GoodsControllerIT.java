@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -64,6 +65,14 @@ public class GoodsControllerIT {
     private static final Double VOLUME = 11.0;
 
     private static final Integer CUSTOMER_ID = 1;
+
+    private static final Integer INCORRECT_ORDER_ID = 22;
+
+    private static final Integer INCORRECT_GOODS_ID = 212;
+
+    private static final String INCORRECT_GOODS_TYPE = "wrong";
+
+    private static final String INCORRECT_GOODS_NAME = "wrongNAME";
 
     @Before
     public void setUp() {
@@ -150,6 +159,20 @@ public class GoodsControllerIT {
     }
 
     @Test
+    public void fetchAll_call_incorrectOrderId_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/" + INCORRECT_ORDER_ID
+                + "/goods")
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Goods not found."
+                        + " Goods in Order with this Id: '22' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetch() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
@@ -161,6 +184,20 @@ public class GoodsControllerIT {
                 .andExpect(jsonPath("$.goodsId", is(goodsId)))
                 .andExpect(jsonPath("$.name", is(NAME)))
                 .andExpect(jsonPath("$.goodsType", is(TYPE)));
+    }
+
+    @Test
+    public void fetch_call_incorrectId_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
+                + orderId + "/goods/" + INCORRECT_GOODS_ID)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Goods not found."
+                        + " Goods with this Id: '212' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 
     @Test
@@ -177,6 +214,20 @@ public class GoodsControllerIT {
     }
 
     @Test
+    public void fetchByType_call_incorrectType_expect_illegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
+                + orderId + "/goods/type/" + INCORRECT_GOODS_TYPE)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Goods not found."
+                        + " Goods with this type: 'wrong' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetchByName() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
@@ -187,5 +238,19 @@ public class GoodsControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].goodsId", is(goodsId)))
                 .andExpect(jsonPath("$.[0].name", is(NAME)));
+    }
+
+    @Test
+    public void fetchByName_call_incorrectName_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + CUSTOMER_ID + "/orders/"
+                + orderId + "/goods/name/" + INCORRECT_GOODS_NAME)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Goods not found."
+                        + " Goods with this name: 'wrongNAME' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 }

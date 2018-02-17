@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -74,6 +75,14 @@ public class TrailerControllerIT {
     private static final Long YEAR_OF_ISSUED = 125L;
 
     private TrailerRequest trailerRequest;
+
+    private static final Integer INCORRECT_TRUCK_ID = 44;
+
+    private static final String INCORRECT_TYPE = "wrong";
+
+    private static final String INCORRECT_REGISTER_SIGN = "wrong";
+
+    private static final Integer INCORRECT_VOLUME = 444;
 
     @Before
     public void setUp() {
@@ -168,6 +177,20 @@ public class TrailerControllerIT {
     }
 
     @Test
+    public void fetch_call_incorrectTruckId_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/trucks/" + INCORRECT_TRUCK_ID + "/trailers")
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Trailer not found."
+                        + " Truck with Id: '44' don`t have trailer.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetchByRegisterSign() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
@@ -179,6 +202,20 @@ public class TrailerControllerIT {
                 .andExpect(jsonPath("$.trailerType", is(TYPE)))
                 .andExpect(jsonPath("$.volume", is(VOLUME)))
                 .andExpect(jsonPath("$.registerSign", is(REGISTER_SIGN)));
+    }
+
+    @Test
+    public void fetchByRegisterSign_callWrong_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/trucks/" + truckId + "/trailers/register/" + INCORRECT_REGISTER_SIGN)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Trailer not found."
+                        + " Trailer with register sign: 'wrong' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 
     @Test
@@ -196,6 +233,20 @@ public class TrailerControllerIT {
     }
 
     @Test
+    public void fetchByVolume_call_wrongVolume_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/trucks/" + truckId + "/trailers/volume/" + INCORRECT_VOLUME)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Trailers not found."
+                        + " Trailers with volume: '444' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetchByType() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
@@ -207,5 +258,19 @@ public class TrailerControllerIT {
                 .andExpect(jsonPath("$.[0].trailerType", is(TYPE)))
                 .andExpect(jsonPath("$.[0].volume", is(VOLUME)))
                 .andExpect(jsonPath("$.[0].registerSign", is(REGISTER_SIGN)));
+    }
+
+    @Test
+    public void fetchByType_call_incorrectType_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/trucks/" + truckId + "/trailers/type/" + INCORRECT_TYPE)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Trailers not found."
+                        + " Trailers with type: 'wrong' not exist.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 }

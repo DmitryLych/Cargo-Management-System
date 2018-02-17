@@ -1,7 +1,6 @@
 package lych.trucks.domain.repository;
 
 import lych.trucks.domain.model.Trailer;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -46,7 +46,7 @@ public class TrailerRepositoryTest {
 
         final Trailer foundTrailer = trailerRepository.findByTrailerFk(TRUCK_ID_CONTENT);
 
-        assertThat(foundTrailer.getTrailerFk(), Is.is(TRUCK_ID_CONTENT));
+        assertThat(foundTrailer.getTrailerFk(), is(TRUCK_ID_CONTENT));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class TrailerRepositoryTest {
 
         final Trailer foundTrailer = trailerRepository.findByRegisterSign(REGISTER_SIGN_CONTENT);
 
-        assertThat(foundTrailer.getRegisterSign(), Is.is(REGISTER_SIGN_CONTENT));
+        assertThat(foundTrailer.getRegisterSign(), is(REGISTER_SIGN_CONTENT));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TrailerRepositoryTest {
 
         final List<Trailer> foundTrailers = trailerRepository.findByVolume(VOLUME_CONTENT);
 
-        foundTrailers.forEach(trailer -> assertThat(trailer.getVolume(), Is.is(VOLUME_CONTENT)));
+        foundTrailers.forEach(trailer -> assertThat(trailer.getVolume(), is(VOLUME_CONTENT)));
     }
 
     @Test
@@ -70,6 +70,6 @@ public class TrailerRepositoryTest {
 
         final List<Trailer> foundTrailers = trailerRepository.findByType(TYPE_CONTENT);
 
-        foundTrailers.forEach(trailer -> assertThat(trailer.getTrailerType(), Is.is(TYPE_CONTENT)));
+        foundTrailers.forEach(trailer -> assertThat(trailer.getTrailerType(), is(TYPE_CONTENT)));
     }
 }

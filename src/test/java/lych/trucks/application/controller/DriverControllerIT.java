@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -65,6 +66,16 @@ public class DriverControllerIT {
 
     private static final String EMAIL = "email";
 
+    private static final String INCORRECT_COMPANY_ID = "150";
+
+    private static final String INCORRECT_DRIVER_ID = "501";
+
+    private static final String INCORRECT_FIRST_NAME = "wrong";
+
+    private static final boolean STATUS = true;
+
+    private static final boolean INCORRECT_STATUS = false;
+
     @Before
     public void setUp() {
 
@@ -77,6 +88,7 @@ public class DriverControllerIT {
 
         driver.setFirstName(FIRST_NAME);
         driver.setLastName(LAST_NAME);
+        driver.setStatus(true);
         driver.setCompany(company);
 
         companyId = companyRepository.save(company).getId();
@@ -115,6 +127,19 @@ public class DriverControllerIT {
                 .andExpect(jsonPath("$.id", is(driverId)))
                 .andExpect(jsonPath("$.firstName", is(FIRST_NAME)))
                 .andExpect(jsonPath("$.lastName", is(LAST_NAME)));
+    }
+
+    @Test
+    public void fetch_call_incorrectId_expect_illegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + companyId + "/drivers/" + INCORRECT_DRIVER_ID)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Driver not found."
+                        + " Driver with this Id: '501' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 
     @Test
@@ -161,6 +186,19 @@ public class DriverControllerIT {
     }
 
     @Test
+    public void fetchAll_call_incorrectCompanyId_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + INCORRECT_COMPANY_ID + "/drivers")
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Drivers not found."
+                        + " Drivers in company with Id: '150' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetchByLastNameAndFirstName() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/companies/" + companyId + "/drivers/lastName/"
@@ -173,5 +211,48 @@ public class DriverControllerIT {
                 .andExpect(jsonPath("$.[0].id", is(driverId)))
                 .andExpect(jsonPath("$.[0].lastName", is(LAST_NAME)))
                 .andExpect(jsonPath("$.[0].firstName", is(FIRST_NAME)));
+    }
+
+    @Test
+    public void fetchByLastNameAndFirstName_callIncorrectValue_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + companyId + "/drivers/lastName/"
+                + LAST_NAME + "/firstName/"
+                + INCORRECT_FIRST_NAME)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Drivers not found."
+                        + " Drivers with this last name: 'last' and first name: 'wrong' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
+    public void fetchDriver_byStatus_expect_ok() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + companyId + "/drivers/status/" + STATUS)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].id", is(driverId)))
+                .andExpect(jsonPath("$.[0].lastName", is(LAST_NAME)))
+                .andExpect(jsonPath("$.[0].firstName", is(FIRST_NAME)))
+                .andExpect(jsonPath("$.[0].status", is(STATUS)));
+    }
+
+    @Test
+    public void fetchDriver_byStatus_call_incorrectStatus_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + companyId + "/drivers/status/"
+                + INCORRECT_STATUS)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Drivers not found."
+                        + " Drivers with status: 'false' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 }

@@ -1,7 +1,6 @@
 package lych.trucks.domain.repository;
 
 import lych.trucks.domain.model.DriverLicense;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -44,7 +44,7 @@ public class DriverLicenseRepositoryTest {
         final DriverLicense foundDriverLicense = driverLicenseRepository
                 .findByDriverLicenseFk(DRIVER_ID_CONTENT);
 
-        assertThat(foundDriverLicense.getDriverLicenseFk(), Is.is(DRIVER_ID_CONTENT));
+        assertThat(foundDriverLicense.getDriverLicenseFk(), is(DRIVER_ID_CONTENT));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class DriverLicenseRepositoryTest {
 
         final List<DriverLicense> foundDriverLicenses = driverLicenseRepository.findByCategory(CATEGORY_CONTENT);
 
-        foundDriverLicenses.forEach(driverLicense -> assertThat(driverLicense.getCategory(), Is.is(CATEGORY_CONTENT)));
+        foundDriverLicenses.forEach(driverLicense -> assertThat(driverLicense.getCategory(), is(CATEGORY_CONTENT)));
     }
 
     @Test
@@ -60,6 +60,6 @@ public class DriverLicenseRepositoryTest {
 
         final List<DriverLicense> foundDriverLicenses = driverLicenseRepository.findBySpecialNotes(SPECIAL_NOTES_CONTENT);
 
-        foundDriverLicenses.forEach(driverLicense -> assertThat(driverLicense.getSpecialNotes(), Is.is(SPECIAL_NOTES_CONTENT)));
+        foundDriverLicenses.forEach(driverLicense -> assertThat(driverLicense.getSpecialNotes(), is(SPECIAL_NOTES_CONTENT)));
     }
 }

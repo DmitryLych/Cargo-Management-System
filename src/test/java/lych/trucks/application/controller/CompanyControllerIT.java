@@ -14,9 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static lych.trucks.domain.http.HttpStatusCode.BAD_REQUEST;
-import static lych.trucks.domain.http.HttpStatusCode.CREATED;
-import static lych.trucks.domain.http.HttpStatusCode.OK;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -84,7 +82,7 @@ public class CompanyControllerIT {
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
-                .andExpect(status().is(CREATED))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.companyName", is(request.getCompanyName())))
                 .andExpect(jsonPath("$.address", is(request.getAddress())))
                 .andExpect(jsonPath("$.email", is(request.getEmail())));
@@ -97,7 +95,7 @@ public class CompanyControllerIT {
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
-                .andExpect(status().is(OK))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyName", is(COMPANY_NAME)));
     }
 
@@ -108,9 +106,9 @@ public class CompanyControllerIT {
                 .accept(APPLICATION_JSON_UTF8_VALUE)
                 .contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
-                .andExpect(status().is(BAD_REQUEST))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", is("Can`t find Company by Id. Company with this Id: '150' not exist.")))
-        .andExpect(jsonPath("$.errorId",is("")));
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 
     @Test

@@ -24,9 +24,15 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public List<Driver> fetchAllDrivers(final Integer companyId) {
-        return Optional.ofNullable(driverRepository.findAllByCompany(companyId))
-                .orElseThrow(() -> new IllegalArgumentException("Drivers not found. Drivers in company "
-                        + "with Id: '" + companyId + "' not exists."));
+
+        final List<Driver> drivers = driverRepository.findAllByCompany(companyId);
+
+        if (drivers == null || drivers.isEmpty()) {
+            throw new IllegalArgumentException("Drivers not found. Drivers in company "
+                    + "with Id: '" + companyId + "' not exists.");
+        }
+
+        return drivers;
     }
 
     @Override
@@ -86,14 +92,27 @@ public class DefaultDriverService implements DriverService {
 
     @Override
     public List<Driver> fetchDriversByLastNameAndFirstName(final String lastName, final String firstName) {
-        return Optional.ofNullable(driverRepository.findByLastNameAndFirstName(lastName, firstName))
-                .orElseThrow(() -> new IllegalArgumentException("Drivers not found."
-                        + " Drivers with this last name: '" + lastName + "' and first name: '" + firstName + "' not exists."));
+
+        final List<Driver> drivers = driverRepository.findByLastNameAndFirstName(lastName, firstName);
+
+        if (drivers == null || drivers.isEmpty()) {
+            throw new IllegalArgumentException("Drivers not found."
+                    + " Drivers with this last name: '" + lastName + "' and first name: '" + firstName + "' not exists.");
+        }
+        return drivers;
     }
 
     @Override
     public List<Driver> fetchDriversByStatus(final boolean status) {
-        return driverRepository.findByStatus(status);
+
+        final List<Driver> drivers = driverRepository.findByStatus(status);
+
+        if (drivers == null || drivers.isEmpty()) {
+            throw new IllegalArgumentException("Drivers not found. Drivers with status: '"
+                    + status + "' not exists.");
+        }
+
+        return drivers;
     }
 
     private static void validateDriver(final Driver driver) {

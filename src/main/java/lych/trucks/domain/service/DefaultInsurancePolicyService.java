@@ -25,7 +25,15 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
 
     @Override
     public List<InsurancePolicy> fetchAllInsurancePolicies(final Integer driverId) {
-        return insurancePolicyRepository.findAllByDriver(driverId);
+
+        final List<InsurancePolicy> insurancePolicies = insurancePolicyRepository.findAllByDriver(driverId);
+
+        if (insurancePolicies == null || insurancePolicies.isEmpty()) {
+            throw new IllegalArgumentException("Insurance policies not found. Driver with Id: '" + driverId
+                    + "' don`t have insurance policies.");
+        }
+
+        return insurancePolicies;
     }
 
     @Override
@@ -81,16 +89,27 @@ public class DefaultInsurancePolicyService implements InsurancePolicyService {
         validateTime.setTime(Optional.of(validate)
                 .orElseThrow(() -> new IllegalArgumentException("Date can`t be null.")));
 
-        return Optional.ofNullable(insurancePolicyRepository.findByValidate(validateTime))
-                .orElseThrow(() -> new IllegalArgumentException("Insurance policies not found. "
-                        + "Insurance policies with this validate time: '" + validateTime + "' not exists."));
+        final List<InsurancePolicy> insurancePolicies = insurancePolicyRepository.findByValidate(validateTime);
+
+        if (insurancePolicies == null || insurancePolicies.isEmpty()) {
+            throw new IllegalArgumentException("Insurance policies not found. "
+                    + "Insurance policies with this validate time: '" + validateTime + "' not exists.");
+        }
+
+        return insurancePolicies;
     }
 
     @Override
     public List<InsurancePolicy> fetchInsurancePoliciesByType(final String type) {
-        return Optional.ofNullable(insurancePolicyRepository.findByType(type))
-                .orElseThrow(() -> new IllegalArgumentException("Insurance policies not found. "
-                        + "Insurance policies with this type: '" + type + "'not exists."));
+
+        final List<InsurancePolicy> insurancePolicies = insurancePolicyRepository.findByType(type);
+
+        if (insurancePolicies == null || insurancePolicies.isEmpty()) {
+            throw new IllegalArgumentException("Insurance policies not found. "
+                    + "Insurance policies with this type: '" + type + "'not exists.");
+        }
+
+        return insurancePolicies;
     }
 
     private static void validateInsurancePolicy(final InsurancePolicy insurancePolicy) {

@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -50,6 +51,10 @@ public class CustomerControllerIT {
     private static final String ADDRESS = "address";
 
     private static final String EMAIL = "email";
+
+    private static final String INCORRECT_CUSTOMER_ID = "102";
+
+    private static final String INCORRECT_CUSTOMER_NAME = "wrong";
 
     @Before
     public void setUp() {
@@ -115,6 +120,19 @@ public class CustomerControllerIT {
     }
 
     @Test
+    public void fetchCustomer_callIncorrectId_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/customers/" + INCORRECT_CUSTOMER_ID)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Can`t find Customer by Id."
+                        + " Customer with this Id: '102' not exist.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void delete() throws Exception {
 
         mockMvc.perform(request(DELETE, "/cargo/v1/customers/" + customerId)
@@ -148,5 +166,19 @@ public class CustomerControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customerId", is(customerId)))
                 .andExpect(jsonPath("$.customerName", is(CUSTOMER_NAME)));
+    }
+
+    @Test
+    public void fetchByCustomerName_callIncorrectCustomerName_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/customers/customerName/"
+                + INCORRECT_CUSTOMER_NAME)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Customer can`t find by Customer name."
+                        + " Customer with Customer name: 'wrong' not exist.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 }

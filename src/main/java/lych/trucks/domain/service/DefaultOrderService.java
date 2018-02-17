@@ -73,37 +73,67 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public List<Order> fetchOrdersByDriver(final Integer driverId) {
-        return Optional.ofNullable(orderRepository.findByDriver(driverId))
-                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
-                        + "Driver with Id: '" + driverId + "' don`t have orders."));
+
+        final List<Order> orders = orderRepository.findByDriver(driverId);
+
+        if (orders == null || orders.isEmpty()) {
+            throw new IllegalArgumentException("Orders not found. "
+                    + "Driver with Id: '" + driverId + "' don`t have orders.");
+        }
+
+        return orders;
     }
 
     @Override
     public List<Order> fetchOrdersByCustomer(final Integer customerId) {
-        return Optional.ofNullable(orderRepository.findByCustomer(customerId))
-                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
-                        + "Customer with Id: '" + customerId + "' don`t have orders."));
+
+        final List<Order> orders = orderRepository.findByCustomer(customerId);
+
+        if (orders == null || orders.isEmpty()) {
+            throw new IllegalArgumentException("Orders not found. "
+                    + "Customer with Id: '" + customerId + "' don`t have orders.");
+        }
+
+        return orders;
     }
 
     @Override
     public List<Order> fetchOrdersByIssuedAndCustomer(final boolean issued, final Integer customerId) {
-        return Optional.ofNullable(orderRepository.findByIssuedAndCustomer(issued, customerId))
-                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
-                        + "Customer with Id: '" + customerId + "' don`t have orders with issued status: '" + issued + "'"));
+
+        final List<Order> orders = orderRepository.findByIssuedAndCustomer(issued, customerId);
+
+        if (orders == null || orders.isEmpty()) {
+            throw new IllegalArgumentException("Orders not found. "
+                    + "Customer with Id: '" + customerId + "' don`t have orders with issued status: '" + issued + "'");
+        }
+
+        return orders;
     }
 
     @Override
     public List<Order> fetchOrdersByCompletedAndCustomer(final boolean completed, final Integer customerId) {
-        return Optional.ofNullable(orderRepository.findByCompletedAndCustomer(completed, customerId))
-                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
-                        + "Customer with Id: '" + customerId + "' don`t have orders with completed status: '" + completed + "'"));
+
+        final List<Order> orders = orderRepository.findByCompletedAndCustomer(completed, customerId);
+
+        if (orders == null || orders.isEmpty()) {
+            throw new IllegalArgumentException("Orders not found. "
+                    + "Customer with Id: '" + customerId + "' don`t have orders with completed status: '" + completed + "'");
+        }
+
+        return orders;
     }
 
     @Override
     public List<Order> fetchOrdersByPaidAndCustomer(final boolean paid, final Integer customerId) {
-        return Optional.ofNullable(orderRepository.findByPaidAndCustomer(paid, customerId))
-                .orElseThrow(() -> new IllegalArgumentException("Orders not found. "
-                        + "Customer with Id: '" + customerId + "' don`t have orders with paid status: '" + paid + "'"));
+
+        final List<Order> orders = orderRepository.findByPaidAndCustomer(paid, customerId);
+
+        if (orders == null || orders.isEmpty()) {
+            throw new IllegalArgumentException("Orders not found. "
+                    + "Customer with Id: '" + customerId + "' don`t have orders with paid status: '" + paid + "'");
+        }
+
+        return orders;
     }
 
     private static void validateOrder(final Order order) {

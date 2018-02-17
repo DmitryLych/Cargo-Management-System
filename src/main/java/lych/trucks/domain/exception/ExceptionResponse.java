@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * Error Response.
+ */
 @Getter
 @RequiredArgsConstructor(staticName = "anExceptionResponse")
 public final class ExceptionResponse implements Serializable {

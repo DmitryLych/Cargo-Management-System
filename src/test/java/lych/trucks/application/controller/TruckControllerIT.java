@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -61,6 +62,12 @@ public class TruckControllerIT {
     private static final String COLOR = "black";
 
     private static final Long YEAR_OF_ISSUE = 12L;
+
+    private static final Integer INCORRECT_DRIVER_ID = 4444;
+
+    private static final String INCORRECT_REGISTER_SIGN = "INCORRECT";
+
+    private static final String INCORRECT_BODY_NUMBER = "WRONG";
 
     @Before
     public void setUp() {
@@ -143,6 +150,20 @@ public class TruckControllerIT {
     }
 
     @Test
+    public void fetch_call_incorrectDriverId_expect_illegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + INCORRECT_DRIVER_ID + "/trucks")
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Truck not found."
+                        + " Driver with Id: '4444' don`t have truck.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetchByRegisterSign() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
@@ -157,6 +178,20 @@ public class TruckControllerIT {
     }
 
     @Test
+    public void fetchByRegisterSign_call_incorrectRegisterSign_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/trucks/register/" + INCORRECT_REGISTER_SIGN)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Truck not found."
+                        + " Truck with register sign: 'INCORRECT' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetchByBodyNumber() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
@@ -168,5 +203,19 @@ public class TruckControllerIT {
                 .andExpect(jsonPath("$.id", is(truckId)))
                 .andExpect(jsonPath("$.registerSign", is(REGISTER_SIGN)))
                 .andExpect(jsonPath("$.bodyNumber", is(BODY_NUMBER)));
+    }
+
+    @Test
+    public void fetchByBodyNumber_call_incorrectBodyNumber_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/trucks/number/" + INCORRECT_BODY_NUMBER)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Truck not found."
+                        + " Truck with body number: 'WRONG' not exist.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 }

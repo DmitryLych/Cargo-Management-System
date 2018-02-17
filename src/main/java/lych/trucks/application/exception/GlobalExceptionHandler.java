@@ -2,11 +2,10 @@ package lych.trucks.application.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.exception.ExceptionResponse;
-import org.dozer.MappingException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.UUID;
 
@@ -21,25 +20,34 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 public class GlobalExceptionHandler {
 
     /**
-     * Method for handling mapping exception.
+     * Method for handling exception.
      *
-     * @param exception MappingException exception.
+     * @param exception a exception.
      * @return Exception message with UUID.
      */
-    @ExceptionHandler(MappingException.class)
-    public ResponseEntity mappingException(final MappingException exception) {
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ResponseEntity handleAnException(final Exception exception) {
 
         final UUID errorUUID = UUID.randomUUID();
 
-        final String exceptionMessage = exception.getMessage();
+        log.error("Error-ID: {} - {}", errorUUID, exception.getMessage(), exception);
 
-        log.error("Error-Id: {} - {}", errorUUID, exceptionMessage, exception);
+        final String message = "An error occurred. Please contact support. Error-ID:" + errorUUID;
 
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(ExceptionResponse
-                .anExceptionResponse(exceptionMessage, errorUUID.toString()));
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR)
+                .body(ExceptionResponse.anExceptionResponse(message, errorUUID.toString()));
+
     }
 
+    /**
+     * Method for handling {@link IllegalArgumentException} and {@link IllegalStateException}.
+     *
+     * @param exception a exception.
+     * @return exception message with UUID.
+     */
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    @ResponseBody
     public ResponseEntity illegalArgumentOrStateException(final RuntimeException exception) {
 
         final UUID errorUUID = UUID.randomUUID();
@@ -50,23 +58,5 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(BAD_REQUEST).body(ExceptionResponse
                 .anExceptionResponse(exceptionMessage, errorUUID.toString()));
-    }
-
-    /**
-     * Method for handling empty result data access exception.
-     *
-     * @param exception EmptyResultDataAccessException exception.
-     * @return Exception message with UUID.
-     */
-    @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ResponseEntity emptyResultDataAccessException(final EmptyResultDataAccessException exception) {
-
-        final UUID errorUUID = UUID.randomUUID();
-
-        log.error("Error-Id: {} - {}", errorUUID, exception.getMessage(), exception);
-
-        final String content = "Object does not exist!!! Error-Id: " + errorUUID;
-
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(content);
     }
 }

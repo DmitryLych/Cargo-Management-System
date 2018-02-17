@@ -2,7 +2,6 @@ package lych.trucks.domain.repository;
 
 import lych.trucks.domain.model.Goods;
 import lych.trucks.domain.model.Order;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -51,7 +51,7 @@ public class GoodsRepositoryTest {
 
         final List<Goods> foundGoods = goodsRepository.findAllByOrder(orderIdContent);
 
-        foundGoods.forEach(goods -> assertThat(goods.getOrder().getOrderId(), Is.is(orderIdContent)));
+        foundGoods.forEach(goods -> assertThat(goods.getOrder().getOrderId(), is(orderIdContent)));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class GoodsRepositoryTest {
 
         final List<Goods> foundGoods = goodsRepository.findByType(TYPE_CONTENT);
 
-        foundGoods.forEach(goods -> assertThat(goods.getGoodsType(), Is.is(TYPE_CONTENT)));
+        foundGoods.forEach(goods -> assertThat(goods.getGoodsType(), is(TYPE_CONTENT)));
     }
 
     @Test
@@ -67,7 +67,6 @@ public class GoodsRepositoryTest {
 
         final List<Goods> foundGoods = goodsRepository.findByName(NAME_CONTENT);
 
-        foundGoods.forEach(goods -> assertThat(goods.getName(), Is.is(NAME_CONTENT)));
+        foundGoods.forEach(goods -> assertThat(goods.getName(), is(NAME_CONTENT)));
     }
-
 }

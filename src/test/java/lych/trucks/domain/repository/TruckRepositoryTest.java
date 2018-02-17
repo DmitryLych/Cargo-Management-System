@@ -1,7 +1,6 @@
 package lych.trucks.domain.repository;
 
 import lych.trucks.domain.model.Truck;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -41,7 +41,7 @@ public class TruckRepositoryTest {
 
         final Truck foundTruck = truckRepository.findByTruckFk(DRIVER_ID_CONTENT);
 
-        assertThat(foundTruck.getTruckFk(), Is.is(DRIVER_ID_CONTENT));
+        assertThat(foundTruck.getTruckFk(), is(DRIVER_ID_CONTENT));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class TruckRepositoryTest {
 
         final Truck foundTruck = truckRepository.findByRegisterSign(REGISTER_SIGN_CONTENT);
 
-        assertThat(foundTruck.getRegisterSign(), Is.is(REGISTER_SIGN_CONTENT));
+        assertThat(foundTruck.getRegisterSign(), is(REGISTER_SIGN_CONTENT));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class TruckRepositoryTest {
 
         final Truck foundTruck = truckRepository.findByBodyNumber(BODY_NUMBER_CONTENT);
 
-        assertThat(foundTruck.getBodyNumber(), Is.is(BODY_NUMBER_CONTENT));
+        assertThat(foundTruck.getBodyNumber(), is(BODY_NUMBER_CONTENT));
     }
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -60,6 +61,12 @@ public class DriverLicenseControllerIT {
     private Integer driverId;
 
     private static final Integer COMPANY_ID = 1;
+
+    private static final Integer INCORRECT_DRIVER_ID = 1050;
+
+    private static final String INCORRECT_CATEGORY = "wrong";
+
+    private static final String INCORRECT_SPECIAL_NOTES = "wrongNOTES";
 
     @Before
     public void setUp() {
@@ -122,6 +129,20 @@ public class DriverLicenseControllerIT {
     }
 
     @Test
+    public void fetch_call_incorrectDriverId_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + INCORRECT_DRIVER_ID + "/licenses")
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Can`t find Driver License."
+                        + " Driver License with this driver Id: '1050' not exist.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void update() throws Exception {
 
         final String content = "update";
@@ -156,6 +177,20 @@ public class DriverLicenseControllerIT {
     }
 
     @Test
+    public void fetchByCategory_call_wrongCategory_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/licenses/category/" + INCORRECT_CATEGORY)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Driver Licenses can`t find."
+                        + " Driver Licenses with this category: 'wrong' not exist.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetchBySpecialNotes() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
@@ -167,5 +202,19 @@ public class DriverLicenseControllerIT {
                 .andExpect(jsonPath("$.[0].id", is(driverLicenseId)))
                 .andExpect(jsonPath("$.[0].category", is(CATEGORY)))
                 .andExpect(jsonPath("$.[0].specialNotes", is(SPECIAL_NOTES)));
+    }
+
+    @Test
+    public void fetchBySpecialNotes_call_incorrectSpecialNotes_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/licenses/specialNotes/" + INCORRECT_SPECIAL_NOTES)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Driver Licenses can`t find."
+                        + " Driver Licenses withthis special notes: 'wrongNOTES' not exist.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 }

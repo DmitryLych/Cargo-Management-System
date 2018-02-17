@@ -66,16 +66,27 @@ public class DefaultDriverLicenseService implements DriverLicenseService {
 
     @Override
     public List<DriverLicense> fetchDriverLicensesByCategory(final String category) {
-        return Optional.ofNullable(driverLicenseRepository.findByCategory(category))
-                .orElseThrow(() -> new IllegalArgumentException("Driver Licenses can`t find. Driver Licenses with"
-                        + " this category: '" + category + "' not exist."));
+
+        final List<DriverLicense> driverLicenses = driverLicenseRepository.findByCategory(category);
+
+        if (driverLicenses == null || driverLicenses.isEmpty()) {
+            throw new IllegalArgumentException("Driver Licenses can`t find. Driver Licenses with"
+                    + " this category: '" + category + "' not exist.");
+        }
+        return driverLicenses;
     }
 
     @Override
     public List<DriverLicense> fetchDriverLicensesBySpecialNotes(final String specialNotes) {
-        return Optional.ofNullable(driverLicenseRepository.findBySpecialNotes(specialNotes))
-                .orElseThrow(() -> new IllegalArgumentException("Driver Licenses can`t find. Driver Licenses with"
-                        + "this special notes: '" + specialNotes + "' not exist."));
+
+        final List<DriverLicense> driverLicenses = driverLicenseRepository.findBySpecialNotes(specialNotes);
+
+        if (driverLicenses == null || driverLicenses.isEmpty()) {
+            throw new IllegalArgumentException("Driver Licenses can`t find. Driver Licenses with"
+                    + "this special notes: '" + specialNotes + "' not exist.");
+        }
+
+        return driverLicenses;
     }
 
     private static void validateDriverLicense(final DriverLicense driverLicense) {

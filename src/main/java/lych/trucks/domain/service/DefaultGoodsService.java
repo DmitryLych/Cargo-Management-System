@@ -60,9 +60,14 @@ public class DefaultGoodsService implements GoodsService {
 
     @Override
     public List<Goods> fetchAllGoods(final Integer orderId) {
-        return Optional.ofNullable(goodsRepository.findAllByOrder(orderId))
-                .orElseThrow(() -> new IllegalArgumentException("Goods not found."
-                        + " Goods in Order with this Id: '" + orderId + "' not exists."));
+
+        final List<Goods> goods = goodsRepository.findAllByOrder(orderId);
+
+        if (goods == null || goods.isEmpty()) {
+            throw new IllegalArgumentException("Goods not found."
+                    + " Goods in Order with this Id: '" + orderId + "' not exists.");
+        }
+        return goods;
     }
 
     @Override
@@ -74,16 +79,27 @@ public class DefaultGoodsService implements GoodsService {
 
     @Override
     public List<Goods> fetchGoodsByType(final String goodsType) {
-        return Optional.ofNullable(goodsRepository.findByType(goodsType))
-                .orElseThrow(() -> new IllegalArgumentException("Goods not found. "
-                        + "Goods with this type: '" + goodsType + "' not exists."));
+
+        final List<Goods> goods = goodsRepository.findByType(goodsType);
+
+        if (goods == null || goods.isEmpty()) {
+            throw new IllegalArgumentException("Goods not found. "
+                    + "Goods with this type: '" + goodsType + "' not exists.");
+        }
+        return goods;
     }
 
     @Override
     public List<Goods> fetchGoodsByName(final String name) {
-        return Optional.ofNullable(goodsRepository.findByName(name))
-                .orElseThrow(() -> new IllegalArgumentException("Goods not found. "
-                        + "Goods with this name: '" + name + "' not exists."));
+
+        final List<Goods> goods = goodsRepository.findByName(name);
+
+        if (goods == null || goods.isEmpty()) {
+            throw new IllegalArgumentException("Goods not found. "
+                    + "Goods with this name: '" + name + "' not exists.");
+        }
+
+        return goods;
     }
 
     private static void validateGoods(final Goods goods) {

@@ -77,7 +77,7 @@ public class DefaultCustomerService implements CustomerService {
     private static void validateCustomer(final Customer customer) {
 
         if (customer == null) {
-            throw new IllegalArgumentException("Customer can`t be null.");
+            throw new IllegalStateException("Customer can`t be null.");
         }
     }
 }

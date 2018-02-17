@@ -1,7 +1,6 @@
 package lych.trucks.domain.repository;
 
 import lych.trucks.domain.model.Company;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -35,6 +35,6 @@ public class CompanyRepositoryTest {
 
         final Company foundCompany = companyRepository.findByCompanyName(CONTENT);
 
-        assertThat(foundCompany.getCompanyName(), Is.is(CONTENT));
+        assertThat(foundCompany.getCompanyName(), is(CONTENT));
     }
 }

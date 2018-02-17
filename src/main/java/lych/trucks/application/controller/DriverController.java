@@ -146,4 +146,24 @@ public class DriverController {
 
         return ResponseEntity.ok().body(response);
     }
+
+    /**
+     * Method for fetch drivers by status.
+     *
+     * @param status a status.
+     * @return list of {@link DriverResponse} response mapped from list of drivers which found.
+     */
+    @GetMapping(path = "/status/{status}")
+    public ResponseEntity fetchByStatus(@PathVariable final boolean status) {
+
+        final List<Driver> driversToResponse = driverService.fetchDriversByStatus(status);
+
+        final List<DriverResponse> response = Optional.ofNullable(driversToResponse)
+                .map(drivers -> drivers.stream()
+                        .map(driver -> dozerBeanMapper.map(driver, DriverResponse.class))
+                        .collect(toList()))
+                .orElse(emptyList());
+
+        return ResponseEntity.ok().body(response);
+    }
 }

@@ -19,6 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.transaction.Transactional;
 import java.util.Date;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -63,6 +64,14 @@ public class InsurancePolicyControllerIT {
     private Integer insurancePolicyId;
 
     private static final Integer COMPANY_ID = 1;
+
+    private static final Integer INCORRECT_DRIVER_ID = 123;
+
+    private static final Long INCORRECT_VALIDATE = 444L;
+
+    private static final String INCORRECT_TYPE = "wrong";
+
+    private static final Integer INCORRECT_ID = 32;
 
     @Before
     public void setUp() {
@@ -120,6 +129,20 @@ public class InsurancePolicyControllerIT {
     }
 
     @Test
+    public void fetchAll_call_incorrectDriverId_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + INCORRECT_DRIVER_ID + "/insurance")
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Insurance policies not found."
+                        + " Driver with Id: '123' don`t have insurance policies.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetch() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
@@ -131,6 +154,20 @@ public class InsurancePolicyControllerIT {
                 .andExpect(jsonPath("$.id", is(insurancePolicyId)))
                 .andExpect(jsonPath("$.validate", is(VALIDATE.getTime())))
                 .andExpect(jsonPath("$.type", is(TYPE)));
+    }
+
+    @Test
+    public void fetch_call_wrongId_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/insurance/" + INCORRECT_ID)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Insurance policy not found."
+                        + " Insurance policy with this Id: '32' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 
     @Test
@@ -181,6 +218,20 @@ public class InsurancePolicyControllerIT {
     }
 
     @Test
+    public void fetchByValidate_call_wrongValidate_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/insurance/validate/" + INCORRECT_VALIDATE)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Insurance policies not found."
+                        + " Insurance policies with this validate time: 'Thu Jan 01 03:00:00 MSK 1970' not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
+    }
+
+    @Test
     public void fetchByType() throws Exception {
 
         mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
@@ -191,5 +242,19 @@ public class InsurancePolicyControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].validate", is(VALIDATE.getTime())))
                 .andExpect(jsonPath("$.[0].type", is(TYPE)));
+    }
+
+    @Test
+    public void fetchByType_call_wrongType_expect_IllegalArgument() throws Exception {
+
+        mockMvc.perform(request(GET, "/cargo/v1/companies/" + COMPANY_ID + "/drivers/"
+                + driverId + "/insurance/type/" + INCORRECT_TYPE)
+                .accept(APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Insurance policies not found."
+                        + " Insurance policies with this type: 'wrong'not exists.")))
+                .andExpect(jsonPath("$.errorId", notNullValue()));
     }
 }

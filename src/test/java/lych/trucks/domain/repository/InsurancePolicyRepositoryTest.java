@@ -2,7 +2,6 @@ package lych.trucks.domain.repository;
 
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.model.InsurancePolicy;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -54,7 +54,7 @@ public class InsurancePolicyRepositoryTest {
                 findAllByDriver(driverIdContent);
 
         foundInsurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy
-                .getDriver().getId(), Is.is(driverIdContent)));
+                .getDriver().getId(), is(driverIdContent)));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class InsurancePolicyRepositoryTest {
                 .findByValidate(VALIDATE_CONTENT);
 
         foundInsurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getValidate(),
-                Is.is(VALIDATE_CONTENT)));
+                is(VALIDATE_CONTENT)));
     }
 
     @Test
@@ -72,6 +72,6 @@ public class InsurancePolicyRepositoryTest {
 
         final List<InsurancePolicy> foundInsurancePolicies = insurancePolicyRepository.findByType(TYPE_CONTENT);
 
-        foundInsurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getType(), Is.is(TYPE_CONTENT)));
+        foundInsurancePolicies.forEach(insurancePolicy -> assertThat(insurancePolicy.getType(), is(TYPE_CONTENT)));
     }
 }
