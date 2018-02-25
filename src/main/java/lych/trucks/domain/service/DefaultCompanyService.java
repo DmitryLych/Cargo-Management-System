@@ -1,6 +1,8 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import lych.trucks.application.security.model.User;
+import lych.trucks.application.security.service.UserService;
 import lych.trucks.domain.model.Company;
 import lych.trucks.domain.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +20,22 @@ public class DefaultCompanyService implements CompanyService {
 
     private final CompanyRepository companyRepository;
 
+    private final UserService userService;
+
     @Override
     public List<Company> fetchAllCompanies() {
         return companyRepository.findAll();
     }
 
     @Override
-    public Company createCompany(final Company company) {
+    public Company createCompany(final Integer userId, final Company company) {
         validateCompany(company);
+
+        company.setCompanyFk(userId);
+
+        final User user = userService.fetchUser(userId);
+        user.setCompany(company);
+        userService.updateUser(user, company, null, null);
 
         return companyRepository.save(company);
     }
@@ -61,7 +71,7 @@ public class DefaultCompanyService implements CompanyService {
         company.setTelephoneNumber(company.getTelephoneNumber() == null ? saved.getTelephoneNumber()
                 : company.getTelephoneNumber());
 
-        return createCompany(company);
+        return companyRepository.save(company);
     }
 
     @Override

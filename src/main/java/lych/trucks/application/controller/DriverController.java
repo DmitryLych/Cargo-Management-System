@@ -28,7 +28,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link Driver}.
  */
 @RestController
-@RequestMapping("/cargo/v1/companies/{companyId}/drivers")
+@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{userId}")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DriverController {
 
@@ -39,16 +39,18 @@ public class DriverController {
     /**
      * Method for create some driver and add his to the company.
      *
+     * @param userId    a user id.
      * @param request   DriverRequest request.
      * @param companyId Company companyId.
      * @return DriverResponse response mapped from created driver.
      */
     @PostMapping
-    public ResponseEntity createDriver(@RequestBody final DriverRequest request, @PathVariable final Integer companyId) {
+    public ResponseEntity createDriver(@PathVariable final Integer userId,
+                                       @RequestBody final DriverRequest request, @PathVariable final Integer companyId) {
 
         final Driver driverToSave = dozerBeanMapper.map(request, Driver.class);
 
-        final Driver driverToResponse = driverService.createDriver(companyId, driverToSave);
+        final Driver driverToResponse = driverService.createDriver(userId, companyId, driverToSave);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
 

@@ -41,6 +41,9 @@ public class Company implements Serializable {
     @Column(name = "telephone_number", unique = true)
     private String telephoneNumber;
 
+    @Column(name = "company_fk")
+    private Integer companyFk;
+
     @OneToMany(mappedBy = "company",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

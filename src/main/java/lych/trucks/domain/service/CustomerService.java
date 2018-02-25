@@ -19,10 +19,11 @@ public interface CustomerService {
     /**
      * Method for create customer.
      *
+     * @param userId   a user id.
      * @param customer Customer customer.
      * @return created customer.
      */
-    Customer createCustomer(Customer customer);
+    Customer createCustomer(Integer userId, Customer customer);
 
     /**
      * Method for fetch some customer.

@@ -1,6 +1,8 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import lych.trucks.application.security.model.User;
+import lych.trucks.application.security.service.UserService;
 import lych.trucks.domain.model.Customer;
 import lych.trucks.domain.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +20,22 @@ public class DefaultCustomerService implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    private final UserService userService;
+
     @Override
     public List<Customer> fetchAllCustomers() {
         return customerRepository.findAll();
     }
 
     @Override
-    public Customer createCustomer(final Customer customer) {
+    public Customer createCustomer(final Integer userId, final Customer customer) {
         validateCustomer(customer);
+
+        customer.setCustomerFk(userId);
+
+        final User user = userService.fetchUser(userId);
+        user.setCustomer(customer);
+        userService.updateUser(user, null, null, customer);
 
         return customerRepository.save(customer);
     }
@@ -64,7 +74,7 @@ public class DefaultCustomerService implements CustomerService {
                 ? saved.getMobileTelephoneNumber() : customer.getMobileTelephoneNumber());
         customer.setOrders(customer.getOrders() == null ? saved.getOrders() : customer.getOrders());
 
-        return createCustomer(customer);
+        return customerRepository.save(customer);
     }
 
     @Override

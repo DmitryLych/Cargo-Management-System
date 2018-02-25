@@ -28,7 +28,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link Customer}.
  */
 @RestController
-@RequestMapping("/cargo/v1/customers")
+@RequestMapping("/cargo/v1/customers/{userId}")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomerController {
 
@@ -38,16 +38,16 @@ public class CustomerController {
 
     /**
      * Method for create customer.
-     *
+     * @param userId  a user id.
      * @param request {@link CustomerRequest} request.
      * @return {@link CustomerResponse} response mapped from created customer.
      */
     @PostMapping
-    public ResponseEntity createCustomer(@RequestBody final CustomerRequest request) {
+    public ResponseEntity createCustomer(@PathVariable final Integer userId, @RequestBody final CustomerRequest request) {
 
         final Customer customerToSave = dozerBeanMapper.map(request, Customer.class);
 
-        final Customer customerToResponse = customerService.createCustomer(customerToSave);
+        final Customer customerToResponse = customerService.createCustomer(userId, customerToSave);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
 

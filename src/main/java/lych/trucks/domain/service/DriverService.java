@@ -20,11 +20,12 @@ public interface DriverService {
     /**
      * Method for create driver.
      *
+     * @param userId    a user id.
      * @param companyId Company companyId.
      * @param driver    Driver driver.
      * @return created driver.
      */
-    Driver createDriver(Integer companyId, Driver driver);
+    Driver createDriver(Integer userId, Integer companyId, Driver driver);
 
     /**
      * Method for find some driver.

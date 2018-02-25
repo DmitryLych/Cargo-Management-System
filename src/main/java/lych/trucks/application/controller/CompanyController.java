@@ -28,7 +28,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link Company}.
  */
 @RestController
-@RequestMapping("/cargo/v1/companies")
+@RequestMapping("/cargo/v1/companies/{userId}")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CompanyController {
 
@@ -39,15 +39,16 @@ public class CompanyController {
     /**
      * Method for create company.
      *
+     * @param userId  a user id.
      * @param request CompanyRequest request.
      * @return CompanyResponse response mapped from created company.
      */
     @PostMapping
-    public ResponseEntity createCompany(@RequestBody final CompanyRequest request) {
+    public ResponseEntity createCompany(@PathVariable final Integer userId, @RequestBody final CompanyRequest request) {
 
         final Company companyToSave = dozerBeanMapper.map(request, Company.class);
 
-        final Company companyToResponse = companyService.createCompany(companyToSave);
+        final Company companyToResponse = companyService.createCompany(userId, companyToSave);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
 

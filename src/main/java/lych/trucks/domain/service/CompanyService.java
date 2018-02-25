@@ -19,10 +19,11 @@ public interface CompanyService {
     /**
      * Method for create company.
      *
+     * @param userId a user id.
      * @param company Company company.
      * @return created Company company.
      */
-    Company createCompany(Company company);
+    Company createCompany(Integer userId, Company company);
 
     /**
      * Method for fetch company by id.

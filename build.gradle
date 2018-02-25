@@ -34,19 +34,21 @@ repositories {
 
 dependencies {
 
-    // Spring properties
+    // Spring Dependencies
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-aop')
     compile('org.springframework:spring-aspects')
 
-    // OtherProperties
+    // Other Dependencies
     compile('org.postgresql:postgresql')
+    compile("io.jsonwebtoken:jjwt:$jjwtVersion")
     compile('org.projectlombok:lombok')
     compile("net.sf.dozer:dozer:$dozerVersion")
     compile("org.flywaydb:flyway-core")
 
-    // TestProperties
+    // Test Dependencies
     testCompile("com.h2database:h2")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

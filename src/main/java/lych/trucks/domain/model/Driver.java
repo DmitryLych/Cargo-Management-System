@@ -57,6 +57,9 @@ public class Driver implements Serializable {
     @Column(name = "status")
     private boolean status;
 
+    @Column(name = "driver_fk")
+    private Integer driverFk;
+
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
     @JoinColumn(name = "driver_license_fk", referencedColumnName = "driver_license_id")
     private DriverLicense driverLicense;

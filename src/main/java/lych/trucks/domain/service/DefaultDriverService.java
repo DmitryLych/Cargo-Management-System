@@ -1,6 +1,8 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import lych.trucks.application.security.model.User;
+import lych.trucks.application.security.service.UserService;
 import lych.trucks.domain.model.Company;
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.repository.DriverRepository;
@@ -22,6 +24,8 @@ public class DefaultDriverService implements DriverService {
 
     private final CompanyService companyService;
 
+    private final UserService userService;
+
     @Override
     public List<Driver> fetchAllDrivers(final Integer companyId) {
 
@@ -36,8 +40,14 @@ public class DefaultDriverService implements DriverService {
     }
 
     @Override
-    public Driver createDriver(final Integer companyId, final Driver driver) {
+    public Driver createDriver(final Integer userId, final Integer companyId, final Driver driver) {
         validateDriver(driver);
+
+        driver.setDriverFk(userId);
+
+        final User user = userService.fetchUser(userId);
+        user.setDriver(driver);
+        userService.updateUser(user, null, driver, null);
 
         final Company company = companyService.fetchCompany(companyId);
 

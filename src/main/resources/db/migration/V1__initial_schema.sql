@@ -1,6 +1,7 @@
 CREATE TABLE companies (
   company_id       SERIAL       NOT NULL CONSTRAINT companies_pkey PRIMARY KEY,
   address          VARCHAR(255) NOT NULL,
+  company_fk       INTEGER      NOT NULL UNIQUE,
   company_name     VARCHAR(255) NOT NULL,
   email            VARCHAR(255) NOT NULL UNIQUE,
   telephone_number VARCHAR(255) NOT NULL UNIQUE
@@ -10,6 +11,7 @@ CREATE TABLE customers (
   customer_id              SERIAL       NOT NULL CONSTRAINT customers_pkey PRIMARY KEY,
   address                  VARCHAR(255) NOT NULL,
   company_telephone_number VARCHAR(255) NOT NULL UNIQUE,
+  customer_fk              INTEGER      NOT NULL UNIQUE,
   customer_name            VARCHAR(255) NOT NULL UNIQUE,
   email                    VARCHAR(255) NOT NULL UNIQUE,
   mobile_telephone_number  VARCHAR(255) NOT NULL UNIQUE
@@ -32,6 +34,7 @@ CREATE TABLE driver_licenses (
 CREATE TABLE drivers (
   driver_id              SERIAL       NOT NULL CONSTRAINT drivers_pkey PRIMARY KEY,
   address                VARCHAR(255),
+  driver_fk              INTEGER      NOT NULL UNIQUE,
   email                  VARCHAR(255) NOT NULL UNIQUE,
   first_name             VARCHAR(255) NOT NULL,
   last_name              VARCHAR(255) NOT NULL,
@@ -96,4 +99,29 @@ CREATE TABLE trucks (
   weight        DOUBLE PRECISION NOT NULL,
   year_of_issue TIMESTAMP        NOT NULL,
   trailer_fk    INTEGER CONSTRAINT fktv8tcibw3yy4xl2d6gjvhkym REFERENCES trailers
+);
+
+CREATE TABLE users
+(
+  id                      SERIAL NOT NULL
+    CONSTRAINT users_pkey
+    PRIMARY KEY,
+  username                VARCHAR(255),
+  password                VARCHAR(255),
+  account_non_expired     BOOLEAN,
+  account_non_locked      BOOLEAN,
+  credentials_non_expired BOOLEAN,
+  enabled                 BOOLEAN,
+  company_fk              INTEGER CONSTRAINT fk9xvfwyfr6w15hu23dna7imbkn REFERENCES companies,
+  customer_fk             INTEGER CONSTRAINT fkcg45ic8pu3s1iyi2enw01pknu REFERENCES customers,
+  driver_fk               INTEGER CONSTRAINT fkhghl96xwen856r4ukpc9iuf65 REFERENCES drivers
+);
+
+CREATE TABLE authorities
+(
+  authority_id SERIAL NOT NULL
+    CONSTRAINT authorities_pkey
+    PRIMARY KEY,
+  authority    VARCHAR(255),
+  user_id      INTEGER CONSTRAINT fkk91upmbueyim93v469wj7b2qh REFERENCES users
 );
