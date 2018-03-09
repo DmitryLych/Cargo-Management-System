@@ -1,9 +1,6 @@
 package lych.trucks.application.security.service;
 
 import lych.trucks.application.security.model.User;
-import lych.trucks.domain.model.Company;
-import lych.trucks.domain.model.Customer;
-import lych.trucks.domain.model.Driver;
 
 import java.util.List;
 
