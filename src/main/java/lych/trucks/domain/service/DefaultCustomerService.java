@@ -1,7 +1,6 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import lych.trucks.application.security.model.User;
 import lych.trucks.application.security.service.UserService;
 import lych.trucks.domain.model.Customer;
 import lych.trucks.domain.repository.CustomerRepository;
@@ -31,12 +30,7 @@ public class DefaultCustomerService implements CustomerService {
     public Customer createCustomer(final Integer userId, final Customer customer) {
         validateCustomer(customer);
 
-        customer.setCustomerFk(userId);
-
-        final User user = userService.fetchUser(userId);
-        user.setCustomer(customer);
-        userService.updateUser(user, null, null, customer);
-
+        customer.setUser(userService.fetchUser(userId));
         return customerRepository.save(customer);
     }
 

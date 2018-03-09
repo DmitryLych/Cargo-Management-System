@@ -1,7 +1,6 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import lych.trucks.application.security.model.User;
 import lych.trucks.application.security.service.UserService;
 import lych.trucks.domain.model.Company;
 import lych.trucks.domain.repository.CompanyRepository;
@@ -31,12 +30,7 @@ public class DefaultCompanyService implements CompanyService {
     public Company createCompany(final Integer userId, final Company company) {
         validateCompany(company);
 
-        company.setCompanyFk(userId);
-
-        final User user = userService.fetchUser(userId);
-        user.setCompany(company);
-        userService.updateUser(user, company, null, null);
-
+        company.setUser(userService.fetchUser(userId));
         return companyRepository.save(company);
     }
 

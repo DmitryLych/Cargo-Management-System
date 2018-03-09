@@ -14,7 +14,7 @@ public interface UserService {
 
     User createUser(User user);
 
-    User updateUser(User user, Company company, Driver driver, Customer customer);
+    User updateUser(User user);
 
     void deleteUser(Integer userId);
 

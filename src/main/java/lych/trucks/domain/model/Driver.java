@@ -1,6 +1,7 @@
 package lych.trucks.domain.model;
 
 import lombok.Data;
+import lych.trucks.application.security.model.User;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -57,9 +58,6 @@ public class Driver implements Serializable {
     @Column(name = "status")
     private boolean status;
 
-    @Column(name = "driver_fk")
-    private Integer driverFk;
-
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, orphanRemoval = true)
     @JoinColumn(name = "driver_license_fk", referencedColumnName = "driver_license_id")
     private DriverLicense driverLicense;
@@ -87,4 +85,7 @@ public class Driver implements Serializable {
             fetch = FetchType.LAZY,
             orphanRemoval = true)
     private List<Order> order;
+
+    @ManyToOne
+    private User user;
 }

@@ -1,6 +1,7 @@
 package lych.trucks.domain.model;
 
 import lombok.Data;
+import lych.trucks.application.security.model.User;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -44,12 +46,12 @@ public class Customer implements Serializable {
     @Column(name = "mobile_telephone_number", unique = true)
     private String mobileTelephoneNumber;
 
-    @Column(name = "customer_fk")
-    private Integer customerFk;
-
     @OneToMany(mappedBy = "customer",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             orphanRemoval = true)
     private List<Order> orders;
+
+    @ManyToOne
+    private User user;
 }

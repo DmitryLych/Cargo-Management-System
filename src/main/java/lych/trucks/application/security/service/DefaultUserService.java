@@ -5,9 +5,6 @@ import lych.trucks.application.security.model.Authority;
 import lych.trucks.application.security.model.AuthorityType;
 import lych.trucks.application.security.model.User;
 import lych.trucks.application.security.repository.UserRepository;
-import lych.trucks.domain.model.Company;
-import lych.trucks.domain.model.Customer;
-import lych.trucks.domain.model.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -52,8 +49,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public User updateUser(final User user, final Company company, final Driver driver,
-                           final Customer customer) {
+    public User updateUser(final User user) {
 
         final User fetched = Optional.ofNullable(userRepository.findOne(user.getId()))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));
@@ -61,9 +57,6 @@ public class DefaultUserService implements UserService {
         user.setUsername(fetched.getUsername());
         user.setAuthorities(fetched.getAuthorities());
         user.setPassword(user.getPassword() == null ? fetched.getPassword() : user.getPassword());
-        user.setCompany(company);
-        user.setDriver(driver);
-        user.setCustomer(customer);
 
         return userRepository.save(user);
     }
