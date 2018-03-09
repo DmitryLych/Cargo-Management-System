@@ -8,6 +8,7 @@ import lych.trucks.application.security.service.jwt.TokenService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import static lych.trucks.application.security.dto.TokenResponse.aTokenResponse;
  */
 @RequestMapping(value = "/cargo/v1/auth")
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthController {
 
