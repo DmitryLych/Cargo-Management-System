@@ -36,9 +36,11 @@ public class TrailerController {
     /**
      * Method for create trailer.
      *
-     * @param driverId Driver driverId.
-     * @param truckId  Truck truckId.
-     * @param request  TrailerRequest request.
+     * @param userId    a user id.
+     * @param companyId a company id.
+     * @param driverId  Driver driverId.
+     * @param truckId   Truck truckId.
+     * @param request   TrailerRequest request.
      * @return TrailerResponse response mapped from created trailer.
      */
     @PostMapping
@@ -58,7 +60,9 @@ public class TrailerController {
     /**
      * Method for update trailer.
      *
-     * @param request TrailerRequest request.
+     * @param userId    a user id.
+     * @param companyId a company id.
+     * @param request   TrailerRequest request.
      * @return TrailerResponse response mapped from updated trailer.
      */
     @PutMapping
@@ -76,7 +80,9 @@ public class TrailerController {
     /**
      * Method for display trailer.
      *
-     * @param truckId Truck truckId.
+     * @param userId   a user id.
+     * @param driverId a driver id.
+     * @param truckId  Truck truckId.
      * @return TrailerResponse response mapped from displayed trailer.
      */
     @GetMapping
@@ -93,6 +99,8 @@ public class TrailerController {
     /**
      * Method for fetch some trailer by register sign.
      *
+     * @param userId       a user id.
+     * @param companyId    a company id.
      * @param registerSign {@link Trailer} registerSign.
      * @return {@link TrailerResponse} response mapped from trailer which found.
      */
@@ -110,7 +118,9 @@ public class TrailerController {
     /**
      * Method for fetch trailers by volume.
      *
-     * @param volume {@link Trailer} volume.
+     * @param userId    a user id.
+     * @param companyId a company id.
+     * @param volume    {@link Trailer} volume.
      * @return list of {@link TrailerResponse} response mapped from list of trailers which found.
      */
     @GetMapping(path = "/volume/{volume}")
@@ -129,7 +139,9 @@ public class TrailerController {
     /**
      * Method for fetch trailers by type.
      *
-     * @param type {@link Trailer} trailerType.
+     * @param userId    a user id.
+     * @param companyId a company id.
+     * @param type      {@link Trailer} trailerType.
      * @return list of {@link TrailerResponse} response mapped from list of trailers which found.
      */
     @GetMapping(path = "/type/{type}")

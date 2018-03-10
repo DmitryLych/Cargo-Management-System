@@ -68,6 +68,7 @@ public class CompanyController {
     /**
      * Method for update some company.
      *
+     * @param userId  a user id.
      * @param request CompanyRequest request.
      * @return CompanyResponse response mapped from updated company.
      */
@@ -85,6 +86,7 @@ public class CompanyController {
     /**
      * Method for delete some company.
      *
+     * @param userId    a user id.
      * @param companyId Company companyId.
      * @return CompanyResponse response mapped from deleted company.
      */

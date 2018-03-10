@@ -54,6 +54,7 @@ public class CustomerController {
     /**
      * Method for update customer.
      *
+     * @param userId  a user id.
      * @param request {@link CustomerRequest} request.
      * @return @link CustomerResponse} response mapped from updated customer.
      */
@@ -85,6 +86,7 @@ public class CustomerController {
     /**
      * Method for delete some customer.
      *
+     * @param userId     a user id.
      * @param customerId Customer customerId.
      * @return {@link CustomerResponse} response mapped from deleted customer.
      */

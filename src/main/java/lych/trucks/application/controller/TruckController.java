@@ -32,8 +32,10 @@ public class TruckController {
     /**
      * Method for create truck.
      *
-     * @param driverId Driver driverId.
-     * @param request  TruckRequest request.
+     * @param companyId a company id.
+     * @param userId    a user id.
+     * @param driverId  Driver driverId.
+     * @param request   TruckRequest request.
      * @return TruckResponse response mapped from created truck.
      */
     @PostMapping
@@ -52,7 +54,9 @@ public class TruckController {
     /**
      * Method for update truck.
      *
-     * @param request TruckRequest request.
+     * @param companyId a company id.
+     * @param userId    a user id.
+     * @param request   TruckRequest request.
      * @return TruckResponse response mapped from updated truck.
      */
     @PutMapping
@@ -70,6 +74,7 @@ public class TruckController {
     /**
      * Method for display some truck.
      *
+     * @param userId   a user id.
      * @param driverId Driver driverId.
      * @return TruckResponse response mapped from found truck.
      */
@@ -86,6 +91,8 @@ public class TruckController {
     /**
      * Method for fetch truck by register sign.
      *
+     * @param companyId    a company id.
+     * @param userId       a user id.
      * @param registerSign {@link Truck} registerSign.
      * @return {@link TruckResponse} response mapped from truck which found.
      */
@@ -103,6 +110,8 @@ public class TruckController {
     /**
      * Method for fetch truck by body number.
      *
+     * @param companyId  a company id.
+     * @param userId     a user id.
      * @param bodyNumber {@link Truck} bodyNumber.
      * @return {@link TruckResponse} response mapped from truck which found.
      */

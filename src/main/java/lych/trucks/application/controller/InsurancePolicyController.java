@@ -37,6 +37,7 @@ public class InsurancePolicyController {
     /**
      * Method for create insurance policy.
      *
+     * @param userId   a user id.
      * @param driverId Driver driverId.
      * @param request  InsurancePolicyRequest request.
      * @return InsurancePolicyResponse response mapped from created insurance policy.
@@ -58,6 +59,7 @@ public class InsurancePolicyController {
     /**
      * Method for display all insurance policy.
      *
+     * @param userId   a user id.
      * @param driverId Driver driverId.
      * @return List of InsurancePolicyResponse response mapped from List of InsurancePolicy.
      */
@@ -77,6 +79,8 @@ public class InsurancePolicyController {
     /**
      * Method for find some insurance policy.
      *
+     * @param userId      a user id.
+     * @param driverId    a driver id.
      * @param insuranceId InsurancePolicy insuranceId.
      * @return InsurancePolicyResponse response mapped from found insurance policy.
      */
@@ -95,7 +99,9 @@ public class InsurancePolicyController {
     /**
      * Method for update insurance policy.
      *
-     * @param request InsurancePolicyRequest.
+     * @param userId   a user id.
+     * @param driverId a driver id.
+     * @param request  InsurancePolicyRequest.
      * @return InsurancePolicyResponse response mapped from updated insurance policy.
      */
     @PutMapping
@@ -115,6 +121,8 @@ public class InsurancePolicyController {
     /**
      * Method for delete InsurancePolicy.
      *
+     * @param userId      a user id.
+     * @param driverId    a driver id.
      * @param insuranceId InsurancePolicy insuranceId.
      * @return InsurancePolicyResponse response mapped from deleted insurance policy.
      */
@@ -133,6 +141,8 @@ public class InsurancePolicyController {
     /**
      * Method for fetch insurance policy by validate.
      *
+     * @param driverId a driver id.
+     * @param userId   a user id.
      * @param validate {@link InsurancePolicy} validate.
      * @return list of {@link InsurancePolicyResponse} response mapped from list of insurance policy
      * which found.
@@ -154,7 +164,9 @@ public class InsurancePolicyController {
     /**
      * Method for fetch insurance policy by type.
      *
-     * @param type {@link InsurancePolicy} type.
+     * @param userId   a user id.
+     * @param driverId a driver id.
+     * @param type     {@link InsurancePolicy} type.
      * @return list of {@link InsurancePolicyResponse} response mapped from list of insurance policy
      * which found.
      */

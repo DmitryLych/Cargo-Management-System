@@ -36,6 +36,7 @@ public class MedicalExaminationController {
     /**
      * Method for create medical examination.
      *
+     * @param userId   a user id.
      * @param driverId Driver driverId.
      * @param request  MedicalExaminationRequest request.
      * @return MedicalExaminationResponse response mapped from created medical examination.
@@ -56,7 +57,9 @@ public class MedicalExaminationController {
     /**
      * Method for update medical examination.
      *
-     * @param request MedicalExaminationRequest request.
+     * @param driverId a driver id.
+     * @param userId   a user id.
+     * @param request  MedicalExaminationRequest request.
      * @return MedicalExaminationResponse response mapped from updated medical examination.
      */
     @PutMapping
@@ -76,6 +79,7 @@ public class MedicalExaminationController {
     /**
      * Method for display medical examination.
      *
+     * @param userId   a user id.
      * @param driverId Driver driverId.
      * @return MedicalExaminationResponse response mapped from displayed medical examination.
      */
@@ -94,6 +98,8 @@ public class MedicalExaminationController {
     /**
      * Method for fetch medical examinations by validate.
      *
+     * @param driverId a driver id.
+     * @param userId   a user id.
      * @param validate {@link MedicalExamination} validate.
      * @return list of {@link MedicalExaminationResponse} response mapped from list of medical examinations
      * which found.

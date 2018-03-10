@@ -15,6 +15,7 @@ import java.util.Optional;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
+import static lych.trucks.application.security.model.AuthorityType.ADMIN;
 import static lych.trucks.application.security.model.AuthorityType.COMPANY_LEAD;
 import static lych.trucks.application.security.model.AuthorityType.CUSTOMER;
 import static lych.trucks.application.security.model.AuthorityType.DRIVER;
@@ -31,7 +32,7 @@ public class DefaultUserService implements UserService {
 
     private final AuthorityService authorityService;
 
-    private static final List<AuthorityType> AUTHORITY_TYPES = asList(DRIVER,
+    private static final List<AuthorityType> AUTHORITY_TYPES = asList(ADMIN, DRIVER,
             CUSTOMER,
             COMPANY_LEAD);
 

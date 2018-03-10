@@ -36,6 +36,7 @@ public class DriverLicenseController {
     /**
      * Method for created driver license.
      *
+     * @param userId   a user id.
      * @param driverId Driver driverId.
      * @param request  DriverLicenseRequest.
      * @return DriverLicenseResponse response mapped from created driver license.
@@ -56,6 +57,7 @@ public class DriverLicenseController {
     /**
      * Method for display driver license.
      *
+     * @param userId   a user id.
      * @param driverId Driver driverId.
      * @return DriverLicenseResponse response mapped from found driver license.
      */
@@ -73,7 +75,9 @@ public class DriverLicenseController {
     /**
      * Method for update driver license.
      *
-     * @param request DriverLicenseRequest request.
+     * @param userId   a user id.
+     * @param driverId a driver id.
+     * @param request  DriverLicenseRequest request.
      * @return DriverLicenseResponse response mapped from updated driver license.
      */
     @PutMapping
@@ -92,6 +96,8 @@ public class DriverLicenseController {
     /**
      * Method for fetch driver licenses by category.
      *
+     * @param userId   a user id.
+     * @param driverId a driver id.
      * @param category {@link DriverLicense} category.
      * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
      */
@@ -112,6 +118,8 @@ public class DriverLicenseController {
     /**
      * Method for fetch driver licenses by special notes.
      *
+     * @param userId       a user id.
+     * @param driverId     a driver id.
      * @param specialNotes {@link DriverLicense} specialNotes.
      * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
      */

@@ -59,6 +59,7 @@ public class DriverController {
     /**
      * Method for display some driver.
      *
+     * @param userId   a user id.
      * @param driverId Driver driverId.
      * @return DriverResponse response mapped from found driver.
      */
@@ -75,7 +76,9 @@ public class DriverController {
     /**
      * Method for delete some driver.
      *
-     * @param driverId Driver driverId.
+     * @param companyId a company id.
+     * @param userId    a user id.
+     * @param driverId  Driver driverId.
      * @return DriverResponse response mapped from deleted driver.
      */
     @DeleteMapping(path = "/{driverId}")
@@ -92,6 +95,7 @@ public class DriverController {
     /**
      * Method for update driver.
      *
+     * @param userId  a user id.
      * @param request DriverRequest request.
      * @return DriverResponse response mapped from updated driver.
      */
@@ -109,6 +113,7 @@ public class DriverController {
     /**
      * Method for display all drivers of the some company.
      *
+     * @param userId    a user id.
      * @param companyId Company companyId.
      * @return List of DriverResponse response mapped from found drivers.
      */
@@ -127,6 +132,8 @@ public class DriverController {
     /**
      * Method for fetch drivers by last name and first name.
      *
+     * @param userId    a user id.
+     * @param companyId a company id.
      * @param lastName  {@link Driver} lastName.
      * @param firstName {@link Driver} firstName.
      * @return list of {@link DriverResponse} response mapped from list of drivers which found.
@@ -152,7 +159,9 @@ public class DriverController {
     /**
      * Method for fetch drivers by status.
      *
-     * @param status a status.
+     * @param userId    a user id.
+     * @param companyId a company id.
+     * @param status    a status.
      * @return list of {@link DriverResponse} response mapped from list of drivers which found.
      */
     @GetMapping(path = "/status/{status}")
