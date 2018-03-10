@@ -8,6 +8,7 @@ import lych.trucks.domain.service.InsurancePolicyService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link InsurancePolicy}.
  */
 @RestController
-@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{driverId}/insurance")
+@RequestMapping("/cargo/v1/{userId}companies/{companyId}/drivers/{driverId}/insurance")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class InsurancePolicyController {
 
@@ -41,7 +42,9 @@ public class InsurancePolicyController {
      * @return InsurancePolicyResponse response mapped from created insurance policy.
      */
     @PostMapping
-    public ResponseEntity createInsurancePolicy(@PathVariable final Integer driverId,
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity createInsurancePolicy(@PathVariable final Integer userId,
+                                                @PathVariable final Integer driverId,
                                                 @RequestBody final InsurancePolicyRequest request) {
         final InsurancePolicy insurancePolicyToCreate = dozerBeanMapper.map(request, InsurancePolicy.class);
         final InsurancePolicy insurancePolicyToResponse = insurancePolicyService
@@ -59,7 +62,9 @@ public class InsurancePolicyController {
      * @return List of InsurancePolicyResponse response mapped from List of InsurancePolicy.
      */
     @GetMapping
-    public ResponseEntity fetchAllInsurancePolicies(@PathVariable final Integer driverId) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchAllInsurancePolicies(@PathVariable final Integer userId,
+                                                    @PathVariable final Integer driverId) {
         final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService
                 .fetchAllInsurancePolicies(driverId);
 
@@ -76,7 +81,10 @@ public class InsurancePolicyController {
      * @return InsurancePolicyResponse response mapped from found insurance policy.
      */
     @GetMapping(path = "/{insuranceId}")
-    public ResponseEntity fetchInsurancePolicy(@PathVariable final Integer insuranceId) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchInsurancePolicy(@PathVariable final Integer userId,
+                                               @PathVariable final Integer driverId,
+                                               @PathVariable final Integer insuranceId) {
         final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.fetchInsurancePolicy(insuranceId);
 
         final InsurancePolicyResponse response = dozerBeanMapper.map(insurancePolicyToResponse,
@@ -91,7 +99,10 @@ public class InsurancePolicyController {
      * @return InsurancePolicyResponse response mapped from updated insurance policy.
      */
     @PutMapping
-    public ResponseEntity updateInsurancePolicy(@RequestBody final InsurancePolicyRequest request) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity updateInsurancePolicy(@PathVariable final Integer userId,
+                                                @PathVariable final Integer driverId,
+                                                @RequestBody final InsurancePolicyRequest request) {
         final InsurancePolicy insurancePolicyToUpdate = dozerBeanMapper.map(request, InsurancePolicy.class);
         final InsurancePolicy insurancePolicyToResponse = insurancePolicyService
                 .updateInsurancePolicy(insurancePolicyToUpdate);
@@ -108,7 +119,10 @@ public class InsurancePolicyController {
      * @return InsurancePolicyResponse response mapped from deleted insurance policy.
      */
     @DeleteMapping(path = "/{insuranceId}")
-    public ResponseEntity deleteInsurancePolicy(@PathVariable final Integer insuranceId) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity deleteInsurancePolicy(@PathVariable final Integer userId,
+                                                @PathVariable final Integer driverId,
+                                                @PathVariable final Integer insuranceId) {
         final InsurancePolicy insurancePolicyToResponse = insurancePolicyService.deleteInsurancePolicy(insuranceId);
 
         final InsurancePolicyResponse response = dozerBeanMapper.map(insurancePolicyToResponse,
@@ -124,7 +138,10 @@ public class InsurancePolicyController {
      * which found.
      */
     @GetMapping(path = "/validate/{validate}")
-    public ResponseEntity fetchInsurancePoliciesByValidate(@PathVariable final long validate) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchInsurancePoliciesByValidate(@PathVariable final Integer userId,
+                                                           @PathVariable final Integer driverId,
+                                                           @PathVariable final long validate) {
         final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService
                 .fetchInsurancePoliciesByValidate(validate);
 
@@ -142,7 +159,10 @@ public class InsurancePolicyController {
      * which found.
      */
     @GetMapping(path = "/type/{type}")
-    public ResponseEntity fetchInsurancePoliciesByType(@PathVariable final String type) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchInsurancePoliciesByType(@PathVariable final Integer userId,
+                                                       @PathVariable final Integer driverId,
+                                                       @PathVariable final String type) {
         final List<InsurancePolicy> insurancePoliciesToResponse = insurancePolicyService
                 .fetchInsurancePoliciesByType(type);
 

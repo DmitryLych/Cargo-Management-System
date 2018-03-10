@@ -5,6 +5,7 @@ import lych.trucks.application.security.service.UserService;
 import lych.trucks.domain.model.Customer;
 import lych.trucks.domain.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -76,6 +77,20 @@ public class DefaultCustomerService implements CustomerService {
         return Optional.ofNullable(customerRepository.findByCustomerName(customerName))
                 .orElseThrow(() -> new IllegalArgumentException("Customer can`t find by Customer name. Customer with "
                         + "Customer name: '" + customerName + "' not exist."));
+    }
+
+    @Override
+    public boolean canAccess(final Integer userId, final Integer customerId) {
+        final Customer customer = Optional.ofNullable(fetchCustomer(customerId))
+                .orElseThrow(() -> new AccessDeniedException("Access Denied!!!"));
+
+        if (!customer.getUser().getId().equals(userId)
+                && userService.fetchUser(userId).getAuthorities().stream().noneMatch(authority -> "Admin"
+                .equalsIgnoreCase(authority.toString()))) {
+            throw new AccessDeniedException("Access Denied!!!");
+        }
+
+        return true;
     }
 
     private static void validateCustomer(final Customer customer) {

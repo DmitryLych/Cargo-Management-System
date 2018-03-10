@@ -8,6 +8,7 @@ import lych.trucks.domain.service.TruckService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Rest controller for {@link Truck}.
  */
 @RestController
-@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{driverId}/trucks")
+@RequestMapping("/cargo/v1/{userId}/companies/{companyId}/drivers/{driverId}/trucks")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TruckController {
 
@@ -36,7 +37,11 @@ public class TruckController {
      * @return TruckResponse response mapped from created truck.
      */
     @PostMapping
-    public ResponseEntity createTrucks(@PathVariable final Integer driverId, @RequestBody final TruckRequest request) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity createTrucks(@PathVariable final Integer userId,
+                                       @PathVariable final Integer companyId,
+                                       @PathVariable final Integer driverId,
+                                       @RequestBody final TruckRequest request) {
         final Truck truckToCreate = dozerBeanMapper.map(request, Truck.class);
         final Truck truckToResponse = truckService.createTruck(driverId, truckToCreate);
 
@@ -51,7 +56,10 @@ public class TruckController {
      * @return TruckResponse response mapped from updated truck.
      */
     @PutMapping
-    public ResponseEntity updateTrucks(@RequestBody final TruckRequest request) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity updateTrucks(@PathVariable final Integer userId,
+                                       @PathVariable final Integer companyId,
+                                       @RequestBody final TruckRequest request) {
         final Truck truckToUpdate = dozerBeanMapper.map(request, Truck.class);
         final Truck truckToResponse = truckService.updateTruck(truckToUpdate);
 
@@ -66,7 +74,9 @@ public class TruckController {
      * @return TruckResponse response mapped from found truck.
      */
     @GetMapping
-    public ResponseEntity fetchTrucks(@PathVariable final Integer driverId) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchTrucks(@PathVariable final Integer userId,
+                                      @PathVariable final Integer driverId) {
         final Truck truckToResponse = truckService.fetchTruck(driverId);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
@@ -80,7 +90,10 @@ public class TruckController {
      * @return {@link TruckResponse} response mapped from truck which found.
      */
     @GetMapping(path = "/register/{registerSign}")
-    public ResponseEntity fetchTrucksByRegisterSign(@PathVariable final String registerSign) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity fetchTrucksByRegisterSign(@PathVariable final Integer userId,
+                                                    @PathVariable final Integer companyId,
+                                                    @PathVariable final String registerSign) {
         final Truck truckToResponse = truckService.fetchTruckByRegisterSign(registerSign);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
@@ -94,7 +107,10 @@ public class TruckController {
      * @return {@link TruckResponse} response mapped from truck which found.
      */
     @GetMapping(path = "/number/{bodyNumber}")
-    public ResponseEntity fetchTrucksByBodyNumber(@PathVariable final String bodyNumber) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity fetchTrucksByBodyNumber(@PathVariable final Integer userId,
+                                                  @PathVariable final Integer companyId,
+                                                  @PathVariable final String bodyNumber) {
         final Truck truckToResponse = truckService.fetchTruckByBodyNumber(bodyNumber);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);

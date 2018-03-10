@@ -8,6 +8,7 @@ import lych.trucks.domain.service.CustomerService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link Customer}.
  */
 @RestController
-@RequestMapping("/cargo/v1/customers/{userId}")
+@RequestMapping("/cargo/v1/{userId}/customers/{userId}")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomerController {
 
@@ -57,7 +58,9 @@ public class CustomerController {
      * @return @link CustomerResponse} response mapped from updated customer.
      */
     @PutMapping
-    public ResponseEntity updateCustomer(@RequestBody final CustomerRequest request) {
+    @PreAuthorize("@defaultCustomerService.canAccess(#userId,#request.customerId)")
+    public ResponseEntity updateCustomer(@PathVariable final Integer userId,
+                                         @RequestBody final CustomerRequest request) {
         final Customer customerToUpdate = dozerBeanMapper.map(request, Customer.class);
         final Customer customerToResponse = customerService.updateCustomer(customerToUpdate);
 
@@ -86,7 +89,9 @@ public class CustomerController {
      * @return {@link CustomerResponse} response mapped from deleted customer.
      */
     @DeleteMapping(path = "/{customerId}")
-    public ResponseEntity deleteCustomer(@PathVariable final Integer customerId) {
+    @PreAuthorize("@defaultCustomerService.canAccess(#userId,#customerId)")
+    public ResponseEntity deleteCustomer(@PathVariable final Integer userId,
+                                         @PathVariable final Integer customerId) {
         final Customer customerToResponse = customerService.deleteCustomer(customerId);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);

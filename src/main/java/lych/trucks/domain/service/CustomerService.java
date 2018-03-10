@@ -56,4 +56,6 @@ public interface CustomerService {
      * @return customer which found.
      */
     Customer fetchCustomerByCustomerName(String customerName);
+
+    boolean canAccess(Integer userId, Integer customerId);
 }

@@ -5,6 +5,7 @@ import lych.trucks.application.security.service.UserService;
 import lych.trucks.domain.model.Company;
 import lych.trucks.domain.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,6 +76,21 @@ public class DefaultCompanyService implements CompanyService {
                 .orElseThrow(() -> new IllegalArgumentException("Can`t find Company by Company name."
                         + "Company with this Company name: '" + companyName
                         + "' not exist."));
+    }
+
+    @Override
+    public boolean canAccess(final Integer userId, final Integer companyId) {
+
+        final Company company = Optional.ofNullable(fetchCompany(companyId))
+                .orElseThrow(() -> new AccessDeniedException("Access Denied!!!"));
+
+        if (!company.getUser().getId().equals(userId)
+                && userService.fetchUser(userId).getAuthorities().stream().noneMatch(authority -> "Admin"
+                .equalsIgnoreCase(authority.toString()))) {
+            throw new AccessDeniedException("Access Denied!!!");
+        }
+
+        return true;
     }
 
     private static void validateCompany(final Company company) {

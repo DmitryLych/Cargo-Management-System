@@ -1,11 +1,13 @@
 package lych.trucks.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import lych.trucks.application.security.model.User;
 import lych.trucks.application.security.service.UserService;
 import lych.trucks.domain.model.Company;
 import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -117,6 +119,29 @@ public class DefaultDriverService implements DriverService {
         }
 
         return drivers;
+    }
+
+    @Override
+    public boolean canCreate(final Integer userId, final Integer companyId) {
+        companyService.canAccess(userId, companyId);
+
+        return true;
+    }
+
+    @Override
+    public boolean canAccess(final Integer userId, final Integer driverId) {
+        final Driver driver = Optional.ofNullable(fetchDriver(driverId))
+                .orElseThrow(() -> new AccessDeniedException("Access Denied!!!"));
+        final Company company = driver.getCompany();
+        final User user = userService.fetchUser(userId);
+
+        if (!company.getUser().getId().equals(userId) && !driver.getUser().getId().equals(userId)
+                && user.getAuthorities().stream()
+                .noneMatch(authority -> "Admin".equalsIgnoreCase(authority.toString()))) {
+            throw new AccessDeniedException("Access Denied!!!");
+        }
+
+        return true;
     }
 
     private static void validateDriver(final Driver driver) {

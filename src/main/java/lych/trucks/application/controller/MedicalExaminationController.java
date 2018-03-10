@@ -8,6 +8,7 @@ import lych.trucks.domain.service.MedicalExaminationService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link MedicalExamination}.
  */
 @RestController
-@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{driverId}/medical")
+@RequestMapping("/cargo/v1/{userId}/companies/{companyId}/drivers/{driverId}/medical")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MedicalExaminationController {
 
@@ -40,7 +41,9 @@ public class MedicalExaminationController {
      * @return MedicalExaminationResponse response mapped from created medical examination.
      */
     @PostMapping
-    public ResponseEntity createMedicalExamination(@PathVariable final Integer driverId,
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity createMedicalExamination(@PathVariable final Integer userId,
+                                                   @PathVariable final Integer driverId,
                                                    @RequestBody final MedicalExaminationRequest request) {
         final MedicalExamination medicalExaminationToCreate = dozerBeanMapper.map(request, MedicalExamination.class);
         final MedicalExamination medicalExaminationToResponse = medicalExaminationService.
@@ -57,7 +60,10 @@ public class MedicalExaminationController {
      * @return MedicalExaminationResponse response mapped from updated medical examination.
      */
     @PutMapping
-    public ResponseEntity updateMedicalExamination(@RequestBody final MedicalExaminationRequest request) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity updateMedicalExamination(@PathVariable final Integer userId,
+                                                   @PathVariable final Integer driverId,
+                                                   @RequestBody final MedicalExaminationRequest request) {
         final MedicalExamination medicalExaminationToUpdate = dozerBeanMapper.map(request, MedicalExamination.class);
         final MedicalExamination medicalExaminationToResponse = medicalExaminationService
                 .updateMedicalExamination(medicalExaminationToUpdate);
@@ -74,7 +80,9 @@ public class MedicalExaminationController {
      * @return MedicalExaminationResponse response mapped from displayed medical examination.
      */
     @GetMapping
-    public ResponseEntity fetchMedicalExamination(@PathVariable final Integer driverId) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchMedicalExamination(@PathVariable final Integer userId,
+                                                  @PathVariable final Integer driverId) {
         final MedicalExamination medicalExaminationToResponse = medicalExaminationService
                 .fetchMedicalExamination(driverId);
 
@@ -91,7 +99,10 @@ public class MedicalExaminationController {
      * which found.
      */
     @RequestMapping(path = "/validate/{validate}")
-    public ResponseEntity fetchMedicalExaminationsByValidate(@PathVariable final long validate) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchMedicalExaminationsByValidate(@PathVariable final Integer userId,
+                                                             @PathVariable final Integer driverId,
+                                                             @PathVariable final long validate) {
         final List<MedicalExamination> medicalExaminationsToResponse = medicalExaminationService
                 .fetchMedicalExaminationByValidate(validate);
 

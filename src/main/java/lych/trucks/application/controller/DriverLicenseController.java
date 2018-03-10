@@ -8,6 +8,7 @@ import lych.trucks.domain.service.DriverLicenseService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link DriverLicense}.
  */
 @RestController
-@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{driverId}/licenses")
+@RequestMapping("/cargo/v1/{userId}/companies/{companyId}/drivers/{driverId}/licenses")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DriverLicenseController {
 
@@ -40,7 +41,9 @@ public class DriverLicenseController {
      * @return DriverLicenseResponse response mapped from created driver license.
      */
     @PostMapping
-    public ResponseEntity createDriverLicense(@PathVariable final Integer driverId,
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity createDriverLicense(@PathVariable final Integer userId,
+                                              @PathVariable final Integer driverId,
                                               @RequestBody final DriverLicenseRequest request) {
         final DriverLicense driverLicenseToCreate = dozerBeanMapper.map(request, DriverLicense.class);
         final DriverLicense driverLicenseToResponse = driverLicenseService.createDriverLicense(driverId, driverLicenseToCreate);
@@ -57,7 +60,9 @@ public class DriverLicenseController {
      * @return DriverLicenseResponse response mapped from found driver license.
      */
     @GetMapping
-    public ResponseEntity fetchDriverLicense(@PathVariable final Integer driverId) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchDriverLicense(@PathVariable final Integer userId,
+                                             @PathVariable final Integer driverId) {
         final DriverLicense driverLicenseToResponse = driverLicenseService.fetchDriverLicense(driverId);
 
         final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse,
@@ -72,7 +77,10 @@ public class DriverLicenseController {
      * @return DriverLicenseResponse response mapped from updated driver license.
      */
     @PutMapping
-    public ResponseEntity updateDriverLicense(@RequestBody final DriverLicenseRequest request) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity updateDriverLicense(@PathVariable final Integer userId,
+                                              @PathVariable final Integer driverId,
+                                              @RequestBody final DriverLicenseRequest request) {
         final DriverLicense driverLicenseToUpdate = dozerBeanMapper.map(request, DriverLicense.class);
         final DriverLicense driverLicenseToResponse = driverLicenseService.updateDriverLicense(driverLicenseToUpdate);
 
@@ -88,7 +96,10 @@ public class DriverLicenseController {
      * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
      */
     @GetMapping(path = "/category/{category}")
-    public ResponseEntity fetchDriverLicensesByCategory(@PathVariable final String category) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchDriverLicensesByCategory(@PathVariable final Integer userId,
+                                                        @PathVariable final Integer driverId,
+                                                        @PathVariable final String category) {
         final List<DriverLicense> driverLicensesToResponse = driverLicenseService
                 .fetchDriverLicensesByCategory(category);
 
@@ -105,7 +116,10 @@ public class DriverLicenseController {
      * @return list of {@link DriverLicenseResponse} response mapped from list of driver license which found.
      */
     @GetMapping(path = "/specialNotes/{specialNotes}")
-    public ResponseEntity fetchDriverLicensesBySpecialNotes(@PathVariable final String specialNotes) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchDriverLicensesBySpecialNotes(@PathVariable final Integer userId,
+                                                            @PathVariable final Integer driverId,
+                                                            @PathVariable final String specialNotes) {
         final List<DriverLicense> driverLicensesToResponse = driverLicenseService
                 .fetchDriverLicensesBySpecialNotes(specialNotes);
 

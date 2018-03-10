@@ -8,6 +8,7 @@ import lych.trucks.domain.service.CompanyService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link Company}.
  */
 @RestController
-@RequestMapping("/cargo/v1/companies/{userId}")
+@RequestMapping("/cargo/v1/{userId}/companies")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CompanyController {
 
@@ -71,7 +72,9 @@ public class CompanyController {
      * @return CompanyResponse response mapped from updated company.
      */
     @PutMapping
-    public ResponseEntity updateCompany(@RequestBody final CompanyRequest request) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#request.id)")
+    public ResponseEntity updateCompany(@PathVariable final Integer userId,
+                                        @RequestBody final CompanyRequest request) {
         final Company companyToUpdate = dozerBeanMapper.map(request, Company.class);
         final Company companyToResponse = companyService.updateCompany(companyToUpdate);
 
@@ -86,7 +89,9 @@ public class CompanyController {
      * @return CompanyResponse response mapped from deleted company.
      */
     @DeleteMapping(path = "/{companyId}")
-    public ResponseEntity deleteCompany(@PathVariable final Integer companyId) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity deleteCompany(@PathVariable final Integer userId,
+                                        @PathVariable final Integer companyId) {
         final Company companyToResponse = companyService.deleteCompany(companyId);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);

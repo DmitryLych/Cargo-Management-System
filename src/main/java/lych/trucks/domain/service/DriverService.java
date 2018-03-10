@@ -67,4 +67,8 @@ public interface DriverService {
      * @return list of drivers which found.
      */
     List<Driver> fetchDriversByStatus(boolean status);
+
+    boolean canCreate(Integer userId, Integer companyId);
+
+    boolean canAccess(Integer userId, Integer driverId);
 }

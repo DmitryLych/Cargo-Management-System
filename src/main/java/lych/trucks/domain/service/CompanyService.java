@@ -19,7 +19,7 @@ public interface CompanyService {
     /**
      * Method for create company.
      *
-     * @param userId a user id.
+     * @param userId  a user id.
      * @param company Company company.
      * @return created Company company.
      */
@@ -56,4 +56,6 @@ public interface CompanyService {
      * @return company which found.
      */
     Company fetchCompanyByCompanyName(String companyName);
+
+    boolean canAccess(Integer userId, Integer companyId);
 }

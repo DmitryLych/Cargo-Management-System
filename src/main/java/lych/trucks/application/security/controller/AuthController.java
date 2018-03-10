@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static lych.trucks.application.security.dto.TokenResponse.aTokenResponse;
 
 /**
@@ -37,9 +39,9 @@ public class AuthController {
     public ResponseEntity authenticate(@RequestBody final UserDTO userDTO) {
         final User user = dozerBeanMapper.map(userDTO, User.class);
 
-        final String token = tokenService.getToken(user);
+        final List<String> token = tokenService.getToken(user);
 
-        final TokenResponse response = aTokenResponse(token);
-        return ResponseEntity.ok().header("access-token", response.getToken()).body("Successfully");
+        final TokenResponse response = aTokenResponse(token.get(0));
+        return ResponseEntity.ok().header("access-token", response.getToken()).body(token.get(1));
     }
 }

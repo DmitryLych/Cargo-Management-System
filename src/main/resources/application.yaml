@@ -9,7 +9,7 @@ spring:
     password: Dmitry
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
 
 #JWT
 secret.key: dc6589483a672de25ff765172494d42e138cd8a5

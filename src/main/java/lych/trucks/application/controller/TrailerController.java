@@ -8,6 +8,7 @@ import lych.trucks.domain.service.TrailerService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link Trailer}.
  */
 @RestController
-@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers")
+@RequestMapping("/cargo/v1/{userId}/companies/{companyId}/drivers/{driverId}/trucks/{truckId}/trailers")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TrailerController {
 
@@ -41,8 +42,12 @@ public class TrailerController {
      * @return TrailerResponse response mapped from created trailer.
      */
     @PostMapping
-    public ResponseEntity createTrailer(@PathVariable final Integer driverId,
-                                        @PathVariable final Integer truckId, @RequestBody final TrailerRequest request) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity createTrailer(@PathVariable final Integer companyId,
+                                        @PathVariable final Integer userId,
+                                        @PathVariable final Integer driverId,
+                                        @PathVariable final Integer truckId,
+                                        @RequestBody final TrailerRequest request) {
         final Trailer trailerToCreate = dozerBeanMapper.map(request, Trailer.class);
         final Trailer trailerToResponse = trailerService.createTrailer(driverId, truckId, trailerToCreate);
 
@@ -57,7 +62,10 @@ public class TrailerController {
      * @return TrailerResponse response mapped from updated trailer.
      */
     @PutMapping
-    public ResponseEntity updateTrailer(@RequestBody final TrailerRequest request) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity updateTrailer(@PathVariable final Integer userId,
+                                        @PathVariable final Integer companyId,
+                                        @RequestBody final TrailerRequest request) {
         final Trailer trailerToUpdate = dozerBeanMapper.map(request, Trailer.class);
         final Trailer trailerToResponse = trailerService.updateTrailer(trailerToUpdate);
 
@@ -72,7 +80,10 @@ public class TrailerController {
      * @return TrailerResponse response mapped from displayed trailer.
      */
     @GetMapping
-    public ResponseEntity fetchTrailer(@PathVariable final Integer truckId) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchTrailer(@PathVariable final Integer userId,
+                                       @PathVariable final Integer driverId,
+                                       @PathVariable final Integer truckId) {
         final Trailer trailerToResponse = trailerService.fetchTrailer(truckId);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
@@ -86,7 +97,10 @@ public class TrailerController {
      * @return {@link TrailerResponse} response mapped from trailer which found.
      */
     @GetMapping(path = "/register/{registerSign}")
-    public ResponseEntity fetchTrailerByRegisterSign(@PathVariable final String registerSign) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity fetchTrailerByRegisterSign(@PathVariable final Integer userId,
+                                                     @PathVariable final Integer companyId,
+                                                     @PathVariable final String registerSign) {
         final Trailer trailerToResponse = trailerService.fetchTrailerByRegisterSign(registerSign);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
@@ -100,7 +114,10 @@ public class TrailerController {
      * @return list of {@link TrailerResponse} response mapped from list of trailers which found.
      */
     @GetMapping(path = "/volume/{volume}")
-    public ResponseEntity fetchTrailersByVolume(@PathVariable final Integer volume) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity fetchTrailersByVolume(@PathVariable final Integer userId,
+                                                @PathVariable final Integer companyId,
+                                                @PathVariable final Integer volume) {
         final List<Trailer> trailersToResponse = trailerService.fetchTrailersByVolume(volume);
 
         final List<TrailerResponse> response = trailersToResponse.stream()
@@ -116,7 +133,10 @@ public class TrailerController {
      * @return list of {@link TrailerResponse} response mapped from list of trailers which found.
      */
     @GetMapping(path = "/type/{type}")
-    public ResponseEntity fetchTrailersByType(@PathVariable final String type) {
+    @PreAuthorize("@defaultCompanyService.canAccess(#userId,#companyId)")
+    public ResponseEntity fetchTrailersByType(@PathVariable final Integer userId,
+                                              @PathVariable final Integer companyId,
+                                              @PathVariable final String type) {
         final List<Trailer> trailersToResponse = trailerService.fetchTrailersByType(type);
 
         final List<TrailerResponse> response = trailersToResponse.stream()

@@ -27,7 +27,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link Order}.
  */
 @RestController
-@RequestMapping("/cargo/v1/customers/{customerId}/orders")
+@RequestMapping("/cargo/v1/{userId}/customers/{customerId}/orders")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OrderController {
 

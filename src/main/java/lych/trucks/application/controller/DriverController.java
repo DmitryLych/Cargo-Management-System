@@ -8,6 +8,7 @@ import lych.trucks.domain.service.DriverService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,7 @@ import static java.util.stream.Collectors.toList;
  * Rest controller for {@link Driver}.
  */
 @RestController
-@RequestMapping("/cargo/v1/companies/{companyId}/drivers/{userId}")
+@RequestMapping("/cargo/v1/{userId}/companies/{companyId}/drivers")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DriverController {
 
@@ -44,6 +45,7 @@ public class DriverController {
      * @return DriverResponse response mapped from created driver.
      */
     @PostMapping
+    @PreAuthorize("@defaultDriverService.canCreate(#userId,#companyId)")
     public ResponseEntity createDriver(@PathVariable final Integer userId,
                                        @RequestBody final DriverRequest request,
                                        @PathVariable final Integer companyId) {
@@ -61,7 +63,9 @@ public class DriverController {
      * @return DriverResponse response mapped from found driver.
      */
     @GetMapping(path = "/{driverId}")
-    public ResponseEntity fetchDriver(@PathVariable final Integer driverId) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#driverId)")
+    public ResponseEntity fetchDriver(@PathVariable final Integer userId,
+                                      @PathVariable final Integer driverId) {
         final Driver driverToResponse = driverService.fetchDriver(driverId);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
@@ -75,7 +79,10 @@ public class DriverController {
      * @return DriverResponse response mapped from deleted driver.
      */
     @DeleteMapping(path = "/{driverId}")
-    public ResponseEntity deleteDriver(@PathVariable final Integer driverId) {
+    @PreAuthorize("@defaultDriverService.canCreate(#userId,#companyId)")
+    public ResponseEntity deleteDriver(@PathVariable final Integer userId,
+                                       @PathVariable final Integer companyId,
+                                       @PathVariable final Integer driverId) {
         final Driver driverToResponse = driverService.deleteDriver(driverId);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
@@ -89,7 +96,9 @@ public class DriverController {
      * @return DriverResponse response mapped from updated driver.
      */
     @PutMapping
-    public ResponseEntity updateDriver(@RequestBody final DriverRequest request) {
+    @PreAuthorize("@defaultDriverService.canAccess(#userId,#request.id)")
+    public ResponseEntity updateDriver(@PathVariable final Integer userId,
+                                       @RequestBody final DriverRequest request) {
         final Driver driverToUpdate = dozerBeanMapper.map(request, Driver.class);
         final Driver driverToResponse = driverService.updateDriver(driverToUpdate);
 
@@ -104,7 +113,9 @@ public class DriverController {
      * @return List of DriverResponse response mapped from found drivers.
      */
     @GetMapping
-    public ResponseEntity fetchAllDrivers(@PathVariable final Integer companyId) {
+    @PreAuthorize("@defaultDriverService.canCreate(#userId,#companyId)")
+    public ResponseEntity fetchAllDrivers(@PathVariable final Integer userId,
+                                          @PathVariable final Integer companyId) {
         final List<Driver> driversToResponse = driverService.fetchAllDrivers(companyId);
 
         final List<DriverResponse> response = driversToResponse.stream()
@@ -121,7 +132,10 @@ public class DriverController {
      * @return list of {@link DriverResponse} response mapped from list of drivers which found.
      */
     @GetMapping(path = "/lastName/{lastName}/firstName/{firstName}")
-    public ResponseEntity fetchByLastNameAndFirstName(@PathVariable final String lastName,
+    @PreAuthorize("@defaultDriverService.canCreate(#userId,#companyId)")
+    public ResponseEntity fetchByLastNameAndFirstName(@PathVariable final Integer userId,
+                                                      @PathVariable final Integer companyId,
+                                                      @PathVariable final String lastName,
                                                       @PathVariable final String firstName) {
 
         final List<Driver> driversToResponse = driverService.fetchDriversByLastNameAndFirstName(lastName, firstName);
@@ -142,7 +156,10 @@ public class DriverController {
      * @return list of {@link DriverResponse} response mapped from list of drivers which found.
      */
     @GetMapping(path = "/status/{status}")
-    public ResponseEntity fetchByStatus(@PathVariable final boolean status) {
+    @PreAuthorize("@defaultDriverService.canCreate(#userId,#companyId)")
+    public ResponseEntity fetchByStatus(@PathVariable final Integer userId,
+                                        @PathVariable final Integer companyId,
+                                        @PathVariable final boolean status) {
 
         final List<Driver> driversToResponse = driverService.fetchDriversByStatus(status);
 

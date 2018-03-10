@@ -3,6 +3,8 @@ package lych.trucks.application.exception;
 import lombok.extern.slf4j.Slf4j;
 import lych.trucks.domain.exception.ExceptionResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,7 +48,8 @@ public class GlobalExceptionHandler {
      * @param exception a exception.
      * @return exception message with UUID.
      */
-    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class,
+            AccessDeniedException.class, UsernameNotFoundException.class})
     @ResponseBody
     public ResponseEntity illegalArgumentOrStateException(final RuntimeException exception) {
 

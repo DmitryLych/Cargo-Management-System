@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static java.util.Arrays.asList;
 
 /**
  * Implementation of {@link TokenService}.
@@ -32,7 +35,7 @@ public class DefaultTokenService implements TokenService {
     private Integer expirationTime;
 
     @Override
-    public String getToken(final User user) {
+    public List<String> getToken(final User user) {
 
         final String username = Optional.of(user.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User must have username."));
@@ -59,7 +62,7 @@ public class DefaultTokenService implements TokenService {
             jwtBuilder.setExpiration(calendar.getTime());
             jwtBuilder.setClaims(token);
 
-            return jwtBuilder.signWith(SignatureAlgorithm.HS512, key).compact();
+            return asList(jwtBuilder.signWith(SignatureAlgorithm.HS512, key).compact(), foundUser.getId().toString());
         }
 
         throw new UsernameNotFoundException("Auth Error.");
