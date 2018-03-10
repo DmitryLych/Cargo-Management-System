@@ -7,7 +7,6 @@ import lych.trucks.domain.model.Trailer;
 import lych.trucks.domain.service.TrailerService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -46,14 +43,11 @@ public class TrailerController {
     @PostMapping
     public ResponseEntity createTrailer(@PathVariable final Integer driverId,
                                         @PathVariable final Integer truckId, @RequestBody final TrailerRequest request) {
-
         final Trailer trailerToCreate = dozerBeanMapper.map(request, Trailer.class);
-
         final Trailer trailerToResponse = trailerService.createTrailer(driverId, truckId, trailerToCreate);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -64,14 +58,11 @@ public class TrailerController {
      */
     @PutMapping
     public ResponseEntity updateTrailer(@RequestBody final TrailerRequest request) {
-
         final Trailer trailerToUpdate = dozerBeanMapper.map(request, Trailer.class);
-
         final Trailer trailerToResponse = trailerService.updateTrailer(trailerToUpdate);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -82,12 +73,10 @@ public class TrailerController {
      */
     @GetMapping
     public ResponseEntity fetchTrailer(@PathVariable final Integer truckId) {
-
         final Trailer trailerToResponse = trailerService.fetchTrailer(truckId);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -98,12 +87,10 @@ public class TrailerController {
      */
     @GetMapping(path = "/register/{registerSign}")
     public ResponseEntity fetchTrailerByRegisterSign(@PathVariable final String registerSign) {
-
         final Trailer trailerToResponse = trailerService.fetchTrailerByRegisterSign(registerSign);
 
         final TrailerResponse response = dozerBeanMapper.map(trailerToResponse, TrailerResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -114,16 +101,12 @@ public class TrailerController {
      */
     @GetMapping(path = "/volume/{volume}")
     public ResponseEntity fetchTrailersByVolume(@PathVariable final Integer volume) {
-
         final List<Trailer> trailersToResponse = trailerService.fetchTrailersByVolume(volume);
 
-        final List<TrailerResponse> response = Optional.ofNullable(trailersToResponse)
-                .map(trailers -> trailers.stream()
-                        .map(trailer -> dozerBeanMapper.map(trailer, TrailerResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<TrailerResponse> response = trailersToResponse.stream()
+                .map(trailer -> dozerBeanMapper.map(trailer, TrailerResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -134,15 +117,11 @@ public class TrailerController {
      */
     @GetMapping(path = "/type/{type}")
     public ResponseEntity fetchTrailersByType(@PathVariable final String type) {
-
         final List<Trailer> trailersToResponse = trailerService.fetchTrailersByType(type);
 
-        final List<TrailerResponse> response = Optional.ofNullable(trailersToResponse)
-                .map(trailers -> trailers.stream()
-                        .map(trailer -> dozerBeanMapper.map(trailer, TrailerResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<TrailerResponse> response = trailersToResponse.stream()
+                .map(trailer -> dozerBeanMapper.map(trailer, TrailerResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 }

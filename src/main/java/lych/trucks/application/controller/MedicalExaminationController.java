@@ -7,7 +7,6 @@ import lych.trucks.domain.model.MedicalExamination;
 import lych.trucks.domain.service.MedicalExaminationService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -45,14 +42,12 @@ public class MedicalExaminationController {
     @PostMapping
     public ResponseEntity createMedicalExamination(@PathVariable final Integer driverId,
                                                    @RequestBody final MedicalExaminationRequest request) {
-
         final MedicalExamination medicalExaminationToCreate = dozerBeanMapper.map(request, MedicalExamination.class);
-
-        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.createMedicalExamination(driverId, medicalExaminationToCreate);
+        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.
+                createMedicalExamination(driverId, medicalExaminationToCreate);
 
         final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse, MedicalExaminationResponse.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -63,14 +58,13 @@ public class MedicalExaminationController {
      */
     @PutMapping
     public ResponseEntity updateMedicalExamination(@RequestBody final MedicalExaminationRequest request) {
-
         final MedicalExamination medicalExaminationToUpdate = dozerBeanMapper.map(request, MedicalExamination.class);
+        final MedicalExamination medicalExaminationToResponse = medicalExaminationService
+                .updateMedicalExamination(medicalExaminationToUpdate);
 
-        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.updateMedicalExamination(medicalExaminationToUpdate);
-
-        final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse, MedicalExaminationResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse,
+                MedicalExaminationResponse.class);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -81,12 +75,12 @@ public class MedicalExaminationController {
      */
     @GetMapping
     public ResponseEntity fetchMedicalExamination(@PathVariable final Integer driverId) {
+        final MedicalExamination medicalExaminationToResponse = medicalExaminationService
+                .fetchMedicalExamination(driverId);
 
-        final MedicalExamination medicalExaminationToResponse = medicalExaminationService.fetchMedicalExamination(driverId);
-
-        final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse, MedicalExaminationResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        final MedicalExaminationResponse response = dozerBeanMapper.map(medicalExaminationToResponse,
+                MedicalExaminationResponse.class);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -98,16 +92,13 @@ public class MedicalExaminationController {
      */
     @RequestMapping(path = "/validate/{validate}")
     public ResponseEntity fetchMedicalExaminationsByValidate(@PathVariable final long validate) {
-
         final List<MedicalExamination> medicalExaminationsToResponse = medicalExaminationService
                 .fetchMedicalExaminationByValidate(validate);
 
-        final List<MedicalExaminationResponse> response = Optional.ofNullable(medicalExaminationsToResponse)
-                .map(medicalExaminations -> medicalExaminations.stream()
-                        .map(medicalExamination -> dozerBeanMapper.map(medicalExamination, MedicalExaminationResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<MedicalExaminationResponse> response = medicalExaminationsToResponse.stream()
+                .map(medicalExamination -> dozerBeanMapper.map(medicalExamination,
+                        MedicalExaminationResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 }

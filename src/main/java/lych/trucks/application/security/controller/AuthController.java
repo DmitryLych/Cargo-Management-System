@@ -35,13 +35,11 @@ public class AuthController {
      */
     @PostMapping
     public ResponseEntity authenticate(@RequestBody final UserDTO userDTO) {
-
         final User user = dozerBeanMapper.map(userDTO, User.class);
 
         final String token = tokenService.getToken(user);
 
         final TokenResponse response = aTokenResponse(token);
-
         return ResponseEntity.ok().header("access-token", response.getToken()).body("Successfully");
     }
 }

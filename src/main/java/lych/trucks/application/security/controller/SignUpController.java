@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.http.HttpStatus.CREATED;
-
 /**
  * Sing up controller.
  */
@@ -28,18 +26,16 @@ public class SignUpController {
 
     /**
      * Method for sign up.
+     *
      * @param userDTO a user dto.
      * @return created user.
      */
     @PostMapping
     public ResponseEntity createUser(@RequestBody final UserDTO userDTO) {
-
         final User userToSave = dozerBeanMapper.map(userDTO, User.class);
-
         final User userToResponse = userService.createUser(userToSave);
 
         final UserDTO response = dozerBeanMapper.map(userToResponse, UserDTO.class);
-
-        return ResponseEntity.status(CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 }

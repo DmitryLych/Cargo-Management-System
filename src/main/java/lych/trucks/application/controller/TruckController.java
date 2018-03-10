@@ -7,7 +7,6 @@ import lych.trucks.domain.model.Truck;
 import lych.trucks.domain.service.TruckService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,14 +37,11 @@ public class TruckController {
      */
     @PostMapping
     public ResponseEntity createTrucks(@PathVariable final Integer driverId, @RequestBody final TruckRequest request) {
-
         final Truck truckToCreate = dozerBeanMapper.map(request, Truck.class);
-
         final Truck truckToResponse = truckService.createTruck(driverId, truckToCreate);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -56,14 +52,11 @@ public class TruckController {
      */
     @PutMapping
     public ResponseEntity updateTrucks(@RequestBody final TruckRequest request) {
-
         final Truck truckToUpdate = dozerBeanMapper.map(request, Truck.class);
-
         final Truck truckToResponse = truckService.updateTruck(truckToUpdate);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -74,12 +67,10 @@ public class TruckController {
      */
     @GetMapping
     public ResponseEntity fetchTrucks(@PathVariable final Integer driverId) {
-
         final Truck truckToResponse = truckService.fetchTruck(driverId);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -90,12 +81,10 @@ public class TruckController {
      */
     @GetMapping(path = "/register/{registerSign}")
     public ResponseEntity fetchTrucksByRegisterSign(@PathVariable final String registerSign) {
-
         final Truck truckToResponse = truckService.fetchTruckByRegisterSign(registerSign);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -106,11 +95,9 @@ public class TruckController {
      */
     @GetMapping(path = "/number/{bodyNumber}")
     public ResponseEntity fetchTrucksByBodyNumber(@PathVariable final String bodyNumber) {
-
         final Truck truckToResponse = truckService.fetchTruckByBodyNumber(bodyNumber);
 
         final TruckResponse response = dozerBeanMapper.map(truckToResponse, TruckResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 }

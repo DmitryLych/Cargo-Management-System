@@ -7,7 +7,6 @@ import lych.trucks.domain.model.Company;
 import lych.trucks.domain.service.CompanyService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -44,15 +41,13 @@ public class CompanyController {
      * @return CompanyResponse response mapped from created company.
      */
     @PostMapping
-    public ResponseEntity createCompany(@PathVariable final Integer userId, @RequestBody final CompanyRequest request) {
-
+    public ResponseEntity createCompany(@PathVariable final Integer userId,
+                                        @RequestBody final CompanyRequest request) {
         final Company companyToSave = dozerBeanMapper.map(request, Company.class);
-
         final Company companyToResponse = companyService.createCompany(userId, companyToSave);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -63,12 +58,10 @@ public class CompanyController {
      */
     @GetMapping(path = "/{companyId}")
     public ResponseEntity fetchCompany(@PathVariable final Integer companyId) {
-
         final Company companyToResponse = companyService.fetchCompany(companyId);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -79,14 +72,11 @@ public class CompanyController {
      */
     @PutMapping
     public ResponseEntity updateCompany(@RequestBody final CompanyRequest request) {
-
         final Company companyToUpdate = dozerBeanMapper.map(request, Company.class);
-
         final Company companyToResponse = companyService.updateCompany(companyToUpdate);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -97,12 +87,10 @@ public class CompanyController {
      */
     @DeleteMapping(path = "/{companyId}")
     public ResponseEntity deleteCompany(@PathVariable final Integer companyId) {
-
         final Company companyToResponse = companyService.deleteCompany(companyId);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -112,15 +100,12 @@ public class CompanyController {
      */
     @GetMapping
     public ResponseEntity fetchAllCompanies() {
-
         final List<Company> companiesToResponse = companyService.fetchAllCompanies();
 
-        final List<CompanyResponse> response = Optional.ofNullable(companiesToResponse)
-                .map(companies -> companies.stream()
-                        .map(company -> dozerBeanMapper.map(company, CompanyResponse.class)).collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<CompanyResponse> response = companiesToResponse.stream()
+                .map(company -> dozerBeanMapper.map(company, CompanyResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -131,11 +116,9 @@ public class CompanyController {
      */
     @GetMapping(path = "/companyName/{companyName}")
     public ResponseEntity fetchCompanyByCompanyName(@PathVariable final String companyName) {
-
         final Company companyToResponse = companyService.fetchCompanyByCompanyName(companyName);
 
         final CompanyResponse response = dozerBeanMapper.map(companyToResponse, CompanyResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 }

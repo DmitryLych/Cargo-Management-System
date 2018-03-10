@@ -8,7 +8,6 @@ import lych.trucks.domain.model.Order;
 import lych.trucks.domain.service.GoodsService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -46,14 +43,11 @@ public class GoodsController {
      */
     @PostMapping
     public ResponseEntity createGoods(@PathVariable final Integer orderId, @RequestBody final GoodsRequest request) {
-
         final Goods goodsToCreate = dozerBeanMapper.map(request, Goods.class);
-
         final Goods goodsToResponse = goodsService.createGoods(orderId, goodsToCreate);
 
         final GoodsResponse response = dozerBeanMapper.map(goodsToResponse, GoodsResponse.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -64,14 +58,11 @@ public class GoodsController {
      */
     @PutMapping
     public ResponseEntity updateGoods(@RequestBody final GoodsRequest request) {
-
         final Goods goodsToUpdate = dozerBeanMapper.map(request, Goods.class);
-
         final Goods goodsToResponse = goodsService.updateGoods(goodsToUpdate);
 
         final GoodsResponse response = dozerBeanMapper.map(goodsToResponse, GoodsResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -82,12 +73,10 @@ public class GoodsController {
      */
     @DeleteMapping(path = "/{goodsId}")
     public ResponseEntity deleteGoods(@PathVariable final Integer goodsId) {
-
         final Goods goodsToResponse = goodsService.deleteGoods(goodsId);
 
         final GoodsResponse response = dozerBeanMapper.map(goodsToResponse, GoodsResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -98,16 +87,12 @@ public class GoodsController {
      */
     @GetMapping
     public ResponseEntity fetchAllGoods(@PathVariable final Integer orderId) {
-
         final List<Goods> goodsToResponse = goodsService.fetchAllGoods(orderId);
 
-        final List<GoodsResponse> response = Optional.ofNullable(goodsToResponse)
-                .map(goods -> goods.stream()
-                        .map(g -> dozerBeanMapper.map(g, GoodsResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<GoodsResponse> response = goodsToResponse.stream()
+                .map(g -> dozerBeanMapper.map(g, GoodsResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -118,12 +103,10 @@ public class GoodsController {
      */
     @GetMapping(path = "/{goodsId}")
     public ResponseEntity fetchGoods(@PathVariable final Integer goodsId) {
-
         final Goods goodsToResponse = goodsService.fetchGoods(goodsId);
 
         final GoodsResponse response = dozerBeanMapper.map(goodsToResponse, GoodsResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -134,16 +117,12 @@ public class GoodsController {
      */
     @GetMapping(path = "/type/{goodsType}")
     public ResponseEntity fetchGoodsByType(@PathVariable final String goodsType) {
-
         final List<Goods> goodsToResponse = goodsService.fetchGoodsByType(goodsType);
 
-        final List<GoodsResponse> response = Optional.ofNullable(goodsToResponse)
-                .map(goods -> goods.stream()
-                        .map(g -> dozerBeanMapper.map(g, GoodsResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<GoodsResponse> response = goodsToResponse.stream()
+                .map(g -> dozerBeanMapper.map(g, GoodsResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -154,15 +133,11 @@ public class GoodsController {
      */
     @GetMapping(path = "/name/{goodsName}")
     public ResponseEntity fetchByName(@PathVariable final String goodsName) {
-
         final List<Goods> goodsToResponse = goodsService.fetchGoodsByName(goodsName);
 
-        final List<GoodsResponse> response = Optional.ofNullable(goodsToResponse)
-                .map(goods -> goods.stream()
-                        .map(g -> dozerBeanMapper.map(g, GoodsResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<GoodsResponse> response = goodsToResponse.stream()
+                .map(g -> dozerBeanMapper.map(g, GoodsResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 }

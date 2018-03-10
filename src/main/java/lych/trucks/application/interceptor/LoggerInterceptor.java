@@ -13,11 +13,11 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
+
     @Override
     public boolean preHandle(final HttpServletRequest request,
                              final HttpServletResponse response,
                              final Object handler) throws Exception {
-
         if (handler instanceof HandlerMethod) {
             final Method method = ((HandlerMethod) handler).getMethod();
             final String message = "Called method '"
@@ -37,7 +37,6 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
                                 final HttpServletResponse response,
                                 final Object handler,
                                 final Exception ex) throws Exception {
-
         if (handler instanceof HandlerMethod) {
             final Method method = ((HandlerMethod) handler).getMethod();
             final String message = "Method '"

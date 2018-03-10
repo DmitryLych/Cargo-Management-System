@@ -7,7 +7,6 @@ import lych.trucks.domain.model.Driver;
 import lych.trucks.domain.service.DriverService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,15 +45,13 @@ public class DriverController {
      */
     @PostMapping
     public ResponseEntity createDriver(@PathVariable final Integer userId,
-                                       @RequestBody final DriverRequest request, @PathVariable final Integer companyId) {
-
+                                       @RequestBody final DriverRequest request,
+                                       @PathVariable final Integer companyId) {
         final Driver driverToSave = dozerBeanMapper.map(request, Driver.class);
-
         final Driver driverToResponse = driverService.createDriver(userId, companyId, driverToSave);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -65,12 +62,10 @@ public class DriverController {
      */
     @GetMapping(path = "/{driverId}")
     public ResponseEntity fetchDriver(@PathVariable final Integer driverId) {
-
         final Driver driverToResponse = driverService.fetchDriver(driverId);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -81,12 +76,10 @@ public class DriverController {
      */
     @DeleteMapping(path = "/{driverId}")
     public ResponseEntity deleteDriver(@PathVariable final Integer driverId) {
-
         final Driver driverToResponse = driverService.deleteDriver(driverId);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -97,14 +90,11 @@ public class DriverController {
      */
     @PutMapping
     public ResponseEntity updateDriver(@RequestBody final DriverRequest request) {
-
         final Driver driverToUpdate = dozerBeanMapper.map(request, Driver.class);
-
         final Driver driverToResponse = driverService.updateDriver(driverToUpdate);
 
         final DriverResponse response = dozerBeanMapper.map(driverToResponse, DriverResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -115,16 +105,12 @@ public class DriverController {
      */
     @GetMapping
     public ResponseEntity fetchAllDrivers(@PathVariable final Integer companyId) {
-
         final List<Driver> driversToResponse = driverService.fetchAllDrivers(companyId);
 
-        final List<DriverResponse> response = Optional.ofNullable(driversToResponse)
-                .map(drivers -> drivers.stream()
-                        .map(driver -> dozerBeanMapper.map(driver, DriverResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<DriverResponse> response = driversToResponse.stream()
+                .map(driver -> dozerBeanMapper.map(driver, DriverResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 
     /**

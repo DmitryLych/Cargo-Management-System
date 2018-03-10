@@ -7,7 +7,6 @@ import lych.trucks.domain.model.DriverLicense;
 import lych.trucks.domain.service.DriverLicenseService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -45,15 +42,12 @@ public class DriverLicenseController {
     @PostMapping
     public ResponseEntity createDriverLicense(@PathVariable final Integer driverId,
                                               @RequestBody final DriverLicenseRequest request) {
-
         final DriverLicense driverLicenseToCreate = dozerBeanMapper.map(request, DriverLicense.class);
-
         final DriverLicense driverLicenseToResponse = driverLicenseService.createDriverLicense(driverId, driverLicenseToCreate);
 
         final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse,
                 DriverLicenseResponse.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -64,13 +58,11 @@ public class DriverLicenseController {
      */
     @GetMapping
     public ResponseEntity fetchDriverLicense(@PathVariable final Integer driverId) {
-
         final DriverLicense driverLicenseToResponse = driverLicenseService.fetchDriverLicense(driverId);
 
         final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse,
                 DriverLicenseResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -81,14 +73,12 @@ public class DriverLicenseController {
      */
     @PutMapping
     public ResponseEntity updateDriverLicense(@RequestBody final DriverLicenseRequest request) {
-
         final DriverLicense driverLicenseToUpdate = dozerBeanMapper.map(request, DriverLicense.class);
-
         final DriverLicense driverLicenseToResponse = driverLicenseService.updateDriverLicense(driverLicenseToUpdate);
 
-        final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse, DriverLicenseResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        final DriverLicenseResponse response = dozerBeanMapper.map(driverLicenseToResponse,
+                DriverLicenseResponse.class);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -99,16 +89,13 @@ public class DriverLicenseController {
      */
     @GetMapping(path = "/category/{category}")
     public ResponseEntity fetchDriverLicensesByCategory(@PathVariable final String category) {
+        final List<DriverLicense> driverLicensesToResponse = driverLicenseService
+                .fetchDriverLicensesByCategory(category);
 
-        final List<DriverLicense> driverLicensesToResponse = driverLicenseService.fetchDriverLicensesByCategory(category);
-
-        final List<DriverLicenseResponse> response = Optional.ofNullable(driverLicensesToResponse)
-                .map(driverLicenses -> driverLicenses.stream()
-                        .map(driverLicense -> dozerBeanMapper.map(driverLicense, DriverLicenseResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<DriverLicenseResponse> response = driverLicensesToResponse.stream()
+                .map(driverLicense -> dozerBeanMapper.map(driverLicense, DriverLicenseResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -119,16 +106,12 @@ public class DriverLicenseController {
      */
     @GetMapping(path = "/specialNotes/{specialNotes}")
     public ResponseEntity fetchDriverLicensesBySpecialNotes(@PathVariable final String specialNotes) {
-
         final List<DriverLicense> driverLicensesToResponse = driverLicenseService
                 .fetchDriverLicensesBySpecialNotes(specialNotes);
 
-        final List<DriverLicenseResponse> response = Optional.ofNullable(driverLicensesToResponse)
-                .map(driverLicenses -> driverLicenses.stream()
-                        .map(driverLicense -> dozerBeanMapper.map(driverLicense, DriverLicenseResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<DriverLicenseResponse> response = driverLicensesToResponse.stream()
+                .map(driverLicense -> dozerBeanMapper.map(driverLicense, DriverLicenseResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 }

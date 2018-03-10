@@ -7,7 +7,6 @@ import lych.trucks.domain.model.Customer;
 import lych.trucks.domain.service.CustomerService;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -38,20 +35,19 @@ public class CustomerController {
 
     /**
      * Method for create customer.
+     *
      * @param userId  a user id.
      * @param request {@link CustomerRequest} request.
      * @return {@link CustomerResponse} response mapped from created customer.
      */
     @PostMapping
-    public ResponseEntity createCustomer(@PathVariable final Integer userId, @RequestBody final CustomerRequest request) {
-
+    public ResponseEntity createCustomer(@PathVariable final Integer userId,
+                                         @RequestBody final CustomerRequest request) {
         final Customer customerToSave = dozerBeanMapper.map(request, Customer.class);
-
         final Customer customerToResponse = customerService.createCustomer(userId, customerToSave);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -62,14 +58,11 @@ public class CustomerController {
      */
     @PutMapping
     public ResponseEntity updateCustomer(@RequestBody final CustomerRequest request) {
-
         final Customer customerToUpdate = dozerBeanMapper.map(request, Customer.class);
-
         final Customer customerToResponse = customerService.updateCustomer(customerToUpdate);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -80,12 +73,10 @@ public class CustomerController {
      */
     @GetMapping(path = "/{customerId}")
     public ResponseEntity fetchCustomer(@PathVariable final Integer customerId) {
-
         final Customer customerToResponse = customerService.fetchCustomer(customerId);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -96,12 +87,10 @@ public class CustomerController {
      */
     @DeleteMapping(path = "/{customerId}")
     public ResponseEntity deleteCustomer(@PathVariable final Integer customerId) {
-
         final Customer customerToResponse = customerService.deleteCustomer(customerId);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -111,16 +100,12 @@ public class CustomerController {
      */
     @GetMapping
     public ResponseEntity fetchAllCustomers() {
-
         final List<Customer> customersToResponse = customerService.fetchAllCustomers();
 
-        final List<CustomerResponse> response = Optional.ofNullable(customersToResponse)
-                .map(customers -> customers.stream()
-                        .map(customer -> dozerBeanMapper.map(customer, CustomerResponse.class))
-                        .collect(toList()))
-                .orElse(emptyList());
-
-        return ResponseEntity.ok().body(response);
+        final List<CustomerResponse> response = customersToResponse.stream()
+                .map(customer -> dozerBeanMapper.map(customer, CustomerResponse.class))
+                .collect(toList());
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -131,11 +116,9 @@ public class CustomerController {
      */
     @GetMapping(path = "/customerName/{customerName}")
     public ResponseEntity fetchCustomerByCustomerName(@PathVariable final String customerName) {
-
         final Customer customerToResponse = customerService.fetchCustomerByCustomerName(customerName);
 
         final CustomerResponse response = dozerBeanMapper.map(customerToResponse, CustomerResponse.class);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 }
