@@ -29,7 +29,4 @@ public class Authority implements GrantedAuthority {
 
     @Column(name = "authority")
     private String authority;
-
-    @Column(name = "user_id")
-    private Integer userId;
 }

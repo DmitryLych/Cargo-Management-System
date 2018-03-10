@@ -30,7 +30,6 @@ public class DefaultAuthorityService implements AuthorityService {
 
         authority.setAuthority(authority.getAuthority() == null ? savedAuthority.getAuthority()
                 : authority.getAuthority());
-        authority.setUserId(savedAuthority.getUserId());
 
         return authorityRepository.save(authority);
     }

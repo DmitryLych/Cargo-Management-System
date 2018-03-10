@@ -19,7 +19,7 @@ public interface CompanyService {
     /**
      * Method for create company.
      *
-     * @param userId a user id.
+     * @param userId  a user id.
      * @param company Company company.
      * @return created Company company.
      */
