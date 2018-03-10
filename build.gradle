@@ -46,6 +46,7 @@ dependencies {
     compile("io.jsonwebtoken:jjwt:$jjwtVersion")
     compile('org.projectlombok:lombok')
     compile("net.sf.dozer:dozer:$dozerVersion")
+    compile("org.flywaydb:flyway-core")
 
     // Test Dependencies
     testCompile("com.h2database:h2")
